@@ -17,6 +17,12 @@
     <Compile Remove="Migrations\20220314093425_subcatIdAddedToProd.Designer.cs" />
     <Compile Remove="Migrations\20220314105822_subcatTest.cs" />
     <Compile Remove="Migrations\20220314105822_subcatTest.Designer.cs" />
+    <Compile Remove="Migrations\20220315103422_requiredAddedToColorId.cs" />
+    <Compile Remove="Migrations\20220315103422_requiredAddedToColorId.Designer.cs" />
+    <Compile Remove="Migrations\20220316101243_colorslistaddedtoProd.cs" />
+    <Compile Remove="Migrations\20220316101243_colorslistaddedtoProd.Designer.cs" />
+    <Compile Remove="Migrations\20220316101728_colorslistaddedtoProd.cs" />
+    <Compile Remove="Migrations\20220316101728_colorslistaddedtoProd.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

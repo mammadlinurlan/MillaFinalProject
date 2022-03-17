@@ -26,5 +26,9 @@ namespace FinalProjectNurlan.DAL
 
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Color> Colors { get; set; }
+
+        public DbSet<ProductSizeColor> ProductSizeColors { get; set; }
+
+        public DbSet<ProductColor> ProductColors { get; set; }
     }
 }

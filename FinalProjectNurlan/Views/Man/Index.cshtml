@@ -37,7 +37,12 @@
 
                                         <a asp-controller="man" asp-action="shop" asp-route-id="@item.Id" class="banner-link" >
                                             <h3 class="banner-title">@item.Name</h3>
-                                            <h4 class="banner-subtitle">@item.Products.Count() Products</h4>
+                                            <h4 class="banner-subtitle">
+                                                
+                                            @item.Products.Where(p=>p.ProductSizeColors.Count != 0).Count() 
+
+                                            Products
+                                            </h4>
                                            
                                             <span class="banner-link-text">Shop Now</span>
                                         </a>

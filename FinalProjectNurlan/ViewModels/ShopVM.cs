@@ -10,7 +10,13 @@ namespace FinalProjectNurlan.ViewModels
     {
         public Category Category { get; set; }
         public List<Brand> Brands { get; set; }
-
+        public Product Product { get; set; }
         public List<Product> Products { get; set; }
+
+        public List<ProductSizeColor> ProductSizeColors { get; set; }
+        public ProductSizeColor ProductSizeColor { get; set; }
+
+
+        public List<ProductColor>  ProductColors { get; set; }
     }
 }

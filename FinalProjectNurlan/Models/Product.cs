@@ -35,23 +35,12 @@ namespace FinalProjectNurlan.Models
         [StringLength(maximumLength: 120)]
         public string Subtitle { get; set; }
 
-        public int TotalSold { get; set; }
 
-        [Required]
-        public int TotalStock { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; }
 
-        public string MainImage { get; set; }
-
-        public List<ProductImage> ProductImages { get; set; }
-
-        [NotMapped]
-        public IFormFile MainImageFile { get; set; }
-
-        [NotMapped]
-        public List<IFormFile> ImageFiles { get; set; }
+        
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
@@ -64,11 +53,34 @@ namespace FinalProjectNurlan.Models
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
 
-        public int SizeId { get; set; }
 
-        public Size Size { get; set; }
+        public List<ProductSizeColor> ProductSizeColors { get; set; }
 
-        public int ColorId { get; set; }
-        public Color Color { get; set; }
+        public List<ProductColor> ProductColors { get; set; }
+
+        //[NotMapped]
+        //[Required]
+        //public int ColorId { get; set; }
+
+        //[NotMapped]
+        //[Required]
+        //public int SizeId { get; set; }
+
+        //[NotMapped]
+        //[Required]
+        //public int Stock { get; set; }
+
+        //[NotMapped]
+        //public int MyProperty { get; set; }
+
+        //[NotMapped]
+        //public int MyProperty { get; set; }
+
+        //public int SizeId { get; set; }
+
+        //public Size Size { get; set; }
+
+        //public int ColorId { get; set; }
+        //public Color Color { get; set; }
     }
 }

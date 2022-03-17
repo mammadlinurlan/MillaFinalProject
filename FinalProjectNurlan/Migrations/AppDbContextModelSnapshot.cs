@@ -108,9 +108,6 @@ namespace FinalProjectNurlan.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ColorId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -124,9 +121,6 @@ namespace FinalProjectNurlan.Migrations
                     b.Property<int>("GenderId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MainImage")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(120)")
@@ -138,9 +132,6 @@ namespace FinalProjectNurlan.Migrations
                     b.Property<short?>("Rating")
                         .HasColumnType("smallint");
 
-                    b.Property<int>("SizeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SubCategoryId")
                         .HasColumnType("int");
 
@@ -149,27 +140,39 @@ namespace FinalProjectNurlan.Migrations
                         .HasColumnType("nvarchar(120)")
                         .HasMaxLength(120);
 
-                    b.Property<int>("TotalSold")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalStock")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ColorId");
-
                     b.HasIndex("GenderId");
-
-                    b.HasIndex("SizeId");
 
                     b.HasIndex("SubCategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.ProductColor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductColors");
                 });
 
             modelBuilder.Entity("FinalProjectNurlan.Models.ProductImage", b =>
@@ -182,14 +185,50 @@ namespace FinalProjectNurlan.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductSizeColorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductSizeColorId");
 
                     b.ToTable("ProductImages");
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.ProductSizeColor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MainImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SizeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalSold")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalStock")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SizeId");
+
+                    b.ToTable("ProductSizeColors");
                 });
 
             modelBuilder.Entity("FinalProjectNurlan.Models.Size", b =>
@@ -282,21 +321,9 @@ namespace FinalProjectNurlan.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinalProjectNurlan.Models.Color", "Color")
-                        .WithMany("Products")
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FinalProjectNurlan.Models.Gender", "Gender")
                         .WithMany("Products")
                         .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FinalProjectNurlan.Models.Size", "Size")
-                        .WithMany("Products")
-                        .HasForeignKey("SizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -307,11 +334,45 @@ namespace FinalProjectNurlan.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FinalProjectNurlan.Models.ProductColor", b =>
+                {
+                    b.HasOne("FinalProjectNurlan.Models.Color", "Color")
+                        .WithMany("ProductColors")
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinalProjectNurlan.Models.Product", "Product")
+                        .WithMany("ProductColors")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FinalProjectNurlan.Models.ProductImage", b =>
                 {
-                    b.HasOne("FinalProjectNurlan.Models.Product", "Product")
+                    b.HasOne("FinalProjectNurlan.Models.ProductSizeColor", "ProductSizeColor")
                         .WithMany("ProductImages")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductSizeColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.ProductSizeColor", b =>
+                {
+                    b.HasOne("FinalProjectNurlan.Models.Color", "Color")
+                        .WithMany("ProductSizeColors")
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinalProjectNurlan.Models.Product", "Product")
+                        .WithMany("ProductSizeColors")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("FinalProjectNurlan.Models.Size", "Size")
+                        .WithMany("ProductSizeColors")
+                        .HasForeignKey("SizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -20,7 +20,8 @@ namespace FinalProjectNurlan.Controllers
         }
         public IActionResult Index()
         {
-            List<Category> categories = context.Categories.Include(c => c.Products).Include(c => c.SubCategories).Where(c => c.GenderId == 2).ToList();
+            List<Category> categories = context.Categories.Include(c => c.Products).ThenInclude(p => p.ProductSizeColors).Include(c => c.SubCategories).Where(c => c.GenderId == 2).ToList();
+
             return View(categories);
         }
 

@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model List<ProductSizeColor>
 @{
     ViewData["Title"] = "Index";
 }
@@ -18,10 +18,10 @@
                 #
             </th>
             <th>
-                 Image
+                Image
             </th>
             <th>
-                 Name
+                Name
             </th>
             <th>
                 Gender
@@ -33,34 +33,55 @@
                 Subcategory
             </th>
             <th>
+                Color
+            </th>
+            <th>
+                Size
+            </th>
+            <th>
+                In Stock
+            </th>
+            <th>
                 Settings
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (Product product in Model)
+        @foreach (var product in Model)
         {
             <tr>
                 <td>
                     @product.Id
                 </td>
                 <td>
-                    <img width="50" height="50" src="~/assets/images/products/@product.MainImage" />
+                    <img style="object-fit:cover" width="60" height="60" src="~/assets/images/products/@product.MainImage" />
                 </td>
                 <td>
-                    @product.Name
+                    @product.Product.Name
                 </td>
                 <td>
-                   @product.Gender.Name
-
+                    @product.Product.Gender.Name
                 </td>
                 <td>
-                    @product.Category.Name
+                    @product.Product.Category.Name
                 </td>
                 <td>
-                    @product.SubCategory.Name
+                    @product.Product.SubCategory.Name
                 </td>
                 <td>
+                    @product.Color.Name
+                </td>
+                <td>
+                    @product.Size.Name
+                </td>
+                <td>
+                    @product.TotalStock
+                </td>
+                <td>
+                    <a asp-controller="product" asp-action="addcolorsize" asp-route-id="@product.Product.Id" class="btn btn-primary btn-icon-text">
+                        <i class="mdi mdi-file-check btn-icon-append"></i>
+                        Add Color&Size
+                    </a>
                     <a asp-controller="product" asp-action="edit" asp-route-id="@product.Id" class="btn btn-warning btn-icon-text">
                         <i class="mdi mdi-file-check btn-icon-append"></i>
                         Edit

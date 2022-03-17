@@ -13,6 +13,9 @@ namespace FinalProjectNurlan.Models
         [Required]
         [StringLength(maximumLength:25)]
         public string Name { get; set; }
-        public List<Product> Products { get; set; }
+        //public List<Product> Products { get; set; }
+        public List<ProductColor> ProductColors { get; set; }
+        public List<ProductSizeColor> ProductSizeColors { get; set; }
+
     }
 }
