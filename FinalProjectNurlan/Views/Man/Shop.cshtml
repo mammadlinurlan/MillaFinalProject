@@ -346,6 +346,30 @@
                 //console.log("clicked");
             })
 
+
+
+            $(".product-notMain").click(function (e) {
+                console.log("sa")
+                e.preventDefault();
+                var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+                var newHref = $(this).attr("href")
+               $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+                var closestNav = $(this).closest(".product-nav");
+                $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+
+                $(this).addClass("active")
+                var notmain = $(this).children(".nmSrc").attr("src")
+                $(parent).attr("src", notmain)
+               
+            })
+
+            $(".sizeClick").click(function (e) {
+                e.preventDefault();
+                $(this).closest(".product-size").children(".sizeClick").not(this).removeClass("active")
+                $(this).addClass("active")
+            })
+
+
             //$(".categoryCheck").click(function (e) {
             //    //e.preventDefault();
             //    //$(this).prop('salam')
