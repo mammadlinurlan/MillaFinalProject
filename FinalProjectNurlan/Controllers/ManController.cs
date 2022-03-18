@@ -31,6 +31,10 @@ namespace FinalProjectNurlan.Controllers
             {
                 return NotFound();
             }
+            if (context.Categories.FirstOrDefault(c=>c.Id==id).GenderId != 1)
+            {
+                return NotFound();
+            }
 
 
 
@@ -57,7 +61,16 @@ namespace FinalProjectNurlan.Controllers
             {
                 return NotFound();
             }
+            //if (context.ProductSizeColors.FirstOrDefault(p => p.Id == id).Product.GenderId != 1)
+            //{
+            //    return NotFound();
+            //}
             ProductSizeColor product = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).FirstOrDefault(p => p.Id == id);
+
+            if (product.Product.GenderId != 1)
+            {
+                return NotFound();
+            }
 
             ProductSizeColor forcolor = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Product).ThenInclude(p => p.ProductColors).FirstOrDefault(p => p.Id == id);
 
