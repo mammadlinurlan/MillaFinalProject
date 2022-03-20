@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model List<ProductSizeColor>
 @{
     ViewData["Title"] = "Index";
 }
@@ -32,7 +32,15 @@
             <th>
                 Subcategory
             </th>
-           
+            <th>
+                Color
+            </th>
+            <th>
+                Size
+            </th>
+            <th>
+                In Stock
+            </th>
             <th>
                 Settings
             </th>
@@ -41,41 +49,46 @@
     <tbody>
         @foreach (var product in Model)
         {
-        <tr>
-            <td>
-                @product.Id
-            </td>
-            <td>
-                <img style="object-fit:cover" width="60" height="60" src="~/assets/images/products/@product.ProductSizeColors.FirstOrDefault().MainImage" />
-            </td>
-            <td>
-                @product.Name
-            </td>
-            <td>
-                @product.Gender.Name
-            </td>
-            <td>
-                @product.Category.Name
-            </td>
-            <td>
-                @product.SubCategory.Name
-            </td>
-           
-            <td>
-                <a asp-controller="product" asp-action="addcolorsize" asp-route-id="@product.Id" class="btn btn-primary btn-icon-text">
-                    <i class="mdi mdi-file-check btn-icon-append"></i>
-                    Add Color&Size
-                </a>
-                <a asp-controller="product" asp-action="edit" asp-route-id="@product.Id" class="btn btn-warning btn-icon-text">
-                    <i class="mdi mdi-file-check btn-icon-append"></i>
-                    Edit
-                </a>
-                <a asp-controller="product" asp-action="delete" asp-route-id="@product.Id" class="btn btn-danger btn-icon-text delete-btn">
-                    <i class="mdi mdi-alert btn-icon-prepend"></i>
-                    Delete
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @product.Id
+                </td>
+                <td>
+                    <img style="object-fit:cover" width="60" height="60" src="~/assets/images/products/@product.MainImage" />
+                </td>
+                <td>
+                    @product.Product.Name
+                </td>
+                <td>
+                    @product.Product.Gender.Name
+                </td>
+                <td>
+                    @product.Product.Category.Name
+                </td>
+                <td>
+                    @product.Product.SubCategory.Name
+                </td>
+                <td>
+                    @product.Color.Name
+                </td>
+                <td>
+                    @product.Size.Name
+                </td>
+                <td>
+                    @product.TotalStock
+                </td>
+                <td>
+                  
+                    <a asp-controller="product" asp-action="editcolorsize" asp-route-id="@product.Id" class="btn btn-warning btn-icon-text">
+                        <i class="mdi mdi-file-check btn-icon-append"></i>
+                        Edit
+                    </a>
+                    <a asp-controller="product" asp-action="DeleteSizeColor" asp-route-id="@product.Id" class="btn btn-danger btn-icon-text delete-btn">
+                        <i class="mdi mdi-alert btn-icon-prepend"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -84,16 +97,16 @@
         <ul class="pagination" style="justify-content:center">
 
             <li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
-                <a class="page-link" asp-controller="product" asp-action="index" asp-route-page="@(ViewBag.CurrentPage-1)">Previous</a>
+                <a class="page-link" asp-controller="product" asp-action="colorsizes" asp-route-page="@(ViewBag.CurrentPage-1)">Previous</a>
             </li>
 
             @for (int i = 1; i <= ViewBag.TotalPage; i++)
             {
-            <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")"><a class="page-link" asp-controller="product" asp-action="index" asp-route-page="@i">@i</a></li>
+                <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")"><a class="page-link" asp-controller="product" asp-action="colorsizes" asp-route-page="@i">@i</a></li>
             }
 
             <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPage ? "disabled" : "")">
-                <a class="page-link" asp-controller="product" asp-action="index" asp-route-page="@(ViewBag.CurrentPage +1)">Next</a>
+                <a class="page-link" asp-controller="product" asp-action="colorsizes" asp-route-page="@(ViewBag.CurrentPage +1)">Next</a>
             </li>
         </ul>
     </nav>
@@ -133,4 +146,3 @@
         })
     </script>
 }
-

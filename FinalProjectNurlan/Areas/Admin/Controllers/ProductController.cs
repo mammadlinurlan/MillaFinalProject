@@ -23,7 +23,15 @@ namespace FinalProjectNurlan.Controllers
             this.context = context;
             this.env = env;
         }
+
         public IActionResult Index(int page = 1)
+        {
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)context.Products.Count() / 10);
+            List<Product> products = context.Products.Include(p => p.SubCategory).Include(p => p.Category).Include(p => p.Gender).Include(p => p.Brand).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).Skip((page - 1) * 10).Take(10).ToList();
+            return View(products);
+        }
+        public IActionResult ColorSizes(int page = 1)
         {
             ViewBag.CurrentPage = page;
             ViewBag.TotalPage = Math.Ceiling((decimal)context.ProductSizeColors.Count() / 10);
@@ -183,7 +191,7 @@ namespace FinalProjectNurlan.Controllers
             ProdCreateVM prodCreateVM = new ProdCreateVM
             {
 
-                Product = context.Products.Include(p=>p.ProductColors).Include(p => p.ProductSizeColors).FirstOrDefault(p => p.Id == id),
+                Product = context.Products.Include(p => p.ProductColors).Include(p => p.ProductSizeColors).FirstOrDefault(p => p.Id == id),
                 ProductSizeColor = new ProductSizeColor()
 
             };
@@ -202,13 +210,10 @@ namespace FinalProjectNurlan.Controllers
             ViewBag.Brands = context.Brands.Include(c => c.Products).ToList();
             ViewBag.Colors = context.Colors.Include(s => s.ProductSizeColors).ToList();
             ViewBag.Sizes = context.Sizes.Include(s => s.ProductSizeColors).ToList();
-            //if (!ModelState.IsValid)
-            //{
-            //    return View();
-            //}
-            Product existed = context.Products.Include(p=>p.ProductSizeColors).Include(p=>p.ProductColors).FirstOrDefault(p => p.Id == prodVM.Product.Id);
+          
+            Product existed = context.Products.Include(p => p.ProductSizeColors).Include(p => p.ProductColors).FirstOrDefault(p => p.Id == prodVM.Product.Id);
 
-            
+
 
 
             if (prodVM.ProductSizeColor.SizeId == 0)
@@ -288,7 +293,7 @@ namespace FinalProjectNurlan.Controllers
 
             productSizeColor.Product.Id = existed.Id;
 
-            if (!existed.ProductColors.Any(p=>p.ColorId == prodVM.ProductSizeColor.ColorId))
+            if (!existed.ProductColors.Any(p => p.ColorId == prodVM.ProductSizeColor.ColorId))
             {
                 ProductColor productColor1 = new ProductColor();
 
@@ -303,7 +308,7 @@ namespace FinalProjectNurlan.Controllers
 
 
 
-            if (existed.ProductSizeColors.Any(p=>p.ColorId == prodVM.ProductSizeColor.ColorId && p.SizeId == prodVM.ProductSizeColor.SizeId))
+            if (existed.ProductSizeColors.Any(p => p.ColorId == prodVM.ProductSizeColor.ColorId && p.SizeId == prodVM.ProductSizeColor.SizeId))
             {
 
                 Color color = existed.ProductSizeColors.FirstOrDefault(p => p.ColorId == prodVM.ProductSizeColor.ColorId).Color;
@@ -316,12 +321,7 @@ namespace FinalProjectNurlan.Controllers
 
 
             existed.ProductSizeColors.Add(productSizeColor);
-            //existed.Clrs.Add(productSizeColor.ColorId);
-            //existed.CreatedDate = DateTime.Now;
-            //context.Products.Add(prodVM.Product);
-
-            //return Json(existed.ProductSizeColors.FirstOrDefault().ColorId);
-
+          
             context.SaveChanges();
 
 
@@ -332,22 +332,119 @@ namespace FinalProjectNurlan.Controllers
             //return Json(existed.Name);
         }
 
-        public IActionResult Test()
+        public IActionResult Edit(int id)
         {
-            Product pro = context.Products.Include(p => p.Brand).Include(p=>p.ProductColors).Include(p => p.ProductSizeColors).FirstOrDefault(p => p.Id == 1024);
-           
-            return Json(pro.ProductColors.Where(p=>p.ColorId != 4).Count());
-        }
+            Product product = context.Products.Include(p => p.SubCategory).ThenInclude(s=>s.Category).Include(p => p.Category).ThenInclude(c=>c.Gender).Include(p => p.Gender).Include(p => p.Brand).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).FirstOrDefault(p => p.Id == id);
 
-        public IActionResult Delete(int id)
-        {
-            ProductSizeColor product = context.ProductSizeColors.Include(p=>p.Color).Include(p=>p.Product).FirstOrDefault(p => p.Id == id);
-            if (product==null)
+            ViewBag.Genders = context.Genders.Include(g => g.Categories).ThenInclude(c => c.SubCategories).ToList();
+            ViewBag.Categories = context.Categories.Include(c => c.Gender).Include(c => c.SubCategories).ToList();
+            ViewBag.Subcategories = context.SubCategories.Include(s => s.Category).ThenInclude(c => c.Gender).ToList();
+            ViewBag.Brands = context.Brands.Include(c => c.Products).ToList();
+            ViewBag.Colors = context.Colors.Include(s => s.ProductSizeColors).ToList();
+            ViewBag.Sizes = context.Sizes.Include(s => s.ProductSizeColors).ToList();
+            if (product == null)
             {
                 return NotFound();
             }
-            Product pro = context.Products.Include(p=>p.ProductSizeColors).Include(p=>p.ProductColors).FirstOrDefault(p => p.Id == product.ProductId);
-            if (pro.ProductSizeColors.Where(p=>p.ColorId == product.ColorId).Count() == 1)
+
+            //ProdCreateVM createVM = new ProdCreateVM
+            //{
+            //    Product = context.Products.Include(p => p.SubCategory).Include(p => p.Category).Include(p => p.Gender).Include(p => p.Brand).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).FirstOrDefault(p => p.Id == id)
+            //};
+            return View(product);
+        }
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Edit(Product prod)
+        {
+
+            ViewBag.Genders = context.Genders.Include(g => g.Categories).ThenInclude(c => c.SubCategories).ToList();
+            ViewBag.Categories = context.Categories.Include(c => c.Gender).Include(c => c.SubCategories).ToList();
+            ViewBag.Subcategories = context.SubCategories.Include(s => s.Category).ThenInclude(c => c.Gender).ToList();
+            ViewBag.Brands = context.Brands.Include(c => c.Products).ToList();
+            ViewBag.Colors = context.Colors.Include(s => s.ProductSizeColors).ToList();
+            ViewBag.Sizes = context.Sizes.Include(s => s.ProductSizeColors).ToList();
+       
+            
+
+            Product exist = context.Products.Include(p => p.SubCategory).Include(p => p.Category).Include(p => p.Gender).Include(p => p.Brand).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).FirstOrDefault(p => p.Id == prod.Id);
+
+            if (exist == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(prod);
+            }
+            if (prod.GenderId == 0)
+            {
+                ModelState.AddModelError("GenderId", "Select a gender");
+                return View(prod);
+            }
+            if (prod.CategoryId == 0)
+            {
+                ModelState.AddModelError("CategoryId", "Select a category");
+                return View(prod);
+            }
+            if (prod.SubCategoryId == 0)
+            {
+                ModelState.AddModelError("SubCategoryId", "Select a subcategory!");
+                return View(prod);
+            }
+            if (prod.BrandId == 0)
+            {
+                ModelState.AddModelError("BrandId", "Select a brand");
+                return View(prod);
+            }
+
+            Category exstCat = context.Categories.Include(c=>c.Gender).FirstOrDefault(p => p.Id == prod.CategoryId);
+            SubCategory exsSub = context.SubCategories.FirstOrDefault(s=>s.Id == prod.SubCategoryId);
+            Gender prodsgend = context.Genders.FirstOrDefault(g => g.Id == prod.GenderId);
+
+            Gender reverse = context.Genders.FirstOrDefault(g => g.Id != exstCat.GenderId);
+            //return Json(exstCat.Gender.Name);
+            if (prod.GenderId != exstCat.Gender.Id)
+            {
+                ModelState.AddModelError("", $"You cant add {prodsgend.Name} gender product to {exstCat.Gender.Name} category!");
+                return View(prod);
+            }
+            if (prod.CategoryId != exsSub.CategoryId)
+            {
+                ModelState.AddModelError("", $"You cant add {exstCat.Gender.Name} category product to {reverse.Name} subcategory!");
+                return View(prod);
+            }
+
+            exist.Name = prod.Name;
+            exist.Price = prod.Price;
+            exist.Description = prod.Description;
+            exist.Discount = prod.Discount;
+            exist.Subtitle =prod.Subtitle;
+            exist.GenderId = prod.GenderId;
+            exist.CategoryId =prod.CategoryId;
+            exist.SubCategoryId = prod.SubCategoryId;
+            exist.BrandId = prod.BrandId;
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+
+
+        }
+
+        public IActionResult Test()
+        {
+            Product prod = context.Products.Include(p=>p.ProductColors).FirstOrDefault(p => p.Id == 1027);
+            return Json(prod.ProductColors.Count);
+
+        }
+        public IActionResult DeleteSizeColor(int id)
+        {
+            ProductSizeColor product = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Product).FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            Product pro = context.Products.Include(p => p.ProductSizeColors).Include(p => p.ProductColors).FirstOrDefault(p => p.Id == product.ProductId);
+            if (pro.ProductSizeColors.Where(p => p.ColorId == product.ColorId).Count() == 1)
             {
                 ProductColor productColor = context.ProductColors.FirstOrDefault(p => p.ProductId == pro.Id && p.ColorId == product.ColorId);
 
@@ -355,10 +452,279 @@ namespace FinalProjectNurlan.Controllers
             }
 
             context.ProductSizeColors.Remove(product);
+
+            context.SaveChanges();
+            return Json(new { status = 200 });
+
+
+        }
+
+        public IActionResult Delete(int id)
+        {
+            Product exist = context.Products.Include(p => p.SubCategory).Include(p => p.Category).Include(p => p.Gender).Include(p => p.Brand).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).FirstOrDefault(p => p.Id == id);
+
+            if (exist == null)
+            {
+                return NotFound();
+            }
+            List<ProductSizeColor> sizeColors = context.ProductSizeColors.Where(p => p.ProductId == exist.Id).ToList();
+            context.Products.Remove(exist);
+            context.ProductSizeColors.RemoveRange(exist.ProductSizeColors);
            
             context.SaveChanges();
             return Json(new { status = 200 });
+        }
+
+        public IActionResult EditColorSize(int id)
+        {
+            ViewBag.Colors = context.Colors.Include(s => s.ProductSizeColors).ToList();
+            ViewBag.Sizes = context.Sizes.Include(s => s.ProductSizeColors).ToList();
+            ProductSizeColor product = context.ProductSizeColors.Include(p=>p.ProductImages).Include(p=>p.Size).Include(p => p.Color).Include(p => p.Product).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).FirstOrDefault(p => p.Id == id);
+
+
+          
+
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult EditColorSize(ProductSizeColor prod)
+        {
+
+            ViewBag.Colors = context.Colors.Include(s => s.ProductSizeColors).ToList();
+            ViewBag.Sizes = context.Sizes.Include(s => s.ProductSizeColors).ToList();
+            ProductSizeColor exist = context.ProductSizeColors.Include(p => p.ProductImages).Include(p => p.Size).Include(p => p.Color).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p=>p.Product).ThenInclude(p => p.SubCategory).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).FirstOrDefault(p => p.Id == prod.Id);
+            Product product = context.Products.Include(p=>p.ProductColors).Include(p=>p.ProductSizeColors).ThenInclude(p=>p.Size).Include(p=>p.ProductSizeColors).ThenInclude(p=>p.Color).FirstOrDefault(p => p.Id == exist.ProductId);
+
+            //prod.MainImage = exist.MainImage;
+            //prod.ProductImages = new List<ProductImage>();
+            //prod.ProductImages.AddRange(exist.ProductImages);
+            //return Json(prod.ImageIds.Count);
+
+
+            var clrName = context.Colors.FirstOrDefault(c => c.Id == prod.ColorId);
+            var size = context.Sizes.FirstOrDefault(s => s.Id == prod.SizeId);
+
+
+            if (exist == null)
+            {
+                return NotFound();
+            }
+            if (prod.SizeId == 0)
+            {
+                ModelState.AddModelError("", "Select a Size");
+                return View(exist);
+            }
+            if (prod.ColorId == 0)
+            {
+                ModelState.AddModelError("ColorId", "Select a color");
+                return View(exist);
+            }
+            if (product.ProductSizeColors.Any(p=>p.SizeId == prod.SizeId && p.ColorId == prod.ColorId && p.Id != prod.Id))
+            {
+                ModelState.AddModelError("", $"{product.Name} already exists with {size.Name} size , {clrName.Name} color");
+                return View(exist);
+            }
+            if (prod.MainImageFile != null)
+            {
+                if (!prod.MainImageFile.IsImage())
+                {
+                    ModelState.AddModelError("MainImageFile", "Select a image file");
+                    return View(exist);
+                }
+                if (!prod.MainImageFile.IsSizeOkay(2))
+                {
+                    ModelState.AddModelError("MainImageFile", "Image size must be less than 2MB");
+                    return View(exist);
+                }
+                Helpers.Helper.DeleteImg(env.WebRootPath, "assets/images/products", exist.MainImage);
+                exist.MainImage = prod.MainImageFile.SaveImg(env.WebRootPath, "assets/images/products");
+
+            }
             
+            if (prod.ImageIds == null && prod.ImageFiles == null)
+            {
+                ModelState.AddModelError("", "images cannot be empty");
+                return View(exist);
+            }
+            if (prod.ImageIds == null && prod.ImageFiles.Count > 3)
+            {
+                ModelState.AddModelError("", "select 3 images maximum");
+                return View(exist);
+            }
+            if (prod.ImageIds == null && prod.ImageFiles.Count < 3)
+            {
+                ModelState.AddModelError("", "select 3 images minimum");
+                return View(exist);
+            }
+
+            if (prod.ImageIds != null)
+            {
+                if (prod.ImageIds.Count() != 3 && prod.ImageFiles == null)
+                {
+                    ModelState.AddModelError("", $"select {(3 - prod.ImageIds.Count)} images!");
+                    return View(exist);
+                }
+
+                if (prod.ImageIds.Count() == 3 && prod.ImageFiles != null)
+                {
+                    ModelState.AddModelError("", "You dont have any free image space");
+                    return View(exist);
+                }
+
+                if (prod.ImageIds.Count() != 3 && prod.ImageFiles != null)
+                {
+                    if (prod.ImageIds.Count + prod.ImageFiles.Count > 3)
+                    {
+                        ModelState.AddModelError("", "total image count cant be more than 3!");
+                        return View(exist);
+                    }
+                    if (prod.ImageIds.Count + prod.ImageFiles.Count < 3)
+                    {
+                        ModelState.AddModelError("", "total image count cant be less than 3!");
+                        return View(exist);
+                    }
+                }
+                if (prod.ImageIds == null && prod.ImageFiles.Count < 3)
+                {
+                    ModelState.AddModelError("", "select 3 images!");
+                    return View(exist);
+                }
+
+                if (prod.ImageFiles != null)
+                {
+
+                    if (prod.ImageFiles.Count > 3)
+                    {
+                        ModelState.AddModelError("", "you can choose maximum 3 images");
+                        return View(exist);
+                    }
+                    if (prod.ImageIds.Count == 3)
+                    {
+                        ModelState.AddModelError("", "you already have 3 images!");
+                        return View(exist);
+                    }
+                    if (prod.ImageIds.Count == 2 && prod.ImageFiles.Count > 1)
+                    {
+                        ModelState.AddModelError("", "you have only 1 empty image space!");
+                        return View(exist);
+                    }
+                    if (prod.ImageIds.Count == 1 && prod.ImageFiles.Count > 2)
+                    {
+                        ModelState.AddModelError("", "you have only 2 empty image space!");
+                        return View(exist);
+                    }
+                    if (prod.ImageIds == null && prod.ImageFiles.Count < 3)
+                    {
+                        ModelState.AddModelError("", "select 3 images!");
+                        return View(exist);
+                    }
+
+                    foreach (var item in prod.ImageFiles)
+                    {
+                        if (!item.IsImage())
+                        {
+                            ModelState.AddModelError("ImageFiles", "Select a image file");
+                            return View(exist);
+                        }
+                        if (!item.IsSizeOkay(2))
+                        {
+                            ModelState.AddModelError("ImageFiles", "Image size must be less than 2MB");
+                            return View(exist);
+                        }
+
+                    }
+
+                    List<ProductImage> removableImages = exist.ProductImages.Where(p => !prod.ImageIds.Contains(p.Id)).ToList();
+                    exist.ProductImages.RemoveAll(p => removableImages.Any(ri => ri.Id == p.Id));
+                    foreach (var item in removableImages)
+                    {
+                        Helpers.Helper.DeleteImg(env.WebRootPath, "assets/images/products", item.Image);
+                    }
+
+                    foreach (var item in prod.ImageFiles)
+                    {
+                        ProductImage productImage = new ProductImage
+                        {
+                            Image = item.SaveImg(env.WebRootPath, "assets/images/products"),
+                            ProductSizeColorId = exist.Id
+                        };
+                        exist.ProductImages.Add(productImage);
+                    }
+                }
+
+            }
+
+            if (prod.ImageIds == null && prod.ImageFiles.Count == 3)
+            {
+                foreach (var item in prod.ImageFiles)
+                {
+                    if (!item.IsImage())
+                    {
+                        ModelState.AddModelError("ImageFiles", "Select a image file");
+                        return View(exist);
+                    }
+                    if (!item.IsSizeOkay(2))
+                    {
+                        ModelState.AddModelError("ImageFiles", "Image size must be less than 2MB");
+                        return View(exist);
+                    }
+
+                }
+
+                exist.ProductImages.RemoveAll(p=>p.ProductSizeColorId == exist.Id);
+                foreach (var item in exist.ProductImages)
+                {
+                    Helpers.Helper.DeleteImg(env.WebRootPath, "assets/images/products", item.Image);
+                }
+
+                foreach (var item in prod.ImageFiles)
+                {
+                    ProductImage productImage = new ProductImage
+                    {
+                        Image = item.SaveImg(env.WebRootPath, "assets/images/products"),
+                        ProductSizeColorId = exist.Id
+                    };
+                    exist.ProductImages.Add(productImage);
+                }
+            }
+           
+
+
+
+            if (!product.ProductColors.Any(p=>p.ColorId == prod.ColorId))
+            {
+                ProductColor color = new ProductColor
+                {
+                    ColorId = prod.ColorId,
+                    ProductId = product.Id
+                };
+                product.ProductColors.Add(color);
+            }
+            if (prod.ColorId != exist.ColorId)
+            {
+                if (product.ProductSizeColors.Where(p=>p.ColorId == exist.ColorId).Count() == 1)
+                {
+                    ProductColor removable = context.ProductColors.FirstOrDefault(p => p.ProductId == product.Id && p.ColorId == exist.ColorId);
+                    product.ProductColors.Remove(removable);
+                }
+            }
+         
+          
+          
+
+            exist.ColorId = prod.ColorId;
+            exist.SizeId = prod.SizeId;
+            exist.TotalStock = prod.TotalStock;
+            context.SaveChanges();
+           
+            return RedirectToAction(nameof(ColorSizes));
 
         }
     }
