@@ -1,4 +1,4 @@
-﻿@model List<Category>
+﻿@model CountVM
 @{
     ViewData["Title"] = "Index";
 }
@@ -27,7 +27,7 @@
 
                     <div class="col-md-12">
                         <div class="row">
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Categories)
                             {
                                 <div class="col-sm-4">
                                     <div class="banner banner-cat banner-badge">
@@ -39,8 +39,9 @@
                                             <h3 class="banner-title">@item.Name</h3>
                                             <h4 class="banner-subtitle">
                                                 
-                                            @item.Products.Where(p=>p.ProductSizeColors.Count != 0).Count() 
-
+                                            @*@item.Products.Where(p=>p.ProductSizeColors.Count != 0).Count() 
+                                                @ViewBag.Count.wh*@
+                                                @Model.Colors.Where(p=>p.Product.CategoryId == item.Id).Count()
                                             Products
                                             </h4>
                                            

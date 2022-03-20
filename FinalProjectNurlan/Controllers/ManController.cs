@@ -20,12 +20,17 @@ namespace FinalProjectNurlan.Controllers
         }
         public IActionResult Index()
         {
-            List<Category> categories = context.Categories.Include(c=>c.Products).ThenInclude(p=>p.ProductSizeColors).Include(c=>c.SubCategories).Where(c => c.GenderId == 1).ToList();
-            
-            return View(categories);
+            CountVM vM = new CountVM
+            {
+                Categories = context.Categories.Include(c => c.Products).ThenInclude(p => p.ProductSizeColors).Include(c => c.SubCategories).Where(c => c.GenderId == 1).ToList(),
+                Colors = context.ProductColors.Where(pc => pc.Product.GenderId == 1).ToList()
+            }
+            ;
+          
+            return View(vM);
         }
 
-        public IActionResult Shop(int id)
+        public IActionResult Shop(int id,int page = 1)
         {
             if (context.Categories.FirstOrDefault(c=>c.Id == id) == null)
             {
@@ -35,7 +40,11 @@ namespace FinalProjectNurlan.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Sizes = context.Sizes.ToList();
 
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 1).Count() / 6);
 
 
           

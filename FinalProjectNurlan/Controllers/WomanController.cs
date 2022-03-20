@@ -20,9 +20,14 @@ namespace FinalProjectNurlan.Controllers
         }
         public IActionResult Index()
         {
-            List<Category> categories = context.Categories.Include(c => c.Products).ThenInclude(p => p.ProductSizeColors).Include(c => c.SubCategories).Where(c => c.GenderId == 2).ToList();
+            CountVM vM = new CountVM
+            {
+                Categories = context.Categories.Include(c => c.Products).ThenInclude(p => p.ProductSizeColors).Include(c => c.SubCategories).Where(c => c.GenderId == 2).ToList(),
+                Colors = context.ProductColors.Where(pc => pc.Product.GenderId == 2).ToList()
+            }
+          ;
 
-            return View(categories);
+            return View(vM);
         }
 
         public IActionResult Shop(int id)
@@ -35,6 +40,9 @@ namespace FinalProjectNurlan.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Sizes = context.Sizes.ToList();
+
 
 
 

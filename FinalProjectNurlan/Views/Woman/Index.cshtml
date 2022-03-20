@@ -1,4 +1,4 @@
-﻿@model List<Category>
+﻿@model CountVM
 @{
     ViewData["Title"] = "Index";
 }
@@ -27,7 +27,7 @@
 
                     <div class="col-md-12">
                         <div class="row">
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Categories)
                             {
                                 <div class="col-sm-4">
                                     <div class="banner banner-cat banner-badge">
@@ -37,7 +37,7 @@
 
                                         <a class="banner-link" asp-controller="woman" asp-action="shop" asp-route-id="@item.Id">
                                             <h3 class="banner-title">@item.Name</h3>
-                                            <h4 class="banner-subtitle">@item.Products.Count() Products</h4>
+                                            <h4 class="banner-subtitle">@Model.Colors.Where(c=>c.Product.CategoryId == item.Id).Count() Products</h4>
                                             <span class="banner-link-text">Shop Now</span>
                                         </a>
                                     </div>
