@@ -1,5 +1,18 @@
 ﻿@model HomeVM
 
+@{
+    ViewData["Title"] = "Index";
+}
+@if (TempData["Verify"] != null)
+{
+    <input type="hidden" id="VerifyEmail" />
+}
+@if (TempData["Verified"] != null)
+{
+    <input type="hidden" id="VerifiedEmail" />
+}
+
+
 <main class="main">
     <div class="intro-slider-container">
         <div class="intro-slider owl-carousel owl-theme owl-nav-inside owl-light" data-toggle="owl" data-owl-options='{
@@ -508,7 +521,7 @@
                             </div><!-- End .product-body -->
                             <a href="category.html" class="action">shop now</a>
                         </div>
-                       
+
                     </div>
                 </div><!-- End .col-lg-5 -->
             </div><!-- End .row -->
@@ -1039,3 +1052,50 @@
         </div><!-- End .container -->
     </div><!-- End .blog-posts -->
 </main><!-- End .main -->
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            if ($("#VerifyEmail").length) {
+                Command: toastr["success"]("Please check your email!")
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+            }
+            if ($("#VerifiedEmail").length) {
+                Command: toastr["success"]("Successfully verified")
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+            }
+        })
+    </script>
+}

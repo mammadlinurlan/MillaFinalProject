@@ -234,14 +234,26 @@
 </div>
 
 @section Scripts{
-    <script src="~/assets/js/jquery.elevateZoom.min.js"></script>
+    @*<script src="~/assets/js/jquery.elevateZoom.min.js"></script>*@
     <script>
         $(document).ready(function () {
 
-            //$(".product-zoom").elevateZoom({
-            //    zoomType: "inner",
-            //    cursor: "crosshair"
-            //});
+
+            $(".product-zoom").elevateZoom({
+                zoomType: "inner",
+                cursor: "crosshair"
+            });
+            console.log(
+
+
+                $(".product-main-image")
+
+            )
+            //$(function () {
+            //    $(".product-zoom").imageZoom();
+
+            //})
+
 
             $(document).on("click", ".changeable", function (e) {
                 e.preventDefault();
@@ -251,20 +263,20 @@
                 $(".product-zoom").attr("src", newSrc);
                 $("#changeForModal").attr("src", newSrc)
 
+               
 
-                //let newimg = $(".product-zoom");
-                //let newurl = window.location.origin;
-                //let newsrc = $(newimg).attr("src");
-                //let newlink = `${newurl}${newsrc}`
+              
+                let newurl = window.location.origin;
+             
+                let newlink = `${newurl}${newSrc}`
 
-                //$(".product-zoom").removeAttr("data-zoom-image");
-
-                //$(".product-zoom").elevateZoom({
-                //    zoomType: "inner",
-                //    cursor: "crosshair"
-                //});
+             
+                $(".product-zoom").data('zoom-image', newlink).elevateZoom({
+                    zoomType: "inner",
+                    cursor: "crosshair"
+                });
             })
-
+            
             $(".product-notMain").click(function (e) {
                 console.log("sa")
                 e.preventDefault();
@@ -278,7 +290,7 @@
                 var notmain = $(this).children(".nmSrc").attr("src")
                 $(parent).attr("src", notmain)
 
-
+                
             })
 
             $(document).on('click', ".noMainForColorChange", function (e) {
@@ -288,13 +300,11 @@
                 var href = $(this).children(".hiddenId").val()
                 var link = `${base}/man/changecolor/${href}`
                 console.log(link)
-
+                $(".zoomContainer").remove();
+             
                 fetch(link).then(res => res.text()).then(data => {
 
-                    $(".product-zoom").elevateZoom({
-                        zoomType: "inner",
-                        cursor: "crosshair"
-                    });
+                   
                     console.log('fetched')
                     $(".product-details-top").html('');
                     $(".product-details-top").html(data)
@@ -307,6 +317,10 @@
                     $("input[type='number']").next().children().last().children().removeClass("btn-outline-secondary").addClass("btn-spinner").empty().html(plus)
                     $("input[type='number']").next().children().first().children().removeClass("btn-outline-secondary").addClass("btn-spinner").empty().html(minus)
 
+                    $(".product-zoom").elevateZoom({
+                        zoomType: "inner",
+                        cursor: "crosshair"
+                    });
                 })
 
             })

@@ -20,20 +20,20 @@
             <div class="row">
                 <div class="col-lg-9">
                     <div class="toolbox">
-                        <div class="toolbox-left">
-                            <div class="toolbox-info">
-                                Showing <span>9 of 56</span> Products
-                            </div><!-- End .toolbox-info -->
-                        </div><!-- End .toolbox-left -->
+                        
 
                         <div class="toolbox-right">
                             <div class="toolbox-sort">
                                 <label for="sortby">Sort by:</label>
                                 <div class="select-custom">
                                     <select name="sortby" id="sortby" class="form-control">
-                                        <option value="popularity" selected="selected">Most Popular</option>
-                                        <option value="rating">Most Rated</option>
-                                        <option value="date">Date</option>
+                                        <option value="newest" selected="selected">Newest</option>
+                                        <option value="lowtohigh">Price : Low - High</option>
+                                        <option value="hightolow">Price : High - Low</option>
+                                        <option value="atoz">Name : A - Z</option>
+                                        <option value="ztoa">Name : Z - A</option>
+
+
                                     </select>
                                 </div>
                             </div><!-- End .toolbox-sort -->
@@ -91,31 +91,31 @@
                         </div>
                     </div>
 
-                        
 
-                  
+
+
 
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
                             @*<li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
-            <a class="page-link page-link-prev" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-            </a>
-        </li>
+                                    <a class="page-link page-link-prev" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                    </a>
+                                </li>
 
-        @for (int i = 1; i <= ViewBag.TotalPage; i++)
-        {
-            <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")"  style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")" ><a class="page-link" asp-controller="man" asp-action="shop" asp-route-page="@i">@i</a></li>
+                                @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                                {
+                                    <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")"  style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")" ><a class="page-link" asp-controller="man" asp-action="shop" asp-route-page="@i">@i</a></li>
 
-        }
+                                }
 
 
 
-        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPage ? "disabled" : "")">
-            <a class="page-link page-link-next" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage +1)" aria-label="Next">
-                Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-            </a>
-        </li>*@
+                                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPage ? "disabled" : "")">
+                                    <a class="page-link page-link-next" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage +1)" aria-label="Next">
+                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                    </a>
+                                </li>*@
 
 
 
@@ -133,7 +133,7 @@
                     <div class="sidebar sidebar-shop">
                         <div class="widget widget-clean">
                             <label>Filters:</label>
-                            <a href="#" class="sidebar-filter-clear">Clean All</a>
+                            <a href="#" class="clear-filters">Clean All</a>
                         </div><!-- End .widget widget-clean -->
 
                         <div class="widget widget-collapsible">
@@ -148,10 +148,10 @@
                                     <div class="filter-items filter-items-count">
                                         @foreach (var item in Model.Category.SubCategories)
                                         {
-                                            <div class="filter-item">
+                                            <div class="filter-item category-item">
                                                 <div class="custom-control custom-checkbox">
                                                     <input value="@item.Id" type="checkbox" class="custom-control-input categoryCheck" id="@item.Id">
-                                                    <label class="custom-control-label" >@item.Name</label>
+                                                    <label class="custom-control-label">@item.Name</label>
                                                 </div>
                                             </div>
                                         }
@@ -178,11 +178,11 @@
                                     <div class="filter-items">
                                         @for (int i = 0; i < 6; i++)
                                         {
-                                            <div class="filter-item">
+                                            <div  class="filter-item size-item">
                                                 <div class="custom-control custom-checkbox">
 
                                                     <input value="@ViewBag.Sizes[i].Id" type="checkbox" class="custom-control-input" id="@ViewBag.Sizes[i].Name">
-                                                    <label class="custom-control-label" >@ViewBag.Sizes[i].Name</label>
+                                                    <label class="custom-control-label">@ViewBag.Sizes[i].Name</label>
 
                                                 </div>
                                             </div>
@@ -190,16 +190,16 @@
 
 
                                         @*@foreach (var item in ViewBag.Sizes)
-                                        {
-                                            <div class="filter-item">
-                                                <div class="custom-control custom-checkbox">
+                                            {
+                                                <div class="filter-item">
+                                                    <div class="custom-control custom-checkbox">
 
-                                                    <input type="checkbox" class="custom-control-input" id="@item.Id">
-                                                    <label class="custom-control-label" for="@item.Id">@item.Name</label>
+                                                        <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                                        <label class="custom-control-label" for="@item.Id">@item.Name</label>
 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        }*@
+                                            }*@
 
 
                                     </div><!-- End .filter-items -->
@@ -241,10 +241,10 @@
 
                                         @foreach (Brand item in Model.Brands)
                                         {
-                                            <div class="filter-item">
+                                            <div class="filter-item brand-item">
                                                 <div class="custom-control custom-checkbox">
                                                     <input value="@item.Id" type="checkbox" class="custom-control-input filtercheck" id="@item.Id">
-                                                    <label class="custom-control-label" >@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower())</label>
+                                                    <label class="custom-control-label">@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower())</label>
                                                 </div>
                                             </div>
                                         }
@@ -270,9 +270,10 @@
                                         <div class="filter-price-text">
                                             Price Range:
                                             <span id="filter-price-range">$0 - $750</span>
-                                        </div><!-- End .filter-price-text -->
-
+                                        </div>
                                         <div id="price-slider" class="noUi-target noUi-ltr noUi-horizontal"><div class="noUi-base"><div class="noUi-connects"><div class="noUi-connect" style="transform: translate(0%, 0px) scale(0.75, 1);"></div></div><div class="noUi-origin" style="transform: translate(-100%, 0px); z-index: 5;"><div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="550.0" aria-valuenow="0.0" aria-valuetext="$0"><div class="noUi-touch-area"></div><div class="noUi-tooltip">$0</div></div></div><div class="noUi-origin" style="transform: translate(-25%, 0px); z-index: 4;"><div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="200.0" aria-valuemax="1000.0" aria-valuenow="750.0" aria-valuetext="$750"><div class="noUi-touch-area"></div><div class="noUi-tooltip">$750</div></div></div></div></div><!-- End #price-slider -->
+
+
                                     </div><!-- End .filter-price -->
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
@@ -287,6 +288,9 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+            $("#price-slider").children().first().remove()
+
+
             $(".productClass").slice(0, 6).show()
 
             $("#loadMore").click(function (e) {
@@ -298,7 +302,7 @@
                 }
             })
 
-            
+
 
             $(".colorClick").click(function (e) {
                 e.preventDefault();
@@ -328,6 +332,54 @@
                 $(this).closest(".product-size").children(".sizeClick").not(this).removeClass("active")
                 $(this).addClass("active")
             })
+
+
+            $(".size-item").click(function () {
+
+
+                if ($(this).children().children().first().attr("checked")) {
+                    $(this).children().children().first().removeAttr("checked")
+                } else {
+                    $(this).children().children().first().attr("checked", "")
+
+                }
+
+                
+            })
+
+            $(".brand-item").click(function () {
+
+
+                if ($(this).children().children().first().attr("checked")) {
+                    $(this).children().children().first().removeAttr("checked")
+                } else {
+                    $(this).children().children().first().attr("checked", "")
+
+                }
+
+
+            })
+            $(".category-item").click(function () {
+
+
+                if ($(this).children().children().first().attr("checked")) {
+                    $(this).children().children().first().removeAttr("checked")
+                } else {
+                    $(this).children().children().first().attr("checked", "")
+
+                }
+
+
+            })
+
+            $(".clear-filters").click(function (e) {
+                e.preventDefault();
+                $(".custom-control-input").removeAttr("checked")
+                $(".colorClick").removeClass("selected")
+                //.removeAttr("checked")
+
+            })
+
 
 
         })

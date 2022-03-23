@@ -1716,6 +1716,10 @@ blockquote {
         width: 420px
     }
 
+    .zoomContainer{
+        display:none !important;
+    }
+
     .header-search .select-custom {
         flex: 0 0 180px;
         max-width: 180px

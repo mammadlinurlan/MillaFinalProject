@@ -30,7 +30,7 @@ namespace FinalProjectNurlan.Controllers
             return View(vM);
         }
 
-        public IActionResult Shop(int id)
+        public IActionResult Shop(int id,string sort)
         {
             if (context.Categories.FirstOrDefault(c => c.Id == id) == null)
             {
@@ -47,14 +47,16 @@ namespace FinalProjectNurlan.Controllers
 
 
             //List<ProductSizeColor> prod = context.ProductSizeColors.GroupBy(p=>p.ProductId).ToList();
-
+           
             ShopVM shopVM = new ShopVM
             {
                 Brands = context.Brands.Include(b => b.Products).ToList(),
                 Category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == id),
                 Products = context.Products.Include(p => p.ProductColors).Include(p => p.Category).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Brand).Include(p => p.SubCategory).Include(p => p.Gender).Where(p => p.CategoryId == id && p.ProductSizeColors.Count > 0).ToList(),
                 ProductSizeColors = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.Product).ThenInclude(p => p.SubCategory).Include(p => p.ProductImages).Where(p => p.Product.CategoryId == id).ToList(),
-                ProductColors = context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList()
+
+                
+                ProductColors = context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).OrderByDescending(p=>p.Product.CreatedDate).ToList()
 
             };
 

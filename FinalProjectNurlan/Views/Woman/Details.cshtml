@@ -234,10 +234,10 @@
     <script>
         $(document).ready(function () {
 
-            //$(".product-zoom").elevateZoom({
-            //    zoomType: "inner",
-            //    cursor: "crosshair"
-            //});
+            $(".product-zoom").elevateZoom({
+                zoomType: "inner",
+                cursor: "crosshair"
+            });
 
             $(document).on("click", ".changeable", function (e) {
                 e.preventDefault();
@@ -246,6 +246,19 @@
                 $(".changeable").not(this).removeClass("active")
                 $(".product-zoom").attr("src", newSrc);
                 $("#changeForModal").attr("src", newSrc)
+
+
+
+
+                let newurl = window.location.origin;
+
+                let newlink = `${newurl}${newSrc}`
+
+
+                $(".product-zoom").data('zoom-image', newlink).elevateZoom({
+                    zoomType: "inner",
+                    cursor: "crosshair"
+                });
 
 
                 //let newimg = $(".product-zoom");
@@ -284,14 +297,10 @@
                 var href = $(this).children(".hiddenId").val()
                 var link = `${base}/woman/changecolor/${href}`
                 //console.log(link)
-
+                $(".zoomContainer").remove();
                 fetch(link).then(res => res.text()).then(data => {
 
-                    $(".product-zoom").elevateZoom({
-                        zoomType: "inner",
-                        cursor: "crosshair"
-                    });
-                   
+               
 
                     console.log('fie')
                     $(".product-details-top").html('');
@@ -313,7 +322,10 @@
 
 
                     
-
+                    $(".product-zoom").elevateZoom({
+                        zoomType: "inner",
+                        cursor: "crosshair"
+                    });
                     //btn - outline - secondary
 
 

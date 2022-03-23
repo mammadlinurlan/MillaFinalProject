@@ -11,7 +11,7 @@
         <div class="product-gallery product-gallery-vertical">
             <div class="row">
                 <figure class="product-main-image">
-                    <img style="height: 457px; object-fit: cover;" class="product-zoom" src="~/assets/images/products/@Model.ProductSizeColor.MainImage" alt="product image">
+                    <img style="height: 457px !important; object-fit: cover;"  class="product-zoom" src="~/assets/images/products/@Model.ProductSizeColor.MainImage" alt="product image">
 
                     <a data-toggle="modal" data-target="#exampleModalCenter" style="cursor:pointer" id="btn-product-gallery" class="btn-product-gallery">
                         <i class="icon-arrows"></i>
@@ -27,7 +27,7 @@
                     @foreach (var item in Model.ProductSizeColor.ProductImages)
                     {
                         <a style="width:106px;height:106px!important;overflow:hidden !important" class="product-gallery-item changeable" href="#" data-image="~/assets/images/products/@item.Image" data-zoom-image="~/assets/images/products/@item.Image">
-                            <img style="width:106px;height:106px!important;object-fit:cover" src="~/assets/images/products/@item.Image" alt="product back">
+                            <img  style="width:106px;height:106px!important;object-fit:cover" src="~/assets/images/products/@item.Image" alt="product back">
                         </a>
                     }
 
