@@ -1,13 +1,4 @@
-﻿<main class="main">
-    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Login</li>
-            </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
+﻿@model LoginVM
 
     <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-image: url('../assets/images/backgrounds/login-bg.jpg')">
         <div class="container">
@@ -23,17 +14,14 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-                            <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
-                            <form action="#">
-                                <div class="form-group">
-                                    <label for="singin-email-2">Username *</label>
-                                    <input type="text" class="form-control" id="singin-email-2" name="singin-email" required>
-                                </div>
+                            <div style="color: red; background-color: white;"  asp-validation-summary="ModelOnly"></div>
+                            <form method="post">
+                                <input asp-for="Username" class="form-control" placeholder="Username*">
+                                <span asp-validation-for="Username" class="text text-danger"></span>
 
-                                <div class="form-group">
-                                    <label for="singin-password-2">Password *</label>
-                                    <input type="password" class="form-control" id="singin-password-2" name="singin-password" required>
-                                </div>
+                              
+                                <input asp-for="Password" class="form-control" placeholder="Password*">
+                                <span asp-validation-for="Password" class="text text-danger"></span>
 
                                 <div class="form-footer">
                                     <button type="submit" class="btn btn-outline-primary-2">
@@ -41,12 +29,11 @@
                                         <i class="icon-long-arrow-right"></i>
                                     </button>
 
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="signin-remember-2">
-                                        <label class="custom-control-label" for="signin-remember-2">Remember Me</label>
-                                    </div>
+                                    <input asp-for="RememberMe">
+                                    <label style="margin:0;margin-left:10px" for="terms">Remember me</label>
 
-                                    <a href="#" class="forgot-link">Forgot Your Password?</a>
+
+                                    <a asp-controller="account" asp-action="forgotpassword" class="forgot-link">Forgot Your Password?</a>
 
                                 </div>
                                 <a asp-controller="account" asp-action="register" class="forgot-link">Dont have an account? Sign Up!</a>
@@ -86,4 +73,3 @@
             </div><!-- End .form-box -->
         </div><!-- End .container -->
     </div><!-- End .login-page section-bg -->
-</main><!-- End .main -->

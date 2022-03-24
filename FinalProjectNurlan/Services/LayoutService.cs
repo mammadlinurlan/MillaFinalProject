@@ -1,7 +1,11 @@
-﻿using FinalProjectNurlan.Models;
+﻿using FinalProjectNurlan.DAL;
+using FinalProjectNurlan.Models;
 using FinalProjectNurlan.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,89 +16,84 @@ namespace FinalProjectNurlan.Services
     public class LayoutService
     {
 
+        private readonly AppDbContext _context;
+        private readonly IHttpContextAccessor _httpContext;
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public LayoutService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public LayoutService(AppDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager)
         {
+            _context = context;
+            _httpContext = httpContextAccessor;
             _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Register(RegisterVM register)
+        //public Setting getSettingDatas()
         //{
-        //    if (!ModelState.IsValid) return View();
-
-        //    AppUser user = await _userManager.FindByNameAsync(register.Username);
-        //    if (user == null)
-        //    {
-        //        user = new AppUser
-        //        {
-        //            UserName = register.Username,
-        //            Fullname = register.Fullname,
-        //            Email = register.Email
-        //        };
-        //        if (register.Username == null)
-        //        {
-        //            ModelState.AddModelError("Username", "Please fill this field");
-        //            return View();
-
-        //        }
-        //        if (!register.TermsAndConditions)
-        //        {
-        //            ModelState.AddModelError("TermsAndConditions", "Please fill this box!");
-        //            return View();
-        //        }
-        //        IdentityResult result = await _userManager.CreateAsync(user, register.Password);
-        //        if (!result.Succeeded)
-        //        {
-        //            foreach (IdentityError error in result.Errors)
-        //            {
-        //                ModelState.AddModelError("", error.Description);
-        //            }
-        //            return View();
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        ModelState.AddModelError("", "This username already taken");
-        //        return View();
-        //    }
-        //    await _userManager.AddToRoleAsync(user, "Member");
-
-        //    string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        //    string link = Url.Action(nameof(VerifyEmail), "Account", new { email = user.Email, token }, Request.Scheme, Request.Host.ToString());
-        //    MailMessage mail = new MailMessage();
-        //    mail.From = new MailAddress("nurlanym@code.edu.az", "EduHome");
-        //    mail.To.Add(new MailAddress(user.Email));
-
-        //    mail.Subject = "Email Verification";
-        //    string body = string.Empty;
-        //    using (StreamReader reader = new StreamReader("wwwroot/assets/template/VerifyEmail.html"))
-        //    {
-        //        body = reader.ReadToEnd();
-        //    }
-
-
-
-        //    mail.Body = body.Replace("{{link}}", link);
-        //    mail.IsBodyHtml = true;
-
-        //    SmtpClient smtp = new SmtpClient();
-        //    smtp.Host = "smtp.gmail.com";
-        //    smtp.Port = 587;
-        //    smtp.EnableSsl = true;
-
-        //    smtp.Credentials = new NetworkCredential("nurlanym@code.edu.az", "Leylus123");
-        //    smtp.Send(mail);
-        //    TempData["Verify"] = true;
-        //    return RedirectToAction("Index", "Home");
-
+        //    Setting data = _context.Settings.FirstOrDefault();
+        //    return data;
         //}
+        public async Task<BasketVM> ShowBasket()
+        {
+            string basket = _httpContext.HttpContext.Request.Cookies["Basket"];
+
+            //BasketVM basketVM = new BasketVM();
+            BasketVM basketData = new BasketVM
+            {
+                TotalPrice = 0,
+                BasketItems = new List<BasketItemVM>(),
+                Count = 0
+            };
+            if (_httpContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                AppUser user = await _userManager.FindByNameAsync(_httpContext.HttpContext.User.Identity.Name);
+                List<BasketItem> basketItems = _context.BasketItems.Include(b => b.AppUser).Where(b => b.AppUserId == user.Id).ToList();
+                foreach (BasketItem item in basketItems)
+                {
+                    ProductSizeColor prod = _context.ProductSizeColors.Include(p => p.ProductImages).Include(p=>p.Product).ThenInclude(p=>p.Gender).Include(p=>p.Size).Include(p=>p.Color).FirstOrDefault(p => p.Id == item.ProductSizeColorId);
+                    if (prod != null)
+                    {
+                        BasketItemVM basketItemVM = new BasketItemVM
+                        {
+                            ProductSizeColor = prod,
+                            Count = item.Count
+                        };
+                        basketItemVM.Price = prod.Product.Discount == null ? prod.Product.Price : prod.Product.Price - (prod.Product.Price * prod.Product.Discount / 100);
+                        basketData.BasketItems.Add(basketItemVM);
+                        basketData.Count++;
+                        basketData.TotalPrice += basketItemVM.Price * basketItemVM.Count;
+                    }
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(basket))
+                {
+                    List<BasketCookieItemVM> basketCookieItems = JsonConvert.DeserializeObject<List<BasketCookieItemVM>>(basket);
+
+                    foreach (BasketCookieItemVM item in basketCookieItems)
+                    {
+                        ProductSizeColor prod = _context.ProductSizeColors.Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p=>p.Gender).Include(p => p.Size).Include(p => p.Color).FirstOrDefault(p => p.Id == item.Id);
+                        if (prod != null)
+                        {
+                            BasketItemVM basketItem = new BasketItemVM
+                            {
+                                  ProductSizeColor = _context.ProductSizeColors.Include(p => p.ProductImages).Include(p => p.Product).Include(p => p.Size).Include(p => p.Color).FirstOrDefault(p => p.Id == item.Id),
+                                Count = item.Count
+
+                            };
+                        basketItem.Price = prod.Product.Discount == null ? prod.Product.Price : prod.Product.Price - (prod.Product.Price * prod.Product.Discount / 100);
+                            basketData.BasketItems.Add(basketItem);
+                            basketData.Count++;
+                            basketData.TotalPrice += basketItem.Price * basketItem.Count;
+                        }
+                    }
+
+                  
+                }
+            }
+
+            return basketData;
+
+        }
     }
 }

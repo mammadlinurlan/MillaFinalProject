@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject FinalProjectNurlan.Services.LayoutService layoutService
+<!DOCTYPE html>
 <html lang="en">
 
 
@@ -78,7 +79,20 @@
                                     <li><a asp-controller="wishlist" asp-action="index"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
                                     <li><a asp-controller="about" asp-action="index">About Us</a></li>
                                     <li><a asp-controller="contact" asp-action="index">Contact Us</a></li>
-                                    <li><a asp-controller="account" asp-action="login"><i class="icon-user"></i>Login</a></li>
+
+                                    @if (!User.Identity.IsAuthenticated)
+                                    {
+                                        <li><a asp-controller="account" asp-action="login"><i class="icon-user"></i>Login</a></li>
+
+
+                                    }
+                                    else
+                                    {
+                                        <li><a asp-controller="account" asp-action="edit">@User.Identity.Name</a></li>
+                                        <li><a asp-controller="account" asp-action="logout">Logout</a></li>
+
+                                    }
+
                                 </ul>
                             </li>
                         </ul><!-- End .top-menu -->
@@ -315,56 +329,46 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count">@layoutService.ShowBasket().Result.Count</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-cart-products">
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Beige knitted elastic runner shoes</a>
-                                            </h4>
+                                    @foreach (var item in layoutService.ShowBasket().Result.BasketItems)
+                                    {
+                                        <div class="product">
+                                            <div class="product-cart-details">
+                                                <h4 class="product-title">
+                                                    <a asp-controller="@item.ProductSizeColor.Product.Gender.Name" asp-action="details" asp-route-id="@item.ProductSizeColor.Id"> @item.ProductSizeColor.Product.Name </a>
+                                                </h4>
 
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $84.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">@item.Count</span>
+                                                    x $@item.ProductSizeColor.Product.Price
+                                                </span><br />
 
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="~/assets/images/products/cart/product-1.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
+                                                <span class="cart-product-info">
+                                                    Size : @item.ProductSizeColor.Size.Name
+                                                </span>
+                                            </div>
 
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Blue utility pinafore denim dress</a>
-                                            </h4>
+                                            <figure class="product-image-container">
+                                                <a asp-controller="@item.ProductSizeColor.Product.Gender.Name" asp-action="details" asp-route-id="@item.ProductSizeColor.Id" class="product-image">
+                                                    <img style="width:55px;height:60px !important;object-fit:cover" src="~/assets/images/products/@item.ProductSizeColor.MainImage" alt="product">
+                                                </a>
+                                            </figure>
+                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        </div>
+                                    }
 
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $76.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
 
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="~/assets/images/products/cart/product-2.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
-                                </div><!-- End .cart-product -->
+
+                                </div>
 
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    <span class="cart-total-price">$@layoutService.ShowBasket().Result.TotalPrice</span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">

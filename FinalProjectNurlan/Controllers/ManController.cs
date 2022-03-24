@@ -1,8 +1,10 @@
 ﻿using FinalProjectNurlan.DAL;
 using FinalProjectNurlan.Models;
 using FinalProjectNurlan.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,12 @@ namespace FinalProjectNurlan.Controllers
     public class ManController : Controller
     {
         private readonly AppDbContext context;
+        private readonly UserManager<AppUser> userManager;
 
-        public ManController(AppDbContext context)
+        public ManController(AppDbContext context,UserManager<AppUser> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -118,5 +122,86 @@ namespace FinalProjectNurlan.Controllers
             return PartialView("_productDetailPartialView", shopVM);
 
         }
+
+        public IActionResult Testing(int id)
+        {
+            ProductSizeColor prod = context.ProductSizeColors.Include(p=>p.Product).ThenInclude(p=>p.Gender).Include(p => p.Color).Include(p=>p.Size).FirstOrDefault(p => p.Id == id);
+            return Json(prod.Color.Name);
+        }
+
+
+
+        public async Task<IActionResult> SetBasket(int sizeId, int colorId, int productId, int quantity)
+        {
+            ProductSizeColor product = await context.ProductSizeColors.Include(p=>p.Product).FirstOrDefaultAsync(p => p.SizeId == sizeId && p.ColorId == colorId && p.ProductId == productId);
+
+
+             //&& User.IsInRole("Member")
+
+            if (User.Identity.IsAuthenticated)
+            {
+                AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+                BasketItem basketItem = context.BasketItems.FirstOrDefault(i => i.ProductSizeColorId == product.Id && i.AppUserId == user.Id);
+                if (basketItem == null)
+                {
+                    basketItem = new BasketItem
+                    {
+                        ProductSizeColorId = product.Id,
+                        AppUserId = user.Id,
+                        Count = quantity
+                         
+                    };
+                    context.BasketItems.Add(basketItem);
+                }
+                else
+                {
+                    basketItem.Count+=quantity;
+                }
+                context.SaveChanges();
+
+            }
+            else
+            {
+                string basket = HttpContext.Request.Cookies["Basket"];
+
+                if (basket == null)
+                {
+
+                    List<BasketCookieItemVM> basketCookieItems = new List<BasketCookieItemVM>();
+                    basketCookieItems.Add(new BasketCookieItemVM
+                    {
+                        Count = quantity,
+                        Id = product.Id
+                    });
+
+                    string basketStr = JsonConvert.SerializeObject(basketCookieItems);
+                    HttpContext.Response.Cookies.Append("Basket", basketStr);
+                }
+                else
+                {
+                    List<BasketCookieItemVM> basketCookieItems = JsonConvert.DeserializeObject<List<BasketCookieItemVM>>(basket);
+                    BasketCookieItemVM cookieItem = basketCookieItems.FirstOrDefault(p => p.Id == product.Id);
+                    if (cookieItem == null)
+                    {
+                        cookieItem = new BasketCookieItemVM
+                        {
+                            Id = product.Id,
+                            Count = quantity
+                        };
+                        basketCookieItems.Add(cookieItem);
+                    }
+                    else
+                    {
+                        cookieItem.Count+=quantity;
+
+                    }
+                    string basketStr = JsonConvert.SerializeObject(basketCookieItems);
+                    HttpContext.Response.Cookies.Append("Basket", basketStr);
+                }
+            }
+            return Json(new { status = 200 });
+        }
+
+
     }
 }

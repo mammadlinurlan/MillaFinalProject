@@ -5,13 +5,13 @@
 
 
 
-   
+
 <div class="row">
     <div class="col-md-6">
         <div class="product-gallery product-gallery-vertical">
             <div class="row">
                 <figure class="product-main-image">
-                    <img style="height: 457px !important; object-fit: cover;"  class="product-zoom" src="~/assets/images/products/@Model.ProductSizeColor.MainImage" alt="product image">
+                    <img style="height: 457px !important; object-fit: cover;" class="product-zoom" src="~/assets/images/products/@Model.ProductSizeColor.MainImage" alt="product image">
 
                     <a data-toggle="modal" data-target="#exampleModalCenter" style="cursor:pointer" id="btn-product-gallery" class="btn-product-gallery">
                         <i class="icon-arrows"></i>
@@ -20,14 +20,14 @@
                 </figure>
 
                 <div id="product-zoom-gallery" class="product-image-gallery">
-                    <a  style="width:106px;height:106px!important;overflow:hidden !important" class="product-gallery-item active changeable" href="#" data-image="~/assets/images/products/@Model.ProductSizeColor.MainImage" data-zoom-image="~/assets/images/products/@Model.ProductSizeColor.MainImage">
+                    <a style="width:106px;height:106px!important;overflow:hidden !important" class="product-gallery-item active changeable" href="#" data-image="~/assets/images/products/@Model.ProductSizeColor.MainImage" data-zoom-image="~/assets/images/products/@Model.ProductSizeColor.MainImage">
                         <img style="width:106px;height:106px!important;object-fit:cover" src="~/assets/images/products/@Model.ProductSizeColor.MainImage" alt="product side">
                     </a>
 
                     @foreach (var item in Model.ProductSizeColor.ProductImages)
                     {
                         <a style="width:106px;height:106px!important;overflow:hidden !important" class="product-gallery-item changeable" href="#" data-image="~/assets/images/products/@item.Image" data-zoom-image="~/assets/images/products/@item.Image">
-                            <img  style="width:106px;height:106px!important;object-fit:cover" src="~/assets/images/products/@item.Image" alt="product back">
+                            <img style="width:106px;height:106px!important;object-fit:cover" src="~/assets/images/products/@item.Image" alt="product back">
                         </a>
                     }
 
@@ -90,17 +90,17 @@
                 <label for="size">Size:</label>
                 <div class="select-custom">
                     <select name="size" id="size" class="form-control">
-                        <option value="0">Select size</option>
+                        <option  value="0">Select size</option>
                         @foreach (var item in Model.ProductSizeColor.Product.ProductSizeColors.Where(p => p.ColorId == Model.ProductSizeColor.ColorId))
                         {
                             @if (item.TotalStock < 5)
                             {
-                                <option style="color:grey" disabled value="@item.Size.Name">@item.Size.Name </option>
+                                <option style="color:grey" disabled value="@item.Size.Id">@item.Size.Name </option>
 
                             }
                             else
                             {
-                                <option style="color:black" value="@item.Size.Name">@item.Size.Name</option>
+                                <option style="color:black" value="@item.Size.Id">@item.Size.Name</option>
 
                             }
 
@@ -123,11 +123,14 @@
             </div><!-- End .details-filter-row -->
 
             <div class="product-details-action">
-                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-
+                <a asp-controller="@Model.ProductSizeColor.Product.Gender.Name"  asp-action="setbasket"   class="btn-product btn-cart add-to-cart"><span>add to cart</span></a>
+                <input class="forSizeId" hidden />
+            <input hidden class="forProductId" value="@Model.ProductSizeColor.ProductId"/>
+            <input hidden class="forCount" />
+                <input class="forColorId" hidden value="@Model.ProductSizeColor.ColorId" />
                 <div class="details-action-wrapper">
                     <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
-                   
+
                 </div><!-- End .details-action-wrapper -->
             </div><!-- End .product-details-action -->
 
@@ -137,19 +140,13 @@
                     <a asp-controller="@Model.ProductSizeColor.Product.Gender.Name" asp-action="shop" asp-route-id="@Model.ProductSizeColor.Product.CategoryId">@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.ProductSizeColor.Product.Category.Name.ToLower())    </a>
                 </div><!-- End .product-cat -->
 
-                <div class="social-icons social-icons-sm">
-                    <span class="social-label">Share:</span>
-                    <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
-                    <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
-                    <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
-                    <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
-                </div>
+
             </div><!-- End .product-details-footer -->
         </div><!-- End .product-details -->
     </div>
 </div><!-- End .product-details-top -->
 
-   
+
 
 
 
@@ -164,6 +161,6 @@
     </div>
 </div>
 
-@section Scripts{ 
-<script src="~/assets/js/bootstrap-input-spinner.js"></script>
+@section Scripts{
+    <script src="~/assets/js/bootstrap-input-spinner.js"></script>
 }

@@ -189,3 +189,4 @@ C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\ne
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Product\EditColorSize.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Account\Edit.cshtml.g.cs

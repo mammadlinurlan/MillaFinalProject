@@ -243,16 +243,12 @@
                 zoomType: "inner",
                 cursor: "crosshair"
             });
-            console.log(
-
-
-                $(".product-main-image")
-
-            )
+          
             //$(function () {
             //    $(".product-zoom").imageZoom();
 
             //})
+            $(".forSizeId").val()
 
 
             $(document).on("click", ".changeable", function (e) {
@@ -278,7 +274,7 @@
             })
             
             $(".product-notMain").click(function (e) {
-                console.log("sa")
+               /* console.log("sa")*/
                 e.preventDefault();
                 var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
                 var newHref = $(this).attr("href")
@@ -299,7 +295,7 @@
                 var base = window.location.origin
                 var href = $(this).children(".hiddenId").val()
                 var link = `${base}/man/changecolor/${href}`
-                console.log(link)
+               /* console.log(link)*/
                 $(".zoomContainer").remove();
              
                 fetch(link).then(res => res.text()).then(data => {
@@ -324,10 +320,87 @@
                 })
 
             })
-            //$(".noMainForColorChange").click(function (e) {
+           
 
 
-            //})
+            $(document).on("change", "#size", function (e) {
+                //console.log(e.target.value)
+                $(".forSizeId").val(e.target.value)
+                //console.log($(".forSizeId").val())
+            })
+
+            $(document).on("change", ".qtyforme", function (e) {
+                $(".forCount").val(e.target.value)
+            })
+
+         
+            $(document).on("click", ".add-to-cart", function (e) {
+                e.preventDefault();
+                var sizeId = $(".forSizeId").val();
+                var colorId = $(".forColorId").val();
+                var productId = $(".forProductId").val();
+                var link = $(this).attr("href")
+                console.log(link)
+                var quantity = $(".forCount").val();
+                if (!quantity) {
+                    quantity = 1;
+                }
+                var url = link + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
+
+                if (!sizeId) {
+                    Command: toastr["error"]("Select a size!")
+
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-center",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                }
+                else {
+                    fetch(url).then(res => res.json()).then(data => {
+                        if (data.status == 200) {
+                            Command: toastr["success"]("Successfully added to basket!")
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-bottom-center",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+
+                        }
+
+                        console.log(data)
+                    })
+                }
+
+
+             
+                //console.log(`colorId : ${colorId}   --- sizeId : ${sizeId} --- prodId ${productId}  --- count : ${count} `)
+              
+            })
 
         })
     </script>

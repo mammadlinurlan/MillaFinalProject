@@ -48,5 +48,6 @@ namespace FinalProjectNurlan.Models
         [NotMapped]
         public int MainImageId { get; set; }
 
+        public List<BasketItem> BasketItems { get; set; }
     }
 }

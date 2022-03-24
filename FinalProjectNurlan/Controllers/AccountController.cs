@@ -1,5 +1,6 @@
 ﻿using FinalProjectNurlan.Models;
 using FinalProjectNurlan.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -43,11 +44,11 @@ namespace FinalProjectNurlan.Controllers
                     UserName = register.Username,
                     Fullname = register.Fullname,
                     Email = register.Email,
-                     Phone = register.Phone,
-                     Country = register.Country,
-                     City = register.City,
-                     Zip = register.Zip, 
-                     Address = register.Address
+                    Phone = register.Phone,
+                    Country = register.Country,
+                    City = register.City,
+                    Zip = register.Zip,
+                    Address = register.Address
 
 
                 };
@@ -83,7 +84,7 @@ namespace FinalProjectNurlan.Controllers
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             string link = Url.Action(nameof(VerifyEmail), "Account", new { email = user.Email, token }, Request.Scheme, Request.Host.ToString());
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("finalprojectnurlan@gmail.com", "Molla");
+            mail.From = new MailAddress("satilirbuz4@gmail.com", "Molla");
             mail.To.Add(new MailAddress(user.Email));
 
             mail.Subject = "Email Verification";
@@ -103,7 +104,7 @@ namespace FinalProjectNurlan.Controllers
             smtp.Port = 587;
             smtp.EnableSsl = true;
 
-            smtp.Credentials = new NetworkCredential("finalprojectnurlan@gmail.com", "Nurlan123");
+            smtp.Credentials = new NetworkCredential("satilirbuz4@gmail.com", "Finalproject123");
             smtp.Send(mail);
             TempData["Verify"] = true;
             return RedirectToAction("Index", "Home");
@@ -160,9 +161,6 @@ namespace FinalProjectNurlan.Controllers
             }
 
             return RedirectToAction("Index", "Home");
-
-
-
         }
 
         public async Task<IActionResult> Logout()
@@ -240,5 +238,94 @@ namespace FinalProjectNurlan.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+
+
+        [Authorize]
+        public async Task<IActionResult> Edit()
+        {
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            UserEditVM editedUser = new UserEditVM
+            {
+                Username = user.UserName,
+                Address = user.Address,
+                City = user.City,
+                Country = user.Country,
+                Phone = user.Phone,
+                Zip = user.Zip,
+                Email = user.Email,
+                Fullname = user.Fullname
+            };
+
+            return View(editedUser);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(UserEditVM editedUser)
+        {
+            if (!ModelState.IsValid) return View();
+
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            UserEditVM eUser = new UserEditVM
+            {
+                Username = user.UserName,
+                Address = user.Address,
+                City = user.City,
+                Country = user.Country,
+                Phone = user.Phone,
+                Zip = user.Zip,
+                Email = user.Email,
+                Fullname = user.Fullname
+            };
+
+            if (user.UserName != editedUser.Username && await _userManager.FindByNameAsync(editedUser.Username) != null)
+            {
+                ModelState.AddModelError("", $"{editedUser.Username} has already taken");
+                return View(eUser);
+            }
+            if (user.Email != editedUser.Email && await _userManager.FindByEmailAsync(editedUser.Email) != null)
+            {
+                ModelState.AddModelError("", $"{editedUser.Email} has already taken");
+                return View(eUser);
+            }
+
+            if (string.IsNullOrWhiteSpace(editedUser.CurrentPassword))
+            {
+                user.UserName = editedUser.Username;
+                user.Email = editedUser.Email;
+                user.Fullname = editedUser.Fullname;
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                user.UserName = editedUser.Username;
+                user.Email = editedUser.Email;
+                user.Fullname = editedUser.Fullname;
+
+                IdentityResult result = await _userManager.ChangePasswordAsync(user, editedUser.CurrentPassword, editedUser.Password);
+
+                if (!result.Succeeded)
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+
+                    }
+                    return View(eUser);
+                }
+            }
+            //return Json(editedUser.Password);
+            await _signInManager.SignInAsync(user,true);
+
+            return RedirectToAction("index", "home");
+
+        }
+
+
+
+
     }
 }

@@ -1,0 +1,104 @@
+﻿@model UserEditVM
+<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+    <div class="container">
+        <h1 class="page-title">My Account<span>Shop</span></h1>
+    </div>
+</div>
+
+
+<div class="page-content">
+    <div class="dashboard">
+        <div class="container">
+            <div class="row">
+                <aside class="col-md-4 col-lg-3">
+                    <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="account" asp-action="logout">Sign Out</a>
+                        </li>
+                    </ul>
+                </aside>
+
+                <div class="col-md-8 col-lg-9">
+                    <div class="tab-content">
+                        <div class="tab-pane fade " id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
+                            <p>
+                                Hello <span class="font-weight-normal text-dark">@User.Identity.Name</span> (not <span class="font-weight-normal text-dark">@User.Identity.Name</span>? <a asp-controller="account" asp-action="logout">Log out</a>)
+                                <br>
+                                From your account dashboard you can view your recent orders, and edit your password and account details.
+                            </p>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+                            <p>No order has been made yet.</p>
+                        </div>
+
+
+
+
+
+                        <div class="tab-pane fade show active" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+                            <div style="color:red;background-color:white" asp-validation-summary="ModelOnly"></div>
+
+                            <form method="post">
+
+                                <label>Username *</label>
+                                <input asp-for="Username" class="form-control">
+
+
+                                <label>Fullname *</label>
+                                <input asp-for="Fullname" class="form-control">
+                                <small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+
+                                <label>Email address *</label>
+                                <input asp-for="Email" class="form-control">
+
+                                <label>Country</label>
+                                <input asp-for="Country" class="form-control mb-2">
+
+                                <label>City</label>
+                                <input asp-for="City" class="form-control mb-2">
+
+                                <label>Zip</label>
+                                <input asp-for="Zip" class="form-control mb-2">
+                                <label>Adress</label>
+                                <input asp-for="Address" class="form-control mb-2">
+                                <label>Phone</label>
+                                <input asp-for="Phone" class="form-control mb-2">
+
+                                <label>Current password (leave blank to leave unchanged)</label>
+                                <input asp-for="CurrentPassword" class="form-control">
+
+                                <label>New password (leave blank to leave unchanged)</label>
+                                <input asp-for="Password" class="form-control">
+
+                                <label>Confirm new password</label>
+                                <input asp-for="ConfirmPassword" class="form-control mb-2">
+
+                                <button type="submit" class="btn btn-outline-primary-2">
+                                    <span>SAVE CHANGES</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
