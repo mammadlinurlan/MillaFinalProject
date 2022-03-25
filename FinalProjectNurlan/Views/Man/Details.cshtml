@@ -326,6 +326,7 @@
             $(document).on("change", "#size", function (e) {
                 //console.log(e.target.value)
                 $(".forSizeId").val(e.target.value)
+                console.log($(".forSizeId").val())
                 //console.log($(".forSizeId").val())
             })
 
@@ -340,14 +341,21 @@
                 var colorId = $(".forColorId").val();
                 var productId = $(".forProductId").val();
                 var link = $(this).attr("href")
+                var uruuul = window.location.origin;
                 console.log(link)
                 var quantity = $(".forCount").val();
                 if (!quantity) {
                     quantity = 1;
                 }
-                var url = link + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
+                //var url = link + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
+                var url = uruuul + '/Basket/SetBasket' + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
+                var urlstrt = window.location.origin;
+                var urlforcount = `${urlstrt}/Basket/ForTotalCount`
+                var urlforpartial = `${urlstrt}/Basket/GetPartial`
+                var urlforprice = `${urlstrt}/Basket/GetTotalPrice`
 
-                if (!sizeId) {
+                console.log(urlforcount);
+                if (sizeId==0) {
                     Command: toastr["error"]("Select a size!")
 
                     toastr.options = {
@@ -369,8 +377,11 @@
                     }
                 }
                 else {
-                    fetch(url).then(res => res.json()).then(data => {
-                        if (data.status == 200) {
+                   
+                    fetch(url).then(res => res.text()).then(data => {
+                        //console.log(data)
+                        //$(".dropdown-cart-products").empty();
+                        //$(".dropdown-cart-products").append(data);
                             Command: toastr["success"]("Successfully added to basket!")
                             toastr.options = {
                                 "closeButton": false,
@@ -388,12 +399,32 @@
                                 "hideEasing": "linear",
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
-                            }
-
                         }
 
-                        console.log(data)
+                        fetch(urlforcount).then(res => res.text()).then(data => {
+
+                            $(".cart-count").empty();
+                            $(".cart-count").append(data);
+
+                        })
+                        fetch(urlforpartial).then(res => res.text()).then(data => {
+
+                            $(".dropdown-cart-products").empty();
+                            $(".dropdown-cart-products").append(data);
+
+                        })
+                        fetch(urlforprice).then(res => res.text()).then(data => {
+
+                            $(".cart-total-price").empty();
+                            $(".cart-total-price").append(data);
+
+                        })
+
+
+
                     })
+                   
+                   
                 }
 
 
