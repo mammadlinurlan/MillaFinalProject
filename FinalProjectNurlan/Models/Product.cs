@@ -58,6 +58,8 @@ namespace FinalProjectNurlan.Models
 
         public List<ProductColor> ProductColors { get; set; }
 
+        public List<Comment> Comments { get; set; }
+
         //[NotMapped]
         //[Required]
         //public int ColorId { get; set; }

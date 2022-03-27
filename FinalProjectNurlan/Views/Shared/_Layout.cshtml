@@ -33,6 +33,7 @@
 
     <!-- Main CSS File -->
     <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/assets/css/skins/skin-demo-6.css">
     <link rel="stylesheet" href="~/assets/css/demos/demo-6.css">
     <link rel="stylesheet" href="~/assets/css/plugins/nouislider/nouislider.css" />
@@ -691,7 +692,7 @@
             </div><!-- End .modal-content -->
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
-    <!-- Plugins JS File -->
+    
     <script src="~/assets/js/jquery.min.js"></script>
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/jquery.hoverIntent.min.js"></script>
@@ -705,8 +706,169 @@
     <script src="~/assets/js/jquery.elevateZoom.min.js"></script>
     <script src="~/assets/js/image-zoom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Main JS File -->
+  
     <script src="~/assets/js/main.js"></script>
+    <script>
+        $(".forSizeId").val()
+
+        $(document).on("change", "#size", function (e) {
+            //console.log(e.target.value)
+            $(".forSizeId").val(e.target.value)
+            console.log($(".forSizeId").val())
+            //console.log($(".forSizeId").val())
+        })
+
+        $(document).on("change", ".qtyforme", function (e) {
+            $(".forCount").val(e.target.value)
+        })
+
+
+        $(document).on("click", ".add-to-cart", function (e) {
+
+            e.preventDefault();
+            $(this).css("background-color", "white")
+            $(this).css("color", "#c94")
+            $(".add-to-cart span").css("color","#c94")
+
+            var sizeId = $(".forSizeId").val();
+            var colorId = $(".forColorId").val();
+            var productId = $(".forProductId").val();
+            var link = $(this).attr("href")
+            var uruuul = window.location.origin;
+            console.log(link)
+            var quantity = $(".forCount").val();
+            if (!quantity) {
+                quantity = 1;
+            }
+            //var url = link + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
+            var url = uruuul + '/Basket/SetBasket' + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
+            var urlstrt = window.location.origin;
+            var urlforcount = `${urlstrt}/Basket/ForTotalCount`
+            var urlforpartial = `${urlstrt}/Basket/GetPartial`
+            var urlforprice = `${urlstrt}/Basket/GetTotalPrice`
+
+            console.log(urlforcount);
+            if (sizeId == 0) {
+                Command: toastr["error"]("Select a size!")
+
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-center",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+            }
+            else {
+
+                fetch(url).then(res => res.text()).then(data => {
+                    //console.log(data)
+                    //$(".dropdown-cart-products").empty();
+                    //$(".dropdown-cart-products").append(data);
+                    Command: toastr["success"]("Successfully added to basket!")
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-center",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+
+                    fetch(urlforcount).then(res => res.text()).then(data => {
+
+                        $(".cart-count").empty();
+                        $(".cart-count").append(data);
+
+                    })
+                    fetch(urlforpartial).then(res => res.text()).then(data => {
+
+                        $(".dropdown-cart-products").empty();
+                        $(".dropdown-cart-products").append(data);
+
+                    })
+                    fetch(urlforprice).then(res => res.text()).then(data => {
+
+                        $(".cart-total-price").empty();
+                        $(".cart-total-price").append(`$${data}`);
+
+                    })
+
+
+
+                })
+
+
+            }
+
+
+
+            //console.log(`colorId : ${colorId}   --- sizeId : ${sizeId} --- prodId ${productId}  --- count : ${count} `)
+
+        })
+
+
+        $(document).on("click", ".btn-remove", function (e) {
+            
+            e.preventDefault();
+            var linkk = $(this).attr("href");
+            var base = window.location.origin
+            //var prodid = $(".hiddenProdId").val();
+            console.log(`${base}${linkk}`)
+            var comp = `${base}${linkk}`
+
+
+
+            var urlstrt = window.location.origin;
+            var urlforcount = `${urlstrt}/Basket/ForTotalCount`
+            var urlforpartial = `${urlstrt}/Basket/GetPartial`
+            var urlforprice = `${urlstrt}/Basket/GetTotalPrice`
+
+
+            fetch(comp).then(res => res.text()).then(data => {
+                console.log(data)
+
+
+                fetch(urlforcount).then(res => res.text()).then(data => {
+
+                    $(".cart-count").empty();
+                    $(".cart-count").append(data);
+
+                })
+                fetch(urlforpartial).then(res => res.text()).then(data => {
+
+                    $(".dropdown-cart-products").empty();
+                    $(".dropdown-cart-products").append(data);
+
+                })
+                fetch(urlforprice).then(res => res.text()).then(data => {
+
+                    $(".cart-total-price").empty();
+                    $(".cart-total-price").append(`$${data}`);
+
+                })
+            })
+        })
+    </script>
     @RenderSection("Scripts", required: false)
 
 </body>

@@ -191,3 +191,4 @@ C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Release\
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Release\netcoreapp3.1\FinalProjectNurlan.dll
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Release\netcoreapp3.1\FinalProjectNurlan.pdb
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Release\netcoreapp3.1\FinalProjectNurlan.genruntimeconfig.cache
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Release\netcoreapp3.1\Razor\Views\Shared\_commentPartialView.cshtml.g.cs

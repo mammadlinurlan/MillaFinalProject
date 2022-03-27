@@ -29,7 +29,26 @@
                     <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping & Returns</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (2)</a>
+                    @*@if (@Model.ProductSizeColor.Product.Comments == null)
+        {
+
+
+            <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">
+                Reviews(0)
+            </a>
+        }
+        else
+        {
+            <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">
+                Reviews(@Model.ProductSizeColor.Product.Comments.Count)
+            </a>
+        }*@
+
+                    <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">
+                        Reviews(@ViewBag.Comments)
+                    </a>
+
+
                 </li>
             </ul>
             <div class="tab-content">
@@ -45,65 +64,100 @@
                             We deliver to over 100 countries around the world. For full details of the delivery options we offer, please view our <a href="#">Delivery information</a><br>
                             We hope you’ll love every purchase, but if you ever need to return an item you can do so within a month of receipt. For full details of how to make a return, please view our <a href="#">Returns information</a>
                         </p>
-                    </div><!-- End .product-desc-content -->
-                </div><!-- .End .tab-pane -->
+                    </div>
+                </div>
                 <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
                     <div class="reviews">
-                        <h3>Reviews (2)</h3>
-                        <div class="review">
-                            <div class="row no-gutters">
-                                <div class="col-auto">
-                                    <h4><a href="#">Samanta J.</a></h4>
-                                    <div class="ratings-container">
-                                        <div class="ratings">
-                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                        </div><!-- End .ratings -->
-                                    </div><!-- End .rating-container -->
-                                    <span class="review-date">6 days ago</span>
-                                </div><!-- End .col -->
-                                <div class="col">
-                                    <h4>Good, perfect size</h4>
+                        <div class="col-md-12" style="margin-bottom:30px">
+                            <div id="review-form">
 
-                                    <div class="review-content">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum dolores assumenda asperiores facilis porro reprehenderit animi culpa atque blanditiis commodi perspiciatis doloremque, possimus, explicabo, autem fugit beatae quae voluptas!</p>
-                                    </div><!-- End .review-content -->
 
-                                    <div class="review-action">
-                                        <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
-                                        <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                    </div><!-- End .review-action -->
-                                </div><!-- End .col-auto -->
-                            </div><!-- End .row -->
-                        </div><!-- End .review -->
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <form asp-action="AddComment" method="post">
+                                        <div class="row">
 
-                        <div class="review">
-                            <div class="row no-gutters">
-                                <div class="col-auto">
-                                    <h4><a href="#">John Doe</a></h4>
-                                    <div class="ratings-container">
-                                        <div class="ratings">
-                                            <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->
-                                        </div><!-- End .ratings -->
-                                    </div><!-- End .rating-container -->
-                                    <span class="review-date">5 days ago</span>
-                                </div><!-- End .col -->
-                                <div class="col">
-                                    <h4>Very good</h4>
+                                            <div style="padding:0!important" class="col-md-12">
 
-                                    <div class="review-content">
-                                        <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi, quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
-                                    </div><!-- End .review-content -->
+                                                <div class="input-rating">
+                                                    <span>Your Rating: </span>
+                                                    <div class="stars">
+                                                        <i style="cursor:pointer" id="star1" class="fa-solid fa-star starRate"></i>
+                                                        <i style="cursor:pointer" id="star2" class="fa-solid fa-star starRate"></i>
+                                                        <i style="cursor:pointer" id="star3" class="fa-solid fa-star starRate"></i>
+                                                        <i style="cursor:pointer" id="star4" class="fa-solid fa-star starRate"></i>
+                                                        <i style="cursor:pointer" id="star5" class="fa-solid fa-star starRate"></i>
+                                                        <input hidden class="starhidden" value="1" />
+                                                    </div>
+                                                </div>
+                                                <p id="subj">Subject</p>
 
-                                    <div class="review-action">
-                                        <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
-                                        <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                    </div><!-- End .review-action -->
-                                </div><!-- End .col-auto -->
-                            </div><!-- End .row -->
-                        </div><!-- End .review -->
-                    </div><!-- End .reviews -->
-                </div><!-- .End .tab-pane -->
-            </div><!-- End .tab-content -->
+
+                                                <input asp-for="@Model.ProductSizeColor.Product.Comments.FirstOrDefault().Subject" style="width:100%">
+                                                <span class="text text-danger subjWarning"></span>
+                                                <p id="message">Message</p>
+
+                                                <textarea asp-for="@Model.ProductSizeColor.Product.Comments.FirstOrDefault().Message" style="width:100%;height:125px" cols="15" rows="10"></textarea>
+                                                <span class="text text-danger textWarning"></span>
+
+                                                <p style="display:none">@Model.ProductSizeColor.ProductId</p>
+
+                                                <button class="btn btn-primary forcommentbtn">Send</button>
+                                                @*<a asp-controller="Course" asp-action="AddComment" id="SendMessage">Send</a>*@
+
+                                                <input type="hidden" class="forFetch" value="@Model.ProductSizeColor.ProductId" />
+                                                <input type="hidden" asp-for="@Model.Comments.FirstOrDefault().ProductId" value="@Model.ProductSizeColor.ProductId" />
+                                            </div>
+
+                                        </div>
+
+
+                                        <p class="form-messege"></p>
+                                    </form>
+
+                                }
+                            </div>
+                        </div>
+                        @*<h3>Reviews (@Model.Product.Comments.Count)</h3>*@
+
+                        <div class="review-place">
+                            @await Html.PartialAsync("_commentPartialView", Model)
+
+                        </div>
+                        @*<nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
+                                    <a class="page-link page-link-prev" asp-controller="man" asp-action="details" asp-route-page="@(ViewBag.CurrentPage-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                    </a>
+                                </li>
+
+                                @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                                {
+                                    <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")"><a class="page-link" asp-controller="man" asp-action="details" asp-route-page="@i">@i</a></li>
+
+                                }
+
+
+
+                                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPage ? "disabled" : "")">
+                                    <a class="page-link page-link-next" asp-controller="man" asp-action="details" asp-route-page="@(ViewBag.CurrentPage +1)" aria-label="Next">
+                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                    </a>
+                                </li>
+
+                                
+
+
+                            </ul>
+                        </nav>*@
+
+
+
+
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -150,12 +204,11 @@
                         <div class="product-action-vertical">
                             <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
                             <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
                         </div>
 
-                        <div class="product-action">
+                        @*<div class="product-action">
                             <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                        </div>
+                        </div>*@
                     </figure>
 
                     <div class="product-body">
@@ -179,7 +232,7 @@
                             <div class="ratings">
                                 <div class="ratings-val" style="width: 20%;"></div>
                             </div>
-                            <span class="ratings-text">( 2 Reviews )</span>
+                            <span class="ratings-text">(@item.Product.Comments.Count  Reviews )</span>
                         </div>
 
 
@@ -229,7 +282,7 @@
 <!-- Modal -->
 <div class="modal fade" id="modalSize" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-       <img src="https://9thson.com/wp-content/uploads/2020/08/Men_Round_Updated_with_5XL_2.jpg"/>
+        <img src="https://9thson.com/wp-content/uploads/2020/08/Men_Round_Updated_with_5XL_2.jpg" />
     </div>
 </div>
 
@@ -237,18 +290,13 @@
     @*<script src="~/assets/js/jquery.elevateZoom.min.js"></script>*@
     <script>
         $(document).ready(function () {
-
+            $("#subj").next().val('');
+            $("#message").next().val('');
 
             $(".product-zoom").elevateZoom({
                 zoomType: "inner",
                 cursor: "crosshair"
             });
-          
-            //$(function () {
-            //    $(".product-zoom").imageZoom();
-
-            //})
-            $(".forSizeId").val()
 
 
             $(document).on("click", ".changeable", function (e) {
@@ -259,22 +307,22 @@
                 $(".product-zoom").attr("src", newSrc);
                 $("#changeForModal").attr("src", newSrc)
 
-               
 
-              
+
+
                 let newurl = window.location.origin;
-             
+
                 let newlink = `${newurl}${newSrc}`
 
-             
+
                 $(".product-zoom").data('zoom-image', newlink).elevateZoom({
                     zoomType: "inner",
                     cursor: "crosshair"
                 });
             })
-            
+
             $(".product-notMain").click(function (e) {
-               /* console.log("sa")*/
+                /* console.log("sa")*/
                 e.preventDefault();
                 var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
                 var newHref = $(this).attr("href")
@@ -286,7 +334,7 @@
                 var notmain = $(this).children(".nmSrc").attr("src")
                 $(parent).attr("src", notmain)
 
-                
+
             })
 
             $(document).on('click', ".noMainForColorChange", function (e) {
@@ -295,12 +343,12 @@
                 var base = window.location.origin
                 var href = $(this).children(".hiddenId").val()
                 var link = `${base}/man/changecolor/${href}`
-               /* console.log(link)*/
+                /* console.log(link)*/
                 $(".zoomContainer").remove();
-             
+
                 fetch(link).then(res => res.text()).then(data => {
 
-                   
+
                     console.log('fetched')
                     $(".product-details-top").html('');
                     $(".product-details-top").html(data)
@@ -320,75 +368,138 @@
                 })
 
             })
-           
 
-
-            $(document).on("change", "#size", function (e) {
-                //console.log(e.target.value)
-                $(".forSizeId").val(e.target.value)
-                console.log($(".forSizeId").val())
-                //console.log($(".forSizeId").val())
-            })
-
-            $(document).on("change", ".qtyforme", function (e) {
-                $(".forCount").val(e.target.value)
-            })
-
-         
-            $(document).on("click", ".add-to-cart", function (e) {
+            $(document).on("click", "#star1", function (e) {
                 e.preventDefault();
-                var sizeId = $(".forSizeId").val();
-                var colorId = $(".forColorId").val();
-                var productId = $(".forProductId").val();
-                var link = $(this).attr("href")
-                var uruuul = window.location.origin;
-                console.log(link)
-                var quantity = $(".forCount").val();
-                if (!quantity) {
-                    quantity = 1;
-                }
-                //var url = link + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
-                var url = uruuul + '/Basket/SetBasket' + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
-                var urlstrt = window.location.origin;
-                var urlforcount = `${urlstrt}/Basket/ForTotalCount`
-                var urlforpartial = `${urlstrt}/Basket/GetPartial`
-                var urlforprice = `${urlstrt}/Basket/GetTotalPrice`
+                $(".starRate").removeClass("active-star")
+                $(this).addClass("active-star")
+                $(".starhidden").val(1);
+            })
+            $(document).on("click", "#star2", function (e) {
+                e.preventDefault();
+                $(".starRate").removeClass("active-star")
 
-                console.log(urlforcount);
-                if (sizeId==0) {
-                    Command: toastr["error"]("Select a size!")
+                $(this).addClass("active-star")
+                $("#star1").addClass("active-star")
+                $(".starhidden").val(2);
 
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": true,
-                        "positionClass": "toast-bottom-center",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
+            })
+            $(document).on("click", "#star3", function (e) {
+                e.preventDefault();
+                $(".starRate").removeClass("active-star")
+
+                $(this).addClass("active-star")
+                $("#star1").addClass("active-star")
+                $("#star2").addClass("active-star")
+                $(".starhidden").val(3);
+
+            })
+            $(document).on("click", "#star4", function (e) {
+                e.preventDefault();
+                $(".starRate").removeClass("active-star")
+
+                $(this).addClass("active-star")
+                $("#star1").addClass("active-star")
+                $("#star2").addClass("active-star")
+                $("#star3").addClass("active-star")
+                $(".starhidden").val(4);
+
+            })
+            $(document).on("click", "#star5", function (e) {
+                e.preventDefault();
+                $(".starRate").removeClass("active-star")
+
+                $(this).addClass("active-star")
+                $("#star1").addClass("active-star")
+                $("#star2").addClass("active-star")
+                $("#star3").addClass("active-star")
+                $("#star4").addClass("active-star")
+                $(".starhidden").val(5);
+
+            })
+
+
+            $(document).on("click", ".forcommentbtn", function (e) {
+
+                e.preventDefault();
+                $(".subjWarning").empty()
+                $(".textWarning").empty()
+
+               
+
+
+                var subject = $("#subj").next().val();
+                var message = $("#message").next().val();
+                var productit = $(this).next().val();
+                var star = $(".starhidden").val();
+                var base = window.location.origin;
+                var pszid = $(".forFetch").val();
+
+
+
+                if (!subject || !message || message.trim() == '' || subject.trim() == '') {
+                    if (!subject) {
+                        $(".subjWarning").append("Fill this field!")
                     }
+                    else {
+                        $(".subjWarning").empty()
+
+                        if (subject.trim() == '') {
+                            $(".subjWarning").append("Fill this field!")
+                        }
+                        else {
+                            $(".subjWarning").empty()
+
+                        }
+                    }
+
+
+                    if (!message) {
+                        $(".textWarning").append("Fill this field!")
+                    } else {
+                        $(".textWarning").empty()
+                        if (message.trim() == '') {
+                            $(".textWarning").append("Fill this field!")
+                        } else {
+
+                            $(".textWarning").empty()
+
+                        }
+                    }
+
+
+                  
+
+
+                    
+
                 }
                 else {
-                   
-                    fetch(url).then(res => res.text()).then(data => {
-                        //console.log(data)
-                        //$(".dropdown-cart-products").empty();
-                        //$(".dropdown-cart-products").append(data);
-                            Command: toastr["success"]("Successfully added to basket!")
+                    var url = `${base}/man/AddComment?Subject=${subject}&Message=${message}&ProductId=${productit}&Star=${star}`
+                    var forpartial = base + '/Comment/GetPartial' + '?id=' + productit
+                    var link = base + '/Comment/AddComment' + '?Subject=' + subject + '&Message=' + message + '&ProductId=' + productit + '&Star=' + star
+
+                    fetch(link).then(res => res.text()).then(data => {
+
+                        $(".review-place").empty();
+                        $(".review-place").append(data);
+
+                        $(".starRate").removeClass("active-star");
+
+                        $(".starhidden").val(1)
+                        $("#subj").next().val('');
+                        $("#message").next().val('');
+                        console.log(data)
+
+                        if (data.status==200) {
+                            Command: toastr["success"]("Your comment added successfully!")
+
                             toastr.options = {
                                 "closeButton": false,
                                 "debug": false,
                                 "newestOnTop": false,
-                                "progressBar": true,
-                                "positionClass": "toast-bottom-center",
+                                "progressBar": false,
+                                "positionClass": "toast-top-center",
                                 "preventDuplicates": false,
                                 "onclick": null,
                                 "showDuration": "300",
@@ -399,39 +510,33 @@
                                 "hideEasing": "linear",
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
+                            }
+                            //fetch(forpartial).then(res => res.text()).then(data => {
+                            //    console.log(data)
+                            //})
                         }
 
-                        fetch(urlforcount).then(res => res.text()).then(data => {
-
-                            $(".cart-count").empty();
-                            $(".cart-count").append(data);
-
-                        })
-                        fetch(urlforpartial).then(res => res.text()).then(data => {
-
-                            $(".dropdown-cart-products").empty();
-                            $(".dropdown-cart-products").append(data);
-
-                        })
-                        fetch(urlforprice).then(res => res.text()).then(data => {
-
-                            $(".cart-total-price").empty();
-                            $(".cart-total-price").append(data);
-
+                        fetch(forpartial).then(res => res.json()).then(data => {
+                            $("#product-review-link").empty();
+                            $("#product-review-link").append(`Reviews(${data})`);
                         })
 
-
+                        $(".forcommentbtn").css("background-color","#c94")
 
                     })
-                   
-                   
+                    //console.log(url)
                 }
 
 
-             
-                //console.log(`colorId : ${colorId}   --- sizeId : ${sizeId} --- prodId ${productId}  --- count : ${count} `)
-              
+
+
+                //var link = `${subject}${message}${productit}${star}`
+
+                //console.log(link)
             })
+
+
+
 
         })
     </script>

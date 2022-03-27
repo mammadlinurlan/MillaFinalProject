@@ -60,10 +60,9 @@ namespace FinalProjectNurlan.Controllers
                 Category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == id),
                 Products = context.Products.Include(p=>p.ProductColors).Include(p => p.Category).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Brand).Include(p => p.SubCategory).Include(p => p.Gender).Where(p => p.CategoryId == id && p.ProductSizeColors.Count > 0).ToList(),
                 ProductSizeColors = context.ProductSizeColors.Include(p=>p.Color).Include(p=>p.Size).Include(p=>p.Product).ThenInclude(p=>p.SubCategory).Include(p=>p.ProductImages).Where(p => p.Product.CategoryId == id).ToList(),
-                 ProductColors = context.ProductColors.Where(p=>p.Product.CategoryId == id && p.Product.GenderId == 1).OrderByDescending(p=>p.Product.CreatedDate).ToList()
+                 ProductColors = context.ProductColors.Include(p=>p.Product).ThenInclude(p=>p.Comments).Where(p=>p.Product.CategoryId == id && p.Product.GenderId == 1).OrderByDescending(p=>p.Product.CreatedDate).ToList()
                 
             };
-
 
             ViewBag.Colors = context.Colors.ToList();
             return View(shopVM);
@@ -88,16 +87,32 @@ namespace FinalProjectNurlan.Controllers
 
             ProductSizeColor forcolor = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Product).ThenInclude(p => p.ProductColors).FirstOrDefault(p => p.Id == id);
 
-            ShopVM shopVM = new ShopVM { 
-                 ProductSizeColor = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p=>p.Product).ThenInclude(p=>p.ProductColors).FirstOrDefault(p => p.Id == id),
-                  Products = context.Products.Include(p => p.Brand).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Where(p => p.CategoryId == product.Product.CategoryId && p.Id != product.ProductId).ToList(),
-                  Product = context.Products.Include(p => p.Brand).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).FirstOrDefault(p => p.Id == id),
-                   ProductColors = context.ProductColors.Where(p=> p.Product.CategoryId == product.Product.CategoryId && p.ProductId != forcolor.ProductId).ToList()
+            //ViewBag.CurrentPage = page;
+            //ViewBag.TotalPage = Math.Ceiling((decimal)context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.ProductId).Count() / 5);
+
+            ShopVM shopVM = new ShopVM {
+                ProductSizeColor = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Product).ThenInclude(p => p.ProductColors).FirstOrDefault(p => p.Id == id),
+                Products = context.Products.Include(p => p.Brand).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Where(p => p.CategoryId == product.Product.CategoryId && p.Id != product.ProductId).ToList(),
+                Product = context.Products.Include(p => p.Brand).Include(p=>p.Comments).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).FirstOrDefault(p => p.Id == product.ProductId),
+                ProductColors = context.ProductColors.Include(p=>p.Product).ThenInclude(p=>p.Comments).Where(p => p.Product.CategoryId == product.Product.CategoryId && p.ProductId != forcolor.ProductId).ToList(),
+                Comments = context.Comments.Include(c=>c.Product).Include(p=>p.AppUser).Where(c => c.ProductId == product.ProductId).ToList()
 
         };
 
+            if (context.Comments.Where(c => c.ProductId == product.Id) == null)
+            {
+                ViewBag.Comments = 0;
+            }
+            else
+            {
+                ViewBag.Comments = context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.ProductId).Count();
+            }
 
-         
+
+           
+
+
+
             return View(shopVM);
         }
 
@@ -130,10 +145,6 @@ namespace FinalProjectNurlan.Controllers
             ProductSizeColor prod = context.ProductSizeColors.Include(p=>p.Product).ThenInclude(p=>p.Gender).Include(p => p.Color).Include(p=>p.Size).FirstOrDefault(p => p.Id == id);
             return Json(prod.Color.Name);
         }
-
-
-
-      
 
     }
 }

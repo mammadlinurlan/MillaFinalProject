@@ -24,6 +24,7 @@
                 <img style="width:55px;height:60px !important;object-fit:cover" src="~/assets/images/products/@item.ProductSizeColor.MainImage" alt="product">
             </a>
         </figure>
-        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+        <a asp-controller="basket" asp-action="Remove" asp-route-id="@item.ProductSizeColor.Id"  class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+        <input hidden class="hiddenProdId" value="@item.ProductSizeColor.Id" />
     </div>
 }

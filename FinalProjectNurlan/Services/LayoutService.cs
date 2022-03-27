@@ -36,7 +36,7 @@ namespace FinalProjectNurlan.Services
         {
             string basket = _httpContext.HttpContext.Request.Cookies["Basket"];
 
-            //BasketVM basketVM = new BasketVM();
+           
             BasketVM basketData = new BasketVM
             {
                 TotalPrice = 0,
