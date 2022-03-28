@@ -169,6 +169,8 @@
                             }
                         }'>
 
+            @*@await Html.PartialAsync("_productPartialView",Model)*@
+
             @foreach (var item in Model.ProductColors)
             {
                 <div class="product product-7 text-center">
@@ -186,9 +188,7 @@
                             <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
                         </div>
 
-                        @*<div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                        </div>*@
+                    =
                     </figure>
 
                     <div class="product-body">
@@ -209,10 +209,38 @@
 
 
                         <div class="ratings-container">
-                            <div class="ratings">
-                                <div class="ratings-val" style="width: 20%;"></div>
+                            <div class="rating">
+
+                                @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
+                                {
+                                    @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                    {
+                                        <i style="color:#c94" class="fa-solid fa-star"></i>
+
+                                    }
+                                    @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                    {
+                                        <i class="fa-solid fa-star"></i>
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+
+                                    <i class="fa-solid fa-star"></i>
+
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+
+
+                                }
+
+
                             </div>
-                            <span class="ratings-text">( @item.Product.Comments.Count  Reviews )</span>
+                            <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
                         </div>
 
 

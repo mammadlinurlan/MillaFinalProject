@@ -18,7 +18,7 @@
                     </a>
 
                 </figure>
-
+            
                 <div id="product-zoom-gallery" class="product-image-gallery">
                     <a style="width:106px;height:106px!important;overflow:hidden !important" class="product-gallery-item active changeable" href="#" data-image="~/assets/images/products/@Model.ProductSizeColor.MainImage" data-zoom-image="~/assets/images/products/@Model.ProductSizeColor.MainImage">
                         <img style="width:106px;height:106px!important;object-fit:cover" src="~/assets/images/products/@Model.ProductSizeColor.MainImage" alt="product side">
@@ -33,23 +33,50 @@
 
 
 
-                </div><!-- End .product-image-gallery -->
-            </div><!-- End .row -->
-        </div><!-- End .product-gallery -->
-        <!-- End .col-md-6 -->
-        <!-- End .col-md-6 -->
-    </div><!-- End .row -->
+                </div>
+            </div>
+        </div>
+      
+    </div>
 
     <div class="col-md-6">
         <div class="product-details">
-            <h1 class="product-title">@Model.ProductSizeColor.Product.Name.ToUpper()</h1><!-- End .product-title -->
+            <h1 class="product-title">@Model.ProductSizeColor.Product.Name.ToUpper()</h1>
 
-            <div class="ratings-container">
-                <div class="ratings">
-                    <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                </div><!-- End .ratings -->
-                <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
-            </div><!-- End .rating-container -->
+            @*<div class="ratings-container">
+                <div class="rating">
+
+                    @if (Model.Product.Rating != null && Model.Product.Comments.Count != 0)
+                    {
+                        @for (int i = 0; i < Math.Ceiling((decimal)Model.Product.Rating / Model.Product.Comments.Count); i++)
+                        {
+                            <i style="color:#c94" class="fa-solid fa-star"></i>
+
+                        }
+                        @for (int i = 0; i < (5 - Math.Ceiling((decimal)Model.Product.Rating / Model.Product.Comments.Count)); i++)
+                        {
+                            <i class="fa-solid fa-star"></i>
+
+                        }
+
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+
+                        <i class="fa-solid fa-star"></i>
+
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+
+
+                    }
+
+
+                </div>
+                <span class="ratings-text">( @Model.Product.Comments.Count Reviews )</span>
+            </div>*@
 
             <div class="product-price">
                 @if (Model.ProductSizeColor.Product.Discount != null && Model.ProductSizeColor.Product.Discount != 0)
@@ -62,11 +89,11 @@
                     <span style="color: #c96">@Model.ProductSizeColor.Product.Price $</span>
                 }
 
-            </div><!-- End .product-price -->
+            </div>
 
             <div class="product-content">
                 <p>@Model.ProductSizeColor.Product.Subtitle</p>
-            </div><!-- End .product-content -->
+            </div>
 
             <div class="details-filter-row details-row-size">
                 <label>Color:</label>
@@ -83,14 +110,14 @@
 
                         </a>
                     }
-                </div><!-- End .product-nav -->
-            </div><!-- End .details-filter-row -->
+                </div>
+            </div>
 
             <div class="details-filter-row details-row-size">
                 <label for="size">Size:</label>
                 <div class="select-custom">
                     <select name="size" id="size" class="form-control">
-                        <option  value="0">Select size</option>
+                        <option value="0">Select size</option>
                         @foreach (var item in Model.ProductSizeColor.Product.ProductSizeColors.Where(p => p.ColorId == Model.ProductSizeColor.ColorId))
                         {
                             @if (item.TotalStock < 5)
@@ -110,29 +137,29 @@
 
 
                     </select>
-                </div><!-- End .select-custom -->
+                </div>
 
                 <a href="#" class="size-guide" data-toggle="modal" data-target="#modalSize"><i class="icon-th-list"></i>size guide</a>
-            </div><!-- End .details-filter-row -->
+            </div>
 
             <div class="details-filter-row details-row-size">
                 <label for="qty">Qty:</label>
                 <div class="product-details-quantity">
                     <input type="number" id="qty" class="form-control qtyforme" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                </div><!-- End .product-details-quantity -->
-            </div><!-- End .details-filter-row -->
+                </div>
+            </div>
 
             <div class="product-details-action">
-                <a asp-controller="@Model.ProductSizeColor.Product.Gender.Name"  asp-action="setbasket"   class="btn-product btn-cart add-to-cart"><span>add to cart</span></a>
+                <a asp-controller="@Model.ProductSizeColor.Product.Gender.Name" asp-action="setbasket" class="btn-product btn-cart add-to-cart"><span>add to cart</span></a>
                 <input class="forSizeId" hidden />
-            <input hidden class="forProductId" value="@Model.ProductSizeColor.ProductId"/>
-            <input hidden class="forCount" />
+                <input hidden class="forProductId" value="@Model.ProductSizeColor.ProductId" />
+                <input hidden class="forCount" />
                 <input class="forColorId" hidden value="@Model.ProductSizeColor.ColorId" />
                 <div class="details-action-wrapper">
                     <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
 
-                </div><!-- End .details-action-wrapper -->
-            </div><!-- End .product-details-action -->
+                </div>
+            </div>
 
             <div class="product-details-footer">
                 <div class="product-cat">

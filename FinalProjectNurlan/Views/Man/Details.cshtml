@@ -161,7 +161,7 @@
         </div>
 
 
-        <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
+        <h2 class="title text-center mb-4">You May Also Like</h2>
         <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
              data-owl-options='{
                             "nav": false,
@@ -229,11 +229,40 @@
 
 
                         <div class="ratings-container">
-                            <div class="ratings">
-                                <div class="ratings-val" style="width: 20%;"></div>
+                            <div class="rating">
+
+                                @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
+                                {
+                                    @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                    {
+                                        <i style="color:#c94" class="fa-solid fa-star"></i>
+
+                                    }
+                                    @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                    {
+                                        <i class="fa-solid fa-star"></i>
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+
+                                    <i class="fa-solid fa-star"></i>
+
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+
+
+                                }
+
+
                             </div>
-                            <span class="ratings-text">(@item.Product.Comments.Count  Reviews )</span>
+                            <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
                         </div>
+
 
 
                         <div class="product-nav product-nav-thumbs">
