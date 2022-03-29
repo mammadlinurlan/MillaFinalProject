@@ -1,0 +1,226 @@
+﻿@model CheckoutVM
+@{ 
+    double? totalPrice = 0;
+}
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">Checkout</h1>
+        </div>
+    </div>
+   
+
+    <div class="page-content">
+        <div class="checkout">
+            <div class="container">
+             
+                <form >
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h2 class="checkout-title">Billing Details</h2>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>First Name *</label>
+                                    <input asp-for="Firstname" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="Firstname"></span>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Last Name *</label>
+                                    <input asp-for="Surname" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="Surname"></span>
+                                </div>
+                            </div>
+
+
+
+                            <label>Country *</label>
+                            <input asp-for="Country" class="form-control">
+                            <span class="text text-danger" asp-validation-for="Country"></span>
+
+                            <label>Street address *</label>
+                            <input asp-for="Address" class="form-control">
+                            <span class="text text-danger" asp-validation-for="Address"></span>
+
+                            <label>Town / City *</label>
+                            <input asp-for="City" class="form-control">
+                            <span class="text text-danger" asp-validation-for="City"></span>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Postcode / ZIP *</label>
+                                    <input asp-for="Zip" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="Zip"></span>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Phone *</label>
+                                    <input asp-for="Phone" class="form-control">
+                                    <span class="text text-danger" asp-validation-for="Phone"></span>
+                                </div>
+                            </div>
+
+                            <label>Email address *</label>
+                            <input asp-for="Email" class="form-control">
+                            <span class="text text-danger" asp-validation-for="Email"></span>
+
+                            @*<div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="checkout-create-acc">
+                                <label class="custom-control-label" for="checkout-create-acc">Create an account?</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="checkout-diff-address">
+                                <label class="custom-control-label" for="checkout-diff-address">Ship to a different address?</label>
+                            </div>*@
+
+                            <label>Order notes (optional)</label>
+                            <textarea class="form-control" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                        </div>
+                        <aside class="col-lg-3">
+                            @if (Model.BasketItems.Count == 0)
+                            {
+                            <div class="summary" style="margin-top:9rem">
+                                <h3 class="summary-title">No product</h3>
+                            </div>
+                            }
+                            else
+                            {
+                                <div class="summary">
+                                    <h3 class="summary-title">Your Order</h3>
+
+                                    <table class="table table-summary">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach (BasketItem item in Model.BasketItems)
+                                            {
+                                                {
+                                                    totalPrice += (item.ProductSizeColor.Product.Discount == null ? item.Count * item.ProductSizeColor.Product.Price : item.Count * (item.ProductSizeColor.Product.Price - (item.ProductSizeColor.Product.Price * item.ProductSizeColor.Product.Discount / 100)));
+                                                }
+
+                                                <tr>
+                                                    <td>
+                                                        @*<a asp-controller="@item.ProductSizeColor.Product.Gender.Name" asp-action="details" asp-route-id="@item.ProductSizeColorId"><img style="width:50px;height:60px;" src="~/assets/images/products/@item.ProductSizeColor.MainImage" /> </a>*@
+
+                                                        <a style="display:flex;align-items:center" asp-controller="@item.ProductSizeColor.Product.Gender.Name" asp-action="details" asp-route-id="@item.ProductSizeColorId"><img style="width:50px;height:60px;" src="~/assets/images/products/@item.ProductSizeColor.MainImage" /> @item.ProductSizeColor.Product.Name </a>
+                                                        <p>@item.Count x</p>
+                                                        <p>@item.ProductSizeColor.Color.Name - @item.ProductSizeColor.Size.Name</p>
+
+                                                    </td>
+                                                    <td>
+
+                                                        $@String.Format("{0:0.00}", item.ProductSizeColor.Product.Discount == null ? item.Count * item.ProductSizeColor.Product.Price : item.Count * (item.ProductSizeColor.Product.Price - (item.ProductSizeColor.Product.Price * item.ProductSizeColor.Product.Discount / 100)))
+                                                    </td>
+                                                </tr>
+                                            }
+
+
+
+                                            <tr>
+                                                <td>Shipping:</td>
+                                                <td>Free shipping</td>
+                                            </tr>
+                                            <tr class="summary-total">
+                                                <td>Total:</td>
+                                                <td>$@String.Format("{0:0.00}",totalPrice)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="accordion-summary" id="accordion-payment">
+                                        <div class="card">
+                                            <div class="card-header" id="heading-1">
+                                                <h2 class="card-title">
+                                                    <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                                                        Direct bank transfer
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-payment">
+                                                <div class="card-body">
+                                                    Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header" id="heading-2">
+                                                <h2 class="card-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                                                        Check payments
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-payment">
+                                                <div class="card-body">
+                                                    Ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header" id="heading-3">
+                                                <h2 class="card-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
+                                                        Cash on delivery
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
+                                                <div class="card-body">
+                                                    Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header" id="heading-4">
+                                                <h2 class="card-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
+                                                        PayPal <small class="float-right paypal-link">What is PayPal?</small>
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
+                                                <div class="card-body">
+                                                    Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header" id="heading-5">
+                                                <h2 class="card-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
+                                                        Credit Card (Stripe)
+                                                        <img src="assets/images/payments-summary.png" alt="payments cards">
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <div id="collapse-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-payment">
+                                                <div class="card-body">
+                                                    Donec nec justo eget felis facilisis fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Lorem ipsum dolor sit ame.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                        <span class="btn-text">Place Order</span>
+                                        <span class="btn-hover-text">Proceed to Checkout</span>
+                                    </button>
+                                </div>
+
+                            }
+                        </aside>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+

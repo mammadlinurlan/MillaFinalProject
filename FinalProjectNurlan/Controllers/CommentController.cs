@@ -49,6 +49,12 @@ namespace FinalProjectNurlan.Controllers
             //}
 
             Product product = context.Products.FirstOrDefault(p => p.Id == ProductId);
+
+            if (product.Comments == null)
+            {
+                product.Rating = 0;
+            }
+
             if (product.Rating == null)
             {
                 product.Rating = 0;

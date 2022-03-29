@@ -18,47 +18,52 @@
                        
                         <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
                         <form method="post">
-                           
-                                <input asp-for="Username" class="form-control" placeholder="Username*">
-                                <span asp-validation-for="Username" class="text text-danger"></span>
 
-                                <input asp-for="Fullname"  class="form-control" placeholder="Fullname*" >
-                                <span asp-validation-for="Fullname" class="text text-danger"></span>
-                                <input asp-for="Email"  class="form-control" placeholder="Email*" >
-                                <span asp-validation-for="Email" class="text text-danger"></span>
-                                <input asp-for="Password" class="form-control" placeholder="Password*">
-                                <span asp-validation-for="Password" class="text text-danger"></span>
-                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password*" >
-                                <span asp-validation-for="ConfirmPassword" class="text text-danger"></span>
+                            <input asp-for="Username" class="form-control" placeholder="Username*">
+                            <span asp-validation-for="Username" class="text text-danger"></span>
 
-                                <input asp-for="Country"  class="form-control" placeholder="Country*"  >
-                                <span asp-validation-for="Country" class="text text-danger"></span>
-                                <input asp-for="City"  class="form-control" placeholder="City*"  >
-                                <span asp-validation-for="City" class="text text-danger"></span>
-                                <input asp-for="Address" class="form-control" placeholder="Address*">
-                                <span asp-validation-for="Address" class="text text-danger"></span>
-                                <input asp-for="Zip"  class="form-control" placeholder="Zip*" >
-                                <span asp-validation-for="Zip" class="text text-danger"></span>
-                                <input asp-for="Phone"  class="form-control" placeholder="Phone*">
-                                <span asp-validation-for="Phone" class="text text-danger"></span>
+                            <input asp-for="Firstname" class="form-control" placeholder="First name*">
+                            <span asp-validation-for="Firstname" class="text text-danger"></span>
+
+                            <input asp-for="Surname" class="form-control" placeholder="Last name*">
+                            <span asp-validation-for="Surname" class="text text-danger"></span>
 
 
+                            <input asp-for="Email" class="form-control" placeholder="Email*">
+                            <span asp-validation-for="Email" class="text text-danger"></span>
+                            <input asp-for="Password" class="form-control" placeholder="Password*">
+                            <span asp-validation-for="Password" class="text text-danger"></span>
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password*">
+                            <span asp-validation-for="ConfirmPassword" class="text text-danger"></span>
 
-
-
-                                <div class="form-footer">
-                                    <button type="submit" class="btn btn-outline-primary-2">
-                                        <span>REGISTER</span>
-                                        <i class="icon-long-arrow-right"></i>
-                                    </button>
-
-                                    <input asp-for="TermsAndConditions" >
-                                    <label style="margin:0;margin-left:10px" for="terms">I agree with terms</label>
-                                    <span asp-validation-for="TermsAndConditions" class="text text-danger"></span>
+                            <input asp-for="Country" class="form-control" placeholder="Country*">
+                            <span asp-validation-for="Country" class="text text-danger"></span>
+                            <input asp-for="City" class="form-control" placeholder="City*">
+                            <span asp-validation-for="City" class="text text-danger"></span>
+                            <input asp-for="Address" class="form-control" placeholder="Address*">
+                            <span asp-validation-for="Address" class="text text-danger"></span>
+                            <input asp-for="Zip" class="form-control" placeholder="Zip*">
+                            <span asp-validation-for="Zip" class="text text-danger"></span>
+                            <input asp-for="Phone" class="form-control" placeholder="Phone*">
+                            <span asp-validation-for="Phone" class="text text-danger"></span>
 
 
 
-                                </div>
+
+
+                            <div class="form-footer">
+                                <button type="submit" class="btn btn-outline-primary-2">
+                                    <span>REGISTER</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </button>
+
+                                <input asp-for="TermsAndConditions">
+                                <label style="margin:0;margin-left:10px" for="terms">I agree with terms</label>
+                                <span asp-validation-for="TermsAndConditions" class="text text-danger"></span>
+
+
+
+                            </div>
 
 
                         </form>

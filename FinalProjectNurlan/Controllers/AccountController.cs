@@ -42,7 +42,8 @@ namespace FinalProjectNurlan.Controllers
                 user = new AppUser
                 {
                     UserName = register.Username,
-                    Fullname = register.Fullname,
+                    Firstname = register.Firstname,
+                    Surname = register.Surname,
                     Email = register.Email,
                     Phone = register.Phone,
                     Country = register.Country,
@@ -255,7 +256,8 @@ namespace FinalProjectNurlan.Controllers
                 Phone = user.Phone,
                 Zip = user.Zip,
                 Email = user.Email,
-                Fullname = user.Fullname
+                Firstname = user.Firstname,
+                Surname = user.Surname
             };
 
             return View(editedUser);
@@ -266,7 +268,7 @@ namespace FinalProjectNurlan.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UserEditVM editedUser)
         {
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View(editedUser);
 
             AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
             UserEditVM eUser = new UserEditVM
@@ -278,7 +280,8 @@ namespace FinalProjectNurlan.Controllers
                 Phone = user.Phone,
                 Zip = user.Zip,
                 Email = user.Email,
-                Fullname = user.Fullname
+                Firstname = user.Firstname,
+                Surname = user.Surname
             };
 
             if (user.UserName != editedUser.Username && await _userManager.FindByNameAsync(editedUser.Username) != null)
@@ -296,14 +299,16 @@ namespace FinalProjectNurlan.Controllers
             {
                 user.UserName = editedUser.Username;
                 user.Email = editedUser.Email;
-                user.Fullname = editedUser.Fullname;
+                user.Firstname = editedUser.Firstname;
+                user.Surname = editedUser.Surname;
                 await _userManager.UpdateAsync(user);
             }
             else
             {
                 user.UserName = editedUser.Username;
                 user.Email = editedUser.Email;
-                user.Fullname = editedUser.Fullname;
+                user.Firstname = editedUser.Firstname;
+                user.Surname = editedUser.Surname;
 
                 IdentityResult result = await _userManager.ChangePasswordAsync(user, editedUser.CurrentPassword, editedUser.Password);
 

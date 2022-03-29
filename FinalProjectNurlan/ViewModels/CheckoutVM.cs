@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinalProjectNurlan.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace FinalProjectNurlan.ViewModels
 {
-    public class RegisterVM
+    public class CheckoutVM
     {
-        [Required]
-        [StringLength(maximumLength: 30)]
-        public string Username { get; set; }
         [Required]
         [StringLength(maximumLength: 90)]
         [DataType(DataType.EmailAddress)]
@@ -51,5 +49,12 @@ namespace FinalProjectNurlan.ViewModels
         [StringLength(maximumLength: 90)]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
+
+
+        [StringLength(maximumLength: 200)]
+
+        public string OrderNote { get; set; }
+
+        public List<BasketItem> BasketItems { get; set; }
     }
 }

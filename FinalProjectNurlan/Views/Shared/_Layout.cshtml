@@ -288,9 +288,9 @@
                                         <li><a href="elements-icon-boxes.html">Icon Boxes</a></li>
                                     </ul>
                                 </li>
-                            </ul><!-- End .menu -->
-                        </nav><!-- End .main-nav -->
-                    </div><!-- End .header-left -->
+                            </ul>
+                        </nav>
+                    </div>
 
                     <div class="header-right">
                         <div class="header-search">
@@ -299,9 +299,9 @@
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
                                     <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
-                                </div><!-- End .header-search-wrapper -->
+                                </div>
                             </form>
-                        </div><!-- End .header-search -->
+                        </div>
                         <div class="dropdown compare-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
                                 <i class="icon-heart-o"></i>
@@ -324,8 +324,8 @@
                                     <a href="#" class="action-link">Clear All</a>
                                     <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
                                 </div>
-                            </div><!-- End .dropdown-menu -->
-                        </div><!-- End .compare-dropdown -->
+                            </div>
+                        </div>
 
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -344,19 +344,19 @@
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$@layoutService.ShowBasket().Result.TotalPrice</span>
-                                </div><!-- End .dropdown-cart-total -->
+                                    <span class="cart-total-price">$@String.Format("{0:0.00}", @layoutService.ShowBasket().Result.TotalPrice)     </span>
+                                </div>
 
                                 <div class="dropdown-cart-action">
                                     <a href="cart.html" class="btn btn-primary">View Cart</a>
-                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
-                                </div><!-- End .dropdown-cart-total -->
-                            </div><!-- End .dropdown-menu -->
-                        </div><!-- End .cart-dropdown -->
-                    </div><!-- End .header-right -->
-                </div><!-- End .container -->
-            </div><!-- End .header-middle -->
-        </header><!-- End .header -->
+                                    <a asp-controller="order" asp-action="checkout" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
 
 
@@ -728,7 +728,7 @@
             e.preventDefault();
             $(this).css("background-color", "white")
             $(this).css("color", "#c94")
-            $(".add-to-cart span").css("color","#c94")
+            $(".add-to-cart span").css("color","#c94f")
 
             var sizeId = $(".forSizeId").val();
             var colorId = $(".forColorId").val();
@@ -809,7 +809,9 @@
                     fetch(urlforprice).then(res => res.text()).then(data => {
 
                         $(".cart-total-price").empty();
-                        $(".cart-total-price").append(`$${data}`);
+                        var monet = parseFloat(data).toFixed(2)
+                        $(".cart-total-price").append(`$${monet}`);
+                        //$(".cart-total-price").append(`$${data}`);
 
                     })
 
@@ -863,7 +865,8 @@
                 fetch(urlforprice).then(res => res.text()).then(data => {
 
                     $(".cart-total-price").empty();
-                    $(".cart-total-price").append(`$${data}`);
+                    var monet = parseFloat(data).toFixed(2)
+                    $(".cart-total-price").append(`$${monet}`);
 
                 })
             })

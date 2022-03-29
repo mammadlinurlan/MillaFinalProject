@@ -8,7 +8,9 @@ namespace FinalProjectNurlan.Models
 {
     public class AppUser:IdentityUser
     {
-        public string Fullname { get; set; }
+        public string Firstname { get; set; }
+        public string Surname { get; set; }
+
         public bool IsAdmin { get; set; }
 
         public string Country { get; set; }

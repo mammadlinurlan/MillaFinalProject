@@ -196,6 +196,7 @@ namespace FinalProjectNurlan.Controllers
                 AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
                 List<BasketItem> item = _context.BasketItems.Where(b => b.AppUserId == user.Id && b.ProductSizeColorId == id).ToList();
                 user.BasketItems.RemoveAll(p => item.Any(i => i.Id == p.Id));
+                _context.BasketItems.RemoveRange(item);
                 _context.SaveChanges();
             }
             else

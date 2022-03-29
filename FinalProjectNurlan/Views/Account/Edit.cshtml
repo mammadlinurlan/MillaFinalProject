@@ -54,36 +54,61 @@
 
                                 <label>Username *</label>
                                 <input asp-for="Username" class="form-control">
+                                <span asp-validation-for="Username" class="text text-danger"></span>
 
 
-                                <label>Fullname *</label>
-                                <input asp-for="Fullname" class="form-control">
-                                <small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+
+                                <label>First name *</label>
+                                <input asp-for="Firstname" class="form-control">
+                                <span asp-validation-for="Firstname" class="text text-danger"></span>
+
+
+                                <label>Last name *</label>
+                                <input asp-for="Surname" class="form-control">
+                                <span asp-validation-for="Surname" class="text text-danger"></span>
+
 
                                 <label>Email address *</label>
                                 <input asp-for="Email" class="form-control">
+                                <span asp-validation-for="Email" class="text text-danger"></span>
+
 
                                 <label>Country</label>
                                 <input asp-for="Country" class="form-control mb-2">
+                                <span asp-validation-for="Country" class="text text-danger"></span>
+
 
                                 <label>City</label>
                                 <input asp-for="City" class="form-control mb-2">
+                                <span asp-validation-for="City" class="text text-danger"></span>
 
                                 <label>Zip</label>
                                 <input asp-for="Zip" class="form-control mb-2">
+                                <span asp-validation-for="Zip" class="text text-danger"></span>
+
                                 <label>Adress</label>
                                 <input asp-for="Address" class="form-control mb-2">
+                                <span asp-validation-for="Address" class="text text-danger"></span>
+
                                 <label>Phone</label>
                                 <input asp-for="Phone" class="form-control mb-2">
+                                <span asp-validation-for="Phone" class="text text-danger"></span>
+
 
                                 <label>Current password (leave blank to leave unchanged)</label>
                                 <input asp-for="CurrentPassword" class="form-control">
+                                <span asp-validation-for="CurrentPassword" class="text text-danger"></span>
+
 
                                 <label>New password (leave blank to leave unchanged)</label>
                                 <input asp-for="Password" class="form-control">
+                                <span asp-validation-for="Password" class="text text-danger"></span>
+
 
                                 <label>Confirm new password</label>
                                 <input asp-for="ConfirmPassword" class="form-control mb-2">
+                                <span asp-validation-for="ConfirmPassword" class="text text-danger"></span>
+
 
                                 <button type="submit" class="btn btn-outline-primary-2">
                                     <span>SAVE CHANGES</span>
