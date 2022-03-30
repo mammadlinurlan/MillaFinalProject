@@ -12,6 +12,12 @@
     <input type="hidden" id="VerifiedEmail" />
 }
 
+@if (TempData["Reseted"] != null)
+{
+    <input type="hidden" id="Reseted" />
+
+}
+
 
 <main class="main">
     <div class="intro-slider-container">
@@ -1078,6 +1084,26 @@
             }
             if ($("#VerifiedEmail").length) {
                 Command: toastr["success"]("Successfully verified")
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+            }
+            if ($("#Reseted").length) {
+                Command: toastr["success"]("Password reseted successfully!")
                 toastr.options = {
                     "closeButton": false,
                     "debug": false,

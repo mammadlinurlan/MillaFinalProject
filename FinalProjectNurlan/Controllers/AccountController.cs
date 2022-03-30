@@ -180,12 +180,18 @@ namespace FinalProjectNurlan.Controllers
         public async Task<IActionResult> ForgotPassword(AccountVM account)
         {
             AppUser user = await _userManager.FindByEmailAsync(account.AppUser.Email);
-            if (user == null) return BadRequest();
+            if (user == null)
+            {
+                ModelState.AddModelError("", "No account exists with this email!");
+                return View();
+            }
 
             string token = await _userManager.GeneratePasswordResetTokenAsync(user);
             string link = Url.Action(nameof(ResetPassword), "Account", new { email = user.Email, token }, Request.Scheme, Request.Host.ToString());
+          
+
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("nurlanym@code.edu.az", "Eduhome");
+            mail.From = new MailAddress("satilirbuz4@gmail.com", "Molla");
             mail.To.Add(new MailAddress(user.Email));
 
             mail.Subject = "Reset Password";
@@ -197,9 +203,16 @@ namespace FinalProjectNurlan.Controllers
             smtp.Port = 587;
             smtp.EnableSsl = true;
 
-            smtp.Credentials = new NetworkCredential("nurlanym@code.edu.az", "Leylus123");
+            //smtp.Credentials = new NetworkCredential("nurlanym@code.edu.az", "Leylus123");
+            //smtp.Send(mail);
+            //return RedirectToAction("index", "home");
+
+
+
+            smtp.Credentials = new NetworkCredential("satilirbuz4@gmail.com", "Finalproject123");
             smtp.Send(mail);
-            return RedirectToAction("index", "home");
+            TempData["Verify"] = true;
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> ResetPassword(string email, string token)
@@ -237,6 +250,8 @@ namespace FinalProjectNurlan.Controllers
                 }
                 return View(model);
             }
+            TempData["Reseted"] = true;
+
             return RedirectToAction("Index", "Home");
         }
 

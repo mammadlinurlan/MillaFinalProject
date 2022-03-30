@@ -9,7 +9,7 @@
                     <span class="product-label label-new">New</span>
                 }
                 <a class="until" asp-controller="@Model.Category.Gender.Name" asp-action="details" asp-route-id="@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
-                    <img  style="height:353px !important;object-fit:cover" src="~/assets/images/products/@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
+                    <img  style="height:353px ;object-fit:cover" src="~/assets/images/products/@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
                 </a>
 
                 <div class="product-action-vertical">

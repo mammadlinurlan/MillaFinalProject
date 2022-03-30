@@ -1720,6 +1720,24 @@ blockquote {
         width: 420px
     }
 
+    #Subject{
+        border:1px solid;
+
+    }
+
+    #Message{
+        border: 1px solid;
+    }
+
+    #loadMore{
+        max-width:40% !important;
+    }
+
+    .product-main {
+
+        height:260px !important
+    }
+
     .zoomContainer{
         display:none !important;
     }
@@ -5207,6 +5225,12 @@ p {
 @media screen and (min-width: 768px) {
     .header-14 .header-middle .header-right {
         max-width: 84%
+    }
+    #Subject {
+        border: 1px solid;
+    }
+    #Message {
+        border: 1px solid;
     }
 }
 

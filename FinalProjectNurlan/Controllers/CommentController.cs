@@ -48,7 +48,7 @@ namespace FinalProjectNurlan.Controllers
             //    return Content("nullmessage");
             //}
 
-            Product product = context.Products.FirstOrDefault(p => p.Id == ProductId);
+            Product product = context.Products.Include(p=>p.Comments).FirstOrDefault(p => p.Id == ProductId);
 
             if (product.Comments == null)
             {
@@ -82,7 +82,7 @@ namespace FinalProjectNurlan.Controllers
 
             ShopVM shopVM = new ShopVM
             {
-                Comments = context.Comments.Where(c => c.ProductId == ProductId).ToList()
+                Comments = context.Comments.Include(c=>c.Product).Include(c=>c.AppUser).Where(c => c.ProductId == ProductId).ToList()
             };
 
 
