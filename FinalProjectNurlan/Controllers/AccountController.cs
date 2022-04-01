@@ -1,8 +1,10 @@
-﻿using FinalProjectNurlan.Models;
+﻿using FinalProjectNurlan.DAL;
+using FinalProjectNurlan.Models;
 using FinalProjectNurlan.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,12 +20,15 @@ namespace FinalProjectNurlan.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly AppDbContext _context;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _context = context;
+
         }
         public IActionResult Register()
         {
@@ -272,7 +277,8 @@ namespace FinalProjectNurlan.Controllers
                 Zip = user.Zip,
                 Email = user.Email,
                 Firstname = user.Firstname,
-                Surname = user.Surname
+                Surname = user.Surname,
+                Order = _context.Orders.OrderByDescending(o=>o.Id).Include(o=>o.OrderItems).ThenInclude(o=>o.ProductSizeColor).ThenInclude(p=>p.Size).Include(p=>p.OrderItems).ThenInclude(p=>p.ProductSizeColor).ThenInclude(pc=>pc.Color).Include(p=>p.OrderItems).ThenInclude(p=>p.ProductSizeColor).ThenInclude(p=>p.Product).ThenInclude(p=>p.Gender).Include(o=>o.Status).Where(o=>o.AppUserId == user.Id).ToList()
             };
 
             return View(editedUser);

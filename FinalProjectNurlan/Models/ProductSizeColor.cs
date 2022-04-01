@@ -49,5 +49,6 @@ namespace FinalProjectNurlan.Models
         public int MainImageId { get; set; }
 
         public List<BasketItem> BasketItems { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

@@ -20,14 +20,8 @@ namespace FinalProjectNurlan.ViewModels
         [Required]
         [StringLength(maximumLength: 40)]
         public string Surname { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [Compare(nameof(Password))]
-        public string ConfirmPassword { get; set; }
-        public bool TermsAndConditions { get; set; }
+       
+       
         [Required]
         [StringLength(maximumLength: 90)]
         public string Country { get; set; }
@@ -56,5 +50,7 @@ namespace FinalProjectNurlan.ViewModels
         public string OrderNote { get; set; }
 
         public List<BasketItem> BasketItems { get; set; }
+
+        public string MessagesToAdmin { get; set; }
     }
 }

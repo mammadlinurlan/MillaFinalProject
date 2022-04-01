@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinalProjectNurlan.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -56,5 +57,11 @@ namespace FinalProjectNurlan.ViewModels
         [Required]
 
         public string Phone { get; set; }
+
+        public List<Order> Order { get; set; }
+
+        
+
+
     }
 }

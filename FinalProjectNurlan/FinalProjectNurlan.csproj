@@ -25,6 +25,8 @@
     <Compile Remove="Migrations\20220316101728_colorslistaddedtoProd.Designer.cs" />
     <Compile Remove="Migrations\20220323123608_appuserProps.cs" />
     <Compile Remove="Migrations\20220323123608_appuserProps.Designer.cs" />
+    <Compile Remove="Migrations\20220401204615_statusAdded.cs" />
+    <Compile Remove="Migrations\20220401204615_statusAdded.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

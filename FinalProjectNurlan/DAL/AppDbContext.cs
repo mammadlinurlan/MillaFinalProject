@@ -35,5 +35,9 @@ namespace FinalProjectNurlan.DAL
         public DbSet<BasketItem> BasketItems { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Status> Statuses { get; set; }
     }
 }

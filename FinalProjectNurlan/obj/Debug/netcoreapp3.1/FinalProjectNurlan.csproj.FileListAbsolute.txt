@@ -193,3 +193,7 @@ C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\ne
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_basketProductPartialView.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Order\Checkout.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_commentPartialView.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Account\ForgotPassword.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Account\ResetPassword.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Order\Edit.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Order\Index.cshtml.g.cs

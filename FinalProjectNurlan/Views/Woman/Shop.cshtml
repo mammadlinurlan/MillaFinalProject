@@ -243,16 +243,36 @@
                             <div class="collapse show" id="widget-2">
                                 <div class="widget-body">
                                     <div class="filter-items">
-                                        @for (int i = 0; i < 6; i++)
+                                        @if (Model.Category.Name.ToLower() != "Shoes".ToLower())
                                         {
-                                            <div class="filter-item size-item">
-                                                <div class="custom-control custom-checkbox">
+                                            @for (int i = 0; i < 6; i++)
+                                            {
+                                                <div class="filter-item size-item">
+                                                    <div class="custom-control custom-checkbox">
 
-                                                    <input value="@ViewBag.Sizes[i].Id" type="checkbox" class="custom-control-input" id="@ViewBag.Sizes[i].Name">
-                                                    <label class="custom-control-label">@ViewBag.Sizes[i].Name</label>
+                                                        <input value="@ViewBag.Sizes[i].Id" type="checkbox" class="custom-control-input" id="@ViewBag.Sizes[i].Name">
+                                                        <label class="custom-control-label">@ViewBag.Sizes[i].Name</label>
 
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
+
+
+
+                                        }
+                                        else
+                                        {
+                                            @for (int i = 6; i < 18; i++)
+                                            {
+                                                <div class="filter-item size-item">
+                                                    <div class="custom-control custom-checkbox">
+
+                                                        <input value="@ViewBag.Sizes[i].Id" type="checkbox" class="custom-control-input" id="@ViewBag.Sizes[i].Name">
+                                                        <label class="custom-control-label">@ViewBag.Sizes[i].Name</label>
+
+                                                    </div>
+                                                </div>
+                                            }
                                         }
 
                                     </div><!-- End .filter-items -->

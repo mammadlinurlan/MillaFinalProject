@@ -450,6 +450,10 @@ namespace FinalProjectNurlan.Controllers
 
                 context.ProductColors.Remove(productColor);
             }
+            if (pro.ProductSizeColors.Count() == 1)
+            {
+                context.Products.Remove(pro);
+            }
 
             context.ProductSizeColors.Remove(product);
 
