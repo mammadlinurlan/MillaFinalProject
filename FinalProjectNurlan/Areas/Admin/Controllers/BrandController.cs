@@ -1,5 +1,6 @@
 ﻿using FinalProjectNurlan.DAL;
 using FinalProjectNurlan.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 namespace FinalProjectNurlan.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
+
     public class BrandController : Controller
     {
         private readonly AppDbContext context;

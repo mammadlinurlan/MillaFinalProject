@@ -1,6 +1,7 @@
 ﻿using FinalProjectNurlan.DAL;
 using FinalProjectNurlan.Extensions;
 using FinalProjectNurlan.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 namespace FinalProjectNurlan.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
+
     public class CategoryController : Controller
     {
         private readonly AppDbContext context;

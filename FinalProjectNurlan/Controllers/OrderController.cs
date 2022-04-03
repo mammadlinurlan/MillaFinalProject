@@ -114,5 +114,20 @@ namespace FinalProjectNurlan.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles ="Member")]
+        public async Task<IActionResult> Cart()
+        {
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            CheckoutVM checkout = new CheckoutVM
+            {
+              
+                BasketItems = _context.BasketItems.Include(p => p.ProductSizeColor).ThenInclude(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.ProductSizeColor).ThenInclude(p => p.Size).Include(p => p.ProductSizeColor).ThenInclude(p => p.Color).Where(b => b.AppUserId == user.Id).ToList()
+            };
+
+            return View(checkout);
+
+        }
+
     }
 }

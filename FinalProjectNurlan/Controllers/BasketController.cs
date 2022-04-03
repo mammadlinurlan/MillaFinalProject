@@ -29,12 +29,14 @@ namespace FinalProjectNurlan.Controllers
 
         public async Task<IActionResult> SetBasket(int sizeId, int colorId, int productId, int quantity)
         {
+            //AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             ProductSizeColor product = await _context.ProductSizeColors.Include(p => p.Product).FirstOrDefaultAsync(p => p.SizeId == sizeId && p.ColorId == colorId && p.ProductId == productId);
 
+            //CheckoutVM checkoutVM = new CheckoutVM();
 
-            //&& User.IsInRole("Member")
-
-            if (User.Identity.IsAuthenticated)
+          
+            if (User.Identity.IsAuthenticated  && User.IsInRole("Member"))
             {
                 AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
                 BasketItem basketItem = _context.BasketItems.FirstOrDefault(i => i.ProductSizeColorId == product.Id && i.AppUserId == user.Id);
@@ -48,12 +50,26 @@ namespace FinalProjectNurlan.Controllers
 
                     };
                     _context.BasketItems.Add(basketItem);
+
+
+                
                 }
                 else
                 {
                     basketItem.Count += quantity;
                 }
                 _context.SaveChanges();
+
+
+                CheckoutVM checkout = new CheckoutVM
+                {
+                    
+                    BasketItems = _context.BasketItems.Include(p => p.ProductSizeColor).ThenInclude(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.ProductSizeColor).ThenInclude(p => p.Size).Include(p => p.ProductSizeColor).ThenInclude(p => p.Color).Where(b => b.AppUserId == user.Id).ToList()
+                };
+
+
+                return PartialView("_cartPartialView", checkout);
+
 
             }
             else
@@ -94,10 +110,65 @@ namespace FinalProjectNurlan.Controllers
                     string basketStr = JsonConvert.SerializeObject(basketCookieItems);
                     HttpContext.Response.Cookies.Append("Basket", basketStr);
                 }
+
+                return PartialView("_basketProductPartialView");
+
+
             }
-            return PartialView("_basketProductPartialView");
+
+
+
+
         }
 
+
+        public async Task<IActionResult> CartCounter(int sizeId, int colorId, int productId, int quantity)
+        {
+            ProductSizeColor product = await _context.ProductSizeColors.Include(p => p.Product).FirstOrDefaultAsync(p => p.SizeId == sizeId && p.ColorId == colorId && p.ProductId == productId);
+
+          
+
+            
+                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+                BasketItem basketItem = _context.BasketItems.FirstOrDefault(i => i.ProductSizeColorId == product.Id && i.AppUserId == user.Id);
+
+                if (basketItem!=null)
+                {
+                    basketItem.Count = quantity;
+
+                }
+
+
+                _context.SaveChanges();
+
+
+                CheckoutVM checkout = new CheckoutVM
+                {
+
+                    BasketItems = _context.BasketItems.Include(p => p.ProductSizeColor).ThenInclude(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.ProductSizeColor).ThenInclude(p => p.Size).Include(p => p.ProductSizeColor).ThenInclude(p => p.Color).Where(b => b.AppUserId == user.Id).ToList()
+                };
+
+
+                return PartialView("_cartPartialView", checkout);
+
+
+            
+            
+        }
+
+        public async Task<IActionResult> CartPartial()
+        {
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            CheckoutVM checkout = new CheckoutVM
+            {
+
+                BasketItems = _context.BasketItems.Include(p => p.ProductSizeColor).ThenInclude(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.ProductSizeColor).ThenInclude(p => p.Size).Include(p => p.ProductSizeColor).ThenInclude(p => p.Color).Where(b => b.AppUserId == user.Id).ToList()
+            };
+
+
+            return PartialView("_cartPartialView", checkout);
+
+        }
         public IActionResult GetPartial()
         {
             return PartialView("_basketProductPartialView");

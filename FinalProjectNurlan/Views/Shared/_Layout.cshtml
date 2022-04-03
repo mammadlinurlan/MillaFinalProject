@@ -333,9 +333,15 @@
                             <form action="#" method="get">
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                                    <input autocomplete="off" type="search" class="form-control search-input" name="q" id="q" placeholder="Search in..." required>
                                 </div>
+
+
                             </form>
+                            <div style=" position: absolute; top: 65px; z-index: 1000000; right: -18px; width: max-content; box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75); -webkit-box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75); -moz-box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75);" class="searchProducts">
+                               
+                            </div>
+
                         </div>
                         <div class="dropdown compare-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
@@ -383,7 +389,7 @@
                                 </div>
 
                                 <div class="dropdown-cart-action">
-                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
+                                    <a asp-controller="order" asp-action="cart" class="btn btn-primary">View Cart</a>
                                     <a asp-controller="order" asp-action="checkout" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -775,13 +781,13 @@
             if (!quantity) {
                 quantity = 1;
             }
-            //var url = link + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
+           
             var url = uruuul + '/Basket/SetBasket' + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
             var urlstrt = window.location.origin;
             var urlforcount = `${urlstrt}/Basket/ForTotalCount`
             var urlforpartial = `${urlstrt}/Basket/GetPartial`
             var urlforprice = `${urlstrt}/Basket/GetTotalPrice`
-
+            console.log(url)
             console.log(urlforcount);
             if (sizeId == 0) {
                 Command: toastr["error"]("Select a size!")
@@ -846,7 +852,7 @@
                         $(".cart-total-price").empty();
                         var monet = parseFloat(data).toFixed(2)
                         $(".cart-total-price").append(`$${monet}`);
-                        //$(".cart-total-price").append(`$${data}`);
+                      
 
                     })
 
@@ -930,6 +936,49 @@
 
             console.log("sa")
         })
+
+        if (!$(".search-toggle").hasClass("active")) {
+
+            $(".search-input").val('')
+            $(".searchProducts").empty()
+            console.log("sa")
+        }
+
+        $(document).on("click", function () {
+            if (!$(".search-toggle").hasClass("active")) {
+
+                $(".search-input").val('')
+                $(".searchProducts").empty()
+                console.log("sa")
+            }
+        })
+
+        $(document).on("keyup", ".search-input", function () {
+
+            var text = $(this).val()
+            var base = window.location.origin;
+            var fetchUrl = `${base}/search/SearchPartial?word=${text}`
+            console.log(fetchUrl)
+
+           
+
+            if (text.length >= 3) {
+
+                fetch(fetchUrl).then(res => res.text()).then(data => {
+
+                    $(".searchProducts").empty();
+                    $(".searchProducts").append(data);
+
+
+                })
+
+            }
+            if (text.length < 3) {
+                $(".searchProducts").empty()
+            }
+        })
+
+
     </script>
     @RenderSection("Scripts", required: false)
 

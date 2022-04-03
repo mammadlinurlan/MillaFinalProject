@@ -2,6 +2,7 @@
 using FinalProjectNurlan.Extensions;
 using FinalProjectNurlan.Models;
 using FinalProjectNurlan.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,8 @@ using System.Threading.Tasks;
 namespace FinalProjectNurlan.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
+
     public class ProductController : Controller
     {
         private readonly AppDbContext context;
