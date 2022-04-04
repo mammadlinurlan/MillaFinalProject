@@ -16,6 +16,10 @@ namespace FinalProjectNurlan.Models
         [StringLength(maximumLength: 120)]
         public string Name { get; set; }
 
+
+        public bool DealOfTheDay { get; set; }
+
+
         [Required]
 
         public double Price { get; set; }

@@ -30,7 +30,7 @@ namespace FinalProjectNurlan.Controllers
             return View(vM);
         }
 
-        public IActionResult Shop(int id,string sort)
+        public IActionResult Shop(int id,int page=1)
         {
             if (context.Categories.FirstOrDefault(c => c.Id == id) == null)
             {
@@ -44,10 +44,15 @@ namespace FinalProjectNurlan.Controllers
             ViewBag.Sizes = context.Sizes.ToList();
 
 
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPage = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+
+
 
 
             //List<ProductSizeColor> prod = context.ProductSizeColors.GroupBy(p=>p.ProductId).ToList();
-           
+
             ShopVM shopVM = new ShopVM
             {
                 Brands = context.Brands.Include(b => b.Products).ToList(),
@@ -55,8 +60,9 @@ namespace FinalProjectNurlan.Controllers
                 Products = context.Products.Include(p => p.ProductColors).Include(p => p.Category).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Brand).Include(p => p.SubCategory).Include(p => p.Gender).Where(p => p.CategoryId == id && p.ProductSizeColors.Count > 0).ToList(),
                 ProductSizeColors = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.Product).ThenInclude(p => p.SubCategory).Include(p => p.ProductImages).Where(p => p.Product.CategoryId == id).ToList(),
 
-                
-                ProductColors = context.ProductColors.Include(p=>p.Product).ThenInclude(p=>p.Comments).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).OrderByDescending(p=>p.Product.CreatedDate).ToList()
+
+                ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Skip((page - 1) * 6).Take(6).ToList(),
+                ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList(),
 
             };
 

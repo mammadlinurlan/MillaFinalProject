@@ -166,6 +166,11 @@ namespace FinalProjectNurlan.Controllers
                 return View();
             }
 
+            //if (user.IsAdmin == true)
+            //{
+            //    await Logout();
+            //}
+
             return RedirectToAction("Index", "Home");
         }
 

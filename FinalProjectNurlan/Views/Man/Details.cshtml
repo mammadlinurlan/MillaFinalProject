@@ -319,6 +319,32 @@
     @*<script src="~/assets/js/jquery.elevateZoom.min.js"></script>*@
     <script>
         $(document).ready(function () {
+            var b = window.location.origin;
+            var vl = $(".firstLoadId").val()
+
+            var ul = `${b}/man/changecolor/${vl}`
+
+            fetch(ul).then(res => res.text()).then(data => {
+
+                $(".product-details-top").html('');
+                $(".product-details-top").html(data);
+                var minus = `<i class="icon-minus"></i>`
+                var plus = `<i class="icon-plus"></i>`
+
+                $("input[type='number']").inputSpinner();
+                $("input[type='number']").next().addClass("input-spinner")
+                $("input[type='number']").next().children().last().children().removeClass("btn-outline-secondary").addClass("btn-spinner").empty().html(plus)
+                $("input[type='number']").next().children().first().children().removeClass("btn-outline-secondary").addClass("btn-spinner").empty().html(minus)
+
+                $(".product-zoom").elevateZoom({
+                    zoomType: "inner",
+                    cursor: "crosshair"
+                });
+            })
+
+
+
+
             $("#subj").next().val('');
             $("#message").next().val('');
 

@@ -27,11 +27,11 @@
                                 <label for="sortby">Sort by:</label>
                                 <div class="select-custom">
                                     <select name="sortby" id="sortby" class="form-control">
-                                        <option value="newest" selected="selected">Newest</option>
-                                        <option value="lowtohigh">Price : Low - High</option>
-                                        <option value="hightolow">Price : High - Low</option>
-                                        <option value="atoz">Name : A - Z</option>
-                                        <option value="ztoa">Name : Z - A</option>
+                                        <option class="sortOption" id="newest" value="1" selected="selected">Newest</option>
+                                        <option class="sortOption" id="lowToHigh" value="2">Price : Low - High</option>
+                                        <option class="sortOption" id="highToLow" value="3">Price : High - Low</option>
+                                        <option class="sortOption" id="aToZ" value="4">Name : A - Z</option>
+                                        <option class="sortOption" id="zToA" value="5">Name : Z - A</option>
 
 
                                     </select>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="products mb-3">
-                        <div class="row">
+                        <div class="row rowprods">
 
                             @await Html.PartialAsync("_productPartialView", Model)
 
@@ -74,12 +74,14 @@
                     </div>
 
 
+                <input hidden value="@Model.Category.Id" class="hiddenCategoryId" />
+
 
 
 
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
-                            @*<li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
+                            <li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
                                     <a class="page-link page-link-prev" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
                                         <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
                                     </a>
@@ -97,13 +99,13 @@
                                     <a class="page-link page-link-next" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage +1)" aria-label="Next">
                                         Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
                                     </a>
-                                </li>*@
+                                </li>
 
 
 
-                            <a href="#" id="loadMore" style="max-width: 18%; background-color: #c96; color: white;" class="btn-product">
+                            @*<a href="#" id="loadMore" style="max-width: 18%; background-color: #c96; color: white;" class="btn-product">
                                 Load more
-                            </a>
+                            </a>*@
 
 
 
@@ -290,19 +292,91 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+
+            //var base = window.location.origin;
+            ////var val = $(this).val();
+            //var catid = $(".hiddenCategoryId").val()
+
+            //var url = `${base}/man/Sorting?catid=${catid}&sortval=${1}`
+
+            //fetch(url).then(res => res.text()).then(data => {
+            //    $(".rowprods").empty();
+            //    $(".rowprods").append(data)
+            //    if ($("#2col").hasClass("active")) {
+
+
+            //        $(".productClass").removeClass("col-lg-4");
+            //        $(".productClass").addClass("col-lg-6");
+            //        $(".productClass").removeClass("col-md-4");
+            //        $(".productClass").addClass("col-md-6");
+            //        console.log("3col")
+
+            //        $(".product-main").css("height", "430px")
+            //    }
+            //    else {
+            //        $(".productclass").removeClass("col-lg-6");
+            //        $(".productclass").addClass("col-lg-4");
+            //        $(".productclass").removeClass("col-md-6");
+            //        $(".productclass").addClass("col-md-4");
+            //        $(".product-main").css("height", "353px")
+            //        console.log("2col")
+            //    }
+            //})
+            $("#sortby").val(1)
+             
+          
+
+
+            $(document).on("change", "#sortby", function () {
+                var base = window.location.origin;
+                var val = $(this).val();
+                var catid = $(".hiddenCategoryId").val()
+
+                var url = `${base}/man/Sorting?catid=${catid}&sortval=${val}`
+
+                fetch(url).then(res => res.text()).then(data => {
+                    $(".rowprods").empty();
+                    $(".rowprods").append(data)
+                    if ($("#2col").hasClass("active")) {
+                     
+
+                        $(".productClass").removeClass("col-lg-4");
+                        $(".productClass").addClass("col-lg-6");
+                        $(".productClass").removeClass("col-md-4");
+                        $(".productClass").addClass("col-md-6");
+                        console.log("3col")
+
+                        $(".product-main").css("height", "430px")
+                    }
+                    else {
+                        $(".productclass").removeClass("col-lg-6");
+                        $(".productclass").addClass("col-lg-4");
+                        $(".productclass").removeClass("col-md-6");
+                        $(".productclass").addClass("col-md-4");
+                        $(".product-main").css("height", "353px")
+                        console.log("2col")
+                    }
+                })
+               
+
+            })
+
+
+
+
             $("#price-slider").children().first().remove()
 
 
-            $(".productClass").slice(0, 6).show()
+            //$(".productClass").slice(0, 6).show()
 
-            $("#loadMore").click(function (e) {
+            //$("#loadMore").click(function (e) {
 
-                e.preventDefault();
-                $(".productClass:hidden").slice(0, 6).show()
-                if ($(".productClass:hidden").length == 0) {
-                    $("#loadMore").fadeOut()
-                }
-            })
+            //    e.preventDefault();
+            //    $(".productClass:hidden").slice(0, 6).show()
+            //    if ($(".productClass:hidden").length == 0) {
+            //        $("#loadMore").fadeOut()
+            //    }
+            //})
 
 
 

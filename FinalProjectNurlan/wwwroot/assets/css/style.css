@@ -4,7 +4,7 @@ html {
     font-size: 62.5%;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-    font-size-adjust: 100%
+    font-size-adjust: 100%;
 }
 
 html, body {
@@ -13,6 +13,13 @@ html, body {
 
 .active-star{
     color:#c94
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
 }
 
 body {
@@ -1903,7 +1910,7 @@ blockquote {
         font-weight: 500;
         font-size: 1.4rem;
         letter-spacing: -.01em;
-        padding: 3.95rem 3rem;
+        padding: 3.95rem 2rem;
         text-transform: uppercase
     }
 
@@ -19092,4 +19099,4 @@ button:focus {
 .icon-yarn:before {
     content: '\f7e3'
 }
-/*# sourceMappingURL=style.css.map */
+

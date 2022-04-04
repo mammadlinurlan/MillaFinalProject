@@ -9,5 +9,18 @@ namespace FinalProjectNurlan.ViewModels
     public class HomeVM
     {
         public List<Slider> Sliders { get; set; }
+        public Category Category { get; set; }
+        public List<Brand> Brands { get; set; }
+        public Product Product { get; set; }
+        public List<Product> Products { get; set; }
+
+        public List<ProductSizeColor> ProductSizeColors { get; set; }
+        public ProductSizeColor ProductSizeColor { get; set; }
+
+
+        public List<ProductColor> ProductColors { get; set; }
+        public List<ProductColor> ProductColors2 { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }

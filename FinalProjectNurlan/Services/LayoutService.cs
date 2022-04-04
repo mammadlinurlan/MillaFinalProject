@@ -27,11 +27,11 @@ namespace FinalProjectNurlan.Services
             _userManager = userManager;
         }
 
-        //public Setting getSettingDatas()
-        //{
-        //    Setting data = _context.Settings.FirstOrDefault();
-        //    return data;
-        //}
+        public Settings getSettingDatas()
+        {
+            Settings data = _context.Settings.FirstOrDefault();
+            return data;
+        }
         public async Task<BasketVM> ShowBasket()
         {
             string basket = _httpContext.HttpContext.Request.Cookies["Basket"];

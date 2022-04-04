@@ -1,15 +1,15 @@
 ﻿@model ShopVM
-@foreach (var item in Model.ProductColors.OrderBy(p=>p.Product.Name))
+@foreach (var item in Model.ProductColors)
 {
-    <div style="display:none" class="col-6 col-md-4 col-lg-4 productClass">
+    <div  class="col-6 col-md-4 col-lg-4 productClass">
         <div class="product product-7 text-center">
             <figure class="product-media">
                 @if (item.Product.CreatedDate.AddDays(3) >= DateTime.Now)
                 {
                     <span class="product-label label-new">New</span>
                 }
-                <a class="until" asp-controller="@Model.Category.Gender.Name" asp-action="details" asp-route-id="@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
-                    <img  style="height:353px ;object-fit:cover" src="~/assets/images/products/@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
+                <a class="until" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
+                    <img  style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
                 </a>
 
                 <div class="product-action-vertical">
@@ -18,12 +18,11 @@
                    
                 </div>
 
-                
             </figure>
 
             <div class="product-body">
 
-                <h3 class="product-title"><a asp-controller="@Model.Category.Gender.Name" asp-action="details" asp-route-id="@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">@item.Product.Name</a></h3>
+                <h3 class="product-title"><a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">@item.Product.Name</a></h3>
                 <div class="product-price">
 
                     @if (item.Product.Discount != null && item.Product.Discount != 0)
@@ -82,18 +81,18 @@
                   
                 </div>*@
                 <div class="product-nav product-nav-thumbs">
-                    <a asp-controller="@Model.Category.Gender.Name" asp-action="details" asp-route-id="@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
-                        <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
+                    <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                        <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
                     </a>
 
 
 
-                    @foreach (var prd in Model.ProductColors.Where(p => p.ProductId == item.ProductId && p.ColorId != item.ColorId))
+                    @foreach (var prd in Model.ProductColors2.Where(p => p.ProductId == item.ProductId && p.ColorId != item.ColorId))
                     {
 
 
-                        <a asp-controller="@Model.Category.Gender.Name" asp-action="details" asp-route-id="@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
-                            <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@Model.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
+                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                            <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
 
                         </a>
                     }

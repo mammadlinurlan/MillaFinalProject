@@ -1,6 +1,8 @@
 ﻿using FinalProjectNurlan.DAL;
+using FinalProjectNurlan.Extensions;
 using FinalProjectNurlan.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,10 +18,12 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
     public class BrandController : Controller
     {
         private readonly AppDbContext context;
+        private readonly IWebHostEnvironment env;
 
-        public BrandController(AppDbContext context)
+        public BrandController(AppDbContext context, IWebHostEnvironment env)
         {
             this.context = context;
+            this.env = env;
         }
         public IActionResult Index(int page=1)
         {
@@ -42,6 +46,27 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             {
                 return View();
             }
+
+            if (brand.ImageFile == null)
+            {
+                ModelState.AddModelError("ImageFile", "Image cannot be null");
+                return View();
+            }
+
+            if (!brand.ImageFile.IsSizeOkay(2))
+            {
+                ModelState.AddModelError("ImageFile", "Image size cannot be bigger than 2MB");
+                return View();
+
+            }
+            if (!brand.ImageFile.IsImage())
+            {
+                ModelState.AddModelError("ImageFile", "Select only image files!");
+                return View();
+
+            }
+
+            brand.Image = brand.ImageFile.SaveImg(env.WebRootPath, "assets/images/logos");
 
             context.Brands.Add(brand);
             context.SaveChanges();
@@ -70,6 +95,26 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             {
                 return View(existed);
             }
+
+            if (brand.ImageFile != null)
+            {
+                if (!brand.ImageFile.IsSizeOkay(2))
+                {
+                    ModelState.AddModelError("ImageFile", "Image size cannot be bigger than 2MB");
+                    return View(existed);
+
+                }
+                if (!brand.ImageFile.IsImage())
+                {
+                    ModelState.AddModelError("ImageFile", "Select only image files!");
+                    return View(existed);
+
+                }
+
+                Helpers.Helper.DeleteImg(env.WebRootPath, "assets/images/logos", existed.Image);
+                existed.Image = brand.ImageFile.SaveImg(env.WebRootPath, "assets/images/logos");
+            }
+
             existed.Name = brand.Name;
             context.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -82,6 +127,8 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            Helpers.Helper.DeleteImg(env.WebRootPath, "assets/images/slider", brand.Image);
+
             context.Brands.Remove(brand);
             context.SaveChanges();
             return Json(new { status = 200 });

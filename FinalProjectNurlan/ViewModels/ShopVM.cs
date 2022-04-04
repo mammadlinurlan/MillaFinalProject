@@ -18,6 +18,8 @@ namespace FinalProjectNurlan.ViewModels
 
 
         public List<ProductColor>  ProductColors { get; set; }
+        public List<ProductColor> ProductColors2 { get; set; }
+
         public List<Comment> Comments { get; set; }
     }
 }

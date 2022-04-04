@@ -39,5 +39,7 @@ namespace FinalProjectNurlan.DAL
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Status> Statuses { get; set; }
+
+        public DbSet<Settings> Settings { get; set; }
     }
 }

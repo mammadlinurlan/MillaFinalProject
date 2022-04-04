@@ -2,6 +2,7 @@
 using FinalProjectNurlan.Models;
 using FinalProjectNurlan.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,25 @@ namespace FinalProjectNurlan.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext context;
 
         public HomeController(AppDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
         
         public IActionResult Index()
         {
             HomeVM home = new HomeVM
             {
-                Sliders = _context.Sliders.ToList()
+                Sliders = context.Sliders.ToList(),
+                Brands = context.Brands.Include(b => b.Products).ToList(),
+               
+   
+                ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p=>p.Product).ThenInclude(p=>p.Category).ThenInclude(c=>c.Gender).Include(p=>p.Product).ThenInclude(p=>p.ProductSizeColors).OrderBy(pc=>pc.Product.Name).ToList(),
+                ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).ToList(),
+                Product = context.Products.Include(p=>p.ProductSizeColors).Include(p=>p.Gender).FirstOrDefault(p=>p.DealOfTheDay==true),
+                
             };
 
             return View(home);

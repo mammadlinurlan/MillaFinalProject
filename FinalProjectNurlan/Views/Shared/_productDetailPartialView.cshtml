@@ -4,7 +4,7 @@
 
 
 
-
+<input hidden class="firstLoadId" value="@Model.ProductSizeColor.Id" />
 
 <div class="row">
     <div class="col-md-6">
@@ -17,6 +17,7 @@
                         <i class="icon-arrows"></i>
                     </a>
 
+                   
                 </figure>
             
                 <div id="product-zoom-gallery" class="product-image-gallery">
@@ -43,40 +44,7 @@
         <div class="product-details">
             <h1 class="product-title">@Model.ProductSizeColor.Product.Name.ToUpper()</h1>
 
-            @*<div class="ratings-container">
-                <div class="rating">
-
-                    @if (Model.Product.Rating != null && Model.Product.Comments.Count != 0)
-                    {
-                        @for (int i = 0; i < Math.Ceiling((decimal)Model.Product.Rating / Model.Product.Comments.Count); i++)
-                        {
-                            <i style="color:#c94" class="fa-solid fa-star"></i>
-
-                        }
-                        @for (int i = 0; i < (5 - Math.Ceiling((decimal)Model.Product.Rating / Model.Product.Comments.Count)); i++)
-                        {
-                            <i class="fa-solid fa-star"></i>
-
-                        }
-
-                    }
-                    else
-                    {
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-
-                        <i class="fa-solid fa-star"></i>
-
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-
-
-                    }
-
-
-                </div>
-                <span class="ratings-text">( @Model.Product.Comments.Count Reviews )</span>
-            </div>*@
+           
 
             <div class="product-price">
                 @if (Model.ProductSizeColor.Product.Discount != null && Model.ProductSizeColor.Product.Discount != 0)
@@ -190,4 +158,5 @@
 
 @section Scripts{
     <script src="~/assets/js/bootstrap-input-spinner.js"></script>
+<script src="~/assets/js/jquery.magnific-popup.min.js"></script>
 }

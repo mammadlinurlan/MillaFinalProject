@@ -138,178 +138,115 @@
                                     }
                                 }
                             }'>
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-1-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-1-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                    @foreach (var item in Model.ProductColors.Take(8))
+                    {
+                       
+                            <div class="product product-7 text-center">
+                                <figure class="product-media">
+                                    @if (item.Product.CreatedDate.AddDays(3) >= DateTime.Now)
+                                    {
+                                        <span class="product-label label-new">New</span>
+                                    }
+                                    <a class="until" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
+                                        <img style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
+                                    </a>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                        <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                                    </div>
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Denim jacket</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $19.99
-                            </div><!-- End .product-price -->
+                                </figure>
 
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="assets/images/demos/demo-6/products/product-1-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-1-2-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-1-3-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
+                                <div class="product-body">
 
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-2-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-2-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                                    <h3 class="product-title"><a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">@item.Product.Name</a></h3>
+                                    <div class="product-price">
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                                        @if (item.Product.Discount != null && item.Product.Discount != 0)
+                                        {
+                                            <span class="new-price" style="color:orangered">@((item.Product.Price - (item.Product.Price * item.Product.Discount / 100) ) ) $ </span> <span class="old-price" style="text-decoration:line-through">was @item.Product.Price$</span>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                                        }
+                                        else
+                                        {
+                                            <span style="color: #c96">@item.Product.Price $</span>
+                                        }
+                                    </div>
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Shoes</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Sandals</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $24.99
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
 
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">sale</span>
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-3-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-3-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                                    <div class="ratings-container">
+                                        <div class="rating">
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                                            @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
+                                            {
+                                                @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                                {
+                                                    <i style="color:#c94" class="fa-solid fa-star"></i>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                                                }
+                                                @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                                {
+                                                    <i class="fa-solid fa-star"></i>
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Printed sweatshirt</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $7.99</span>
-                                <span class="old-price">Was $12.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
+                                                }
 
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-4-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-4-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                                                <i class="fa-solid fa-star"></i>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Linen-blend paper bag trousers</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $17.99
-                            </div><!-- End .product-price -->
 
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="assets/images/demos/demo-6/products/product-4-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-4-2-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
+                                            }
 
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-1-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-1-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                                        </div>
+                                        <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                    </div>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                                    @*<div class="product-size">
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Denim jacket</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $19.99
-                            </div><!-- End .product-price -->
+                            @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
+                            {
+                                <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
+                            }
 
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="assets/images/demos/demo-6/products/product-1-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-1-2-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-1-3-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
+                        </div>*@
+                                    <div class="product-nav product-nav-thumbs">
+                                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                                            <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
+                                        </a>
 
-                </div><!-- End .owl-carousel -->
-            </div><!-- .End .tab-pane -->
+
+
+                                        @foreach (var prd in Model.ProductColors2.Where(p => p.ProductId == item.ProductId && p.ColorId != item.ColorId))
+                                        {
+
+
+                                            <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                                                <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
+
+                                            </a>
+                                        }
+
+
+                                    </div>
+                                </div>
+                            </div>
+                       
+                    }
+
+
+
+                </div>
+            </div>
             <div class="tab-pane p-0 fade" id="trending-women-tab" role="tabpanel" aria-labelledby="trending-women-link">
                 <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
                      data-owl-options='{
@@ -337,111 +274,112 @@
                                     }
                                 }
                             }'>
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">sale</span>
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-3-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-3-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                    @foreach (var item in Model.ProductColors.Where(p=>p.Product.GenderId == 2).Take(8))
+                    {
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Printed sweatshirt</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $7.99</span>
-                                <span class="old-price">Was $12.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-4-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-4-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Linen-blend paper bag trousers</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $17.99
-                            </div><!-- End .product-price -->
-
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="assets/images/demos/demo-6/products/product-4-thumb.jpg" alt="product desc">
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                @if (item.Product.CreatedDate.AddDays(3) >= DateTime.Now)
+                                {
+                                    <span class="product-label label-new">New</span>
+                                }
+                                <a class="until" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
+                                    <img style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
                                 </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-4-2-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
 
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-1-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-1-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                                </div>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                            </figure>
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Denim jacket</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $19.99
-                            </div><!-- End .product-price -->
+                            <div class="product-body">
 
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="assets/images/demos/demo-6/products/product-1-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-1-2-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-1-3-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .owl-carousel -->
-            </div><!-- .End .tab-pane -->
+                                <h3 class="product-title"><a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">@item.Product.Name</a></h3>
+                                <div class="product-price">
+
+                                    @if (item.Product.Discount != null && item.Product.Discount != 0)
+                                    {
+                                        <span class="new-price" style="color:orangered">@((item.Product.Price - (item.Product.Price * item.Product.Discount / 100) ) ) $ </span> <span class="old-price" style="text-decoration:line-through">was @item.Product.Price$</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span style="color: #c96">@item.Product.Price $</span>
+                                    }
+                                </div>
+
+
+                                <div class="ratings-container">
+                                    <div class="rating">
+
+                                        @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
+                                        {
+                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                            {
+                                                <i style="color:#c94" class="fa-solid fa-star"></i>
+
+                                            }
+                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                            {
+                                                <i class="fa-solid fa-star"></i>
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+
+                                            <i class="fa-solid fa-star"></i>
+
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+
+
+                                        }
+
+
+                                    </div>
+                                    <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                </div>
+
+                                @*<div class="product-size">
+
+                        @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
+                        {
+                            <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
+                        }
+
+                    </div>*@
+                                <div class="product-nav product-nav-thumbs">
+                                    <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                                        <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
+                                    </a>
+
+
+
+                                    @foreach (var prd in Model.ProductColors2.Where(p => p.ProductId == item.ProductId && p.ColorId != item.ColorId))
+                                    {
+
+
+                                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                                            <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
+
+                                        </a>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
 
             <div class="tab-pane p-0 fade" id="trending-men-tab" role="tabpanel" aria-labelledby="trending-men-link">
                 <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
@@ -470,74 +408,165 @@
                                     }
                                 }
                             }'>
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">sale</span>
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-3-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-3-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                    @foreach (var item in Model.ProductColors.Where(p => p.Product.GenderId == 1).Take(8))
+                    {
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                @if (item.Product.CreatedDate.AddDays(3) >= DateTime.Now)
+                                {
+                                    <span class="product-label label-new">New</span>
+                                }
+                                <a class="until" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
+                                    <img style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
+                                </a>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Printed sweatshirt</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $7.99</span>
-                                <span class="old-price">Was $12.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .owl-carousel -->
-            </div><!-- .End .tab-pane -->
-        </div><!-- End .tab-content -->
-    </div><!-- End .container -->
+                                </div>
 
-    <div class="mb-5"></div><!-- End .mb-5 -->
+                            </figure>
+
+                            <div class="product-body">
+
+                                <h3 class="product-title"><a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">@item.Product.Name</a></h3>
+                                <div class="product-price">
+
+                                    @if (item.Product.Discount != null && item.Product.Discount != 0)
+                                    {
+                                        <span class="new-price" style="color:orangered">@((item.Product.Price - (item.Product.Price * item.Product.Discount / 100) ) ) $ </span> <span class="old-price" style="text-decoration:line-through">was @item.Product.Price$</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span style="color: #c96">@item.Product.Price $</span>
+                                    }
+                                </div>
+
+
+                                <div class="ratings-container">
+                                    <div class="rating">
+
+                                        @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
+                                        {
+                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                            {
+                                                <i style="color:#c94" class="fa-solid fa-star"></i>
+
+                                            }
+                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                            {
+                                                <i class="fa-solid fa-star"></i>
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+
+                                            <i class="fa-solid fa-star"></i>
+
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+
+
+                                        }
+
+
+                                    </div>
+                                    <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                </div>
+
+                                @*<div class="product-size">
+
+                        @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
+                        {
+                            <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
+                        }
+
+                    </div>*@
+                                <div class="product-nav product-nav-thumbs">
+                                    <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                                        <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
+                                    </a>
+
+
+
+                                    @foreach (var prd in Model.ProductColors2.Where(p => p.ProductId == item.ProductId && p.ColorId != item.ColorId))
+                                    {
+
+
+                                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                                            <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
+
+                                        </a>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5"></div>
 
     <div class="deal bg-image pt-8 pb-8" style="background-image: url(assets/images/demos/demo-6/deal/bg-1.jpg);">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-8 col-lg-6">
                     <div class="deal-content text-center">
-                        <h4>Limited quantities. </h4>
-                        <h2>Deal of the Day</h2>
-                        <div class="deal-countdown" data-until="+10h"></div><!-- End .deal-countdown -->
-                    </div><!-- End .deal-content -->
-                    <div class="row deal-products" style="justify-content:center">
-                        <div class="col-6 deal-product text-center">
-                            <figure class="product-media">
-                                <a href="product.html">
-                                    <img src="assets/images/demos/demo-6/deal/product-1.jpg" alt="Product image" class="product-image">
-                                </a>
 
-                            </figure><!-- End .product-media -->
+                        @if (Model.Product != null)
+                        {
+                            <h4>Limited quantities. </h4>
+                            <h2>Deal of the Day</h2>
+                        }
+                        else
+                        {
 
-                            <div class="product-body">
-                                <h3 class="product-title"><a href="product.html">Elasticated cotton shorts</a></h3><!-- End .product-title -->
-                                <div class="product-price">
-                                    <span class="new-price">Now $24.99</span>
-                                    <span class="old-price">Was $30.99</span>
-                                </div><!-- End .product-price -->
-                            </div><!-- End .product-body -->
-                            <a href="category.html" class="action">shop now</a>
-                        </div>
+                            <h2>No deal today :(</h2>
 
+                        }
                     </div>
-                </div><!-- End .col-lg-5 -->
-            </div><!-- End .row -->
-        </div><!-- End .container -->
-    </div><!-- End .deal -->
+
+
+                    @if (Model.Product != null)
+                    {
+                        <div class="row deal-products" style="justify-content:center">
+                            <div class="col-6 deal-product text-center">
+                                <figure class="product-media">
+                                    <a asp-controller="@Model.Product.Gender.Name" asp-action="details" asp-route-id="@Model.Product.ProductSizeColors.FirstOrDefault().Id">
+                                        <img src="~/assets/images/products/@Model.Product.ProductSizeColors.FirstOrDefault().MainImage" alt="Product image" class="product-image">
+                                    </a>
+
+                                </figure>
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a asp-controller="@Model.Product.Gender.Name" asp-action="details" asp-route-id="@Model.Product.ProductSizeColors.FirstOrDefault().Id">@Model.Product.Name</a></h3>
+                                    <div class="product-price">
+                                        <span class="new-price">Now $@Model.Product.Price</span>
+                                        <span class="old-price">Was $@(Model.Product.Price - (Model.Product.Price * (Model.Product.Discount / 100)))</span>
+                                    </div>
+                                </div>
+                                <a href="category.html" class="action">shop now</a>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="pt-4 pb-3" style="background-color: #222;">
         <div class="container">
@@ -548,11 +577,11 @@
                             <i class="icon-truck"></i>
                         </span>
                         <div class="icon-box-content">
-                            <h3 class="icon-box-title">Payment & Delivery</h3><!-- End .icon-box-title -->
+                            <h3 class="icon-box-title">Payment & Delivery</h3>
                             <p>Free shipping for orders over $50</p>
-                        </div><!-- End .icon-box-content -->
-                    </div><!-- End .icon-box -->
-                </div><!-- End .col-lg-3 col-sm-6 -->
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-lg-3 col-sm-6">
                     <div class="icon-box text-center">
@@ -560,11 +589,11 @@
                             <i class="icon-rotate-left"></i>
                         </span>
                         <div class="icon-box-content">
-                            <h3 class="icon-box-title">Return & Refund</h3><!-- End .icon-box-title -->
+                            <h3 class="icon-box-title">Return & Refund</h3>
                             <p>Free 100% money back guarantee</p>
-                        </div><!-- End .icon-box-content -->
-                    </div><!-- End .icon-box -->
-                </div><!-- End .col-lg-3 col-sm-6 -->
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-lg-3 col-sm-6">
                     <div class="icon-box text-center">
@@ -572,11 +601,11 @@
                             <i class="icon-unlock"></i>
                         </span>
                         <div class="icon-box-content">
-                            <h3 class="icon-box-title">Secure Payment</h3><!-- End .icon-box-title -->
+                            <h3 class="icon-box-title">Secure Payment</h3>
                             <p>100% secure payment</p>
-                        </div><!-- End .icon-box-content -->
-                    </div><!-- End .icon-box -->
-                </div><!-- End .col-lg-3 col-sm-6 -->
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-lg-3 col-sm-6">
                     <div class="icon-box text-center">
@@ -584,292 +613,139 @@
                             <i class="icon-headphones"></i>
                         </span>
                         <div class="icon-box-content">
-                            <h3 class="icon-box-title">Quality Support</h3><!-- End .icon-box-title -->
+                            <h3 class="icon-box-title">Quality Support</h3>
                             <p>Alway online feedback 24/7</p>
-                        </div><!-- End .icon-box-content -->
-                    </div><!-- End .icon-box -->
-                </div><!-- End .col-lg-3 col-sm-6 -->
-            </div><!-- End .row -->
-        </div><!-- End .container -->
-    </div><!-- End .bg-light pt-2 pb-2 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="mb-6"></div><!-- End .mb-5 -->
+    <div class="mb-6"></div>
 
     <div class="container">
-        <h2 class="title text-center mb-4">New Arrivals</h2><!-- End .title text-center -->
+        <h2 class="title text-center mb-4">New Arrivals</h2>
 
         <div class="products">
             <div class="row justify-content-center">
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">Sale</span>
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-5-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-5-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                @foreach (var item in Model.ProductColors.OrderByDescending(p=>p.Product.CreatedDate).Take(8))
+                {
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                @if (item.Product.CreatedDate.AddDays(3) >= DateTime.Now)
+                                {
+                                    <span class="product-label label-new">New</span>
+                                }
+                                <a class="until" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
+                                    <img style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
+                                </a>
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Tie-detail top</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $3.99</span>
-                                <span class="old-price">Was $6.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-6-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-6-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                                </div>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                            </figure>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
+                            <div class="product-body">
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Shoes</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Sandals</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $12.99
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                <h3 class="product-title"><a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">@item.Product.Name</a></h3>
+                                <div class="product-price">
 
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-7-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-7-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+                                    @if (item.Product.Discount != null && item.Product.Discount != 0)
+                                    {
+                                        <span class="new-price" style="color:orangered">@((item.Product.Price - (item.Product.Price * item.Product.Discount / 100) ) ) $ </span> <span class="old-price" style="text-decoration:line-through">was @item.Product.Price$</span>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
+                                    }
+                                    else
+                                    {
+                                        <span style="color: #c96">@item.Product.Price $</span>
+                                    }
+                                </div>
 
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
 
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Bags</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Small bucket bag</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $14.99
-                            </div><!-- End .product-price -->
+                                <div class="ratings-container">
+                                    <div class="rating">
 
-                            <div class="product-size">
-                                <a href="#" class="disabled" title="Small">S</a>
-                                <a href="#" title="Medium">M</a>
-                                <a href="#" class="disabled" title="Large">L</a>
-                                <a href="#" title="Extra Large">XL</a>
+                                        @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
+                                        {
+                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                            {
+                                                <i style="color:#c94" class="fa-solid fa-star"></i>
+
+                                            }
+                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                            {
+                                                <i class="fa-solid fa-star"></i>
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+
+                                            <i class="fa-solid fa-star"></i>
+
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+
+
+                                        }
+
+
+                                    </div>
+                                    <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                </div>
+
+                                @*<div class="product-size">
+
+                            @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
+                            {
+                                <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
+                            }
+
+                        </div>*@
+                                <div class="product-nav product-nav-thumbs">
+                                    <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                                        <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
+                                    </a>
+
+
+
+                                    @foreach (var prd in Model.ProductColors2.Where(p => p.ProductId == item.ProductId && p.ColorId != item.ColorId))
+                                    {
+
+
+                                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                                            <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
+
+                                        </a>
+                                    }
+
+
+                                </div>
                             </div>
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="assets/images/demos/demo-6/products/product-7-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-7-2-thumb.jpg" alt="product desc">
-                                </a>
+                        </div>
+                    </div>
+
+
+                }
 
 
 
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
 
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-8-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-8-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
+            </div>
+        </div>
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Denim jacket</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $34.99
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-9-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-9-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">BShort wrap dress</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $17.99
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-10-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-10-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Biker jacket</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $34.99
-                            </div><!-- End .product-price -->
-
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="assets/images/demos/demo-6/products/product-10-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/demos/demo-6/products/product-10-2-thumb.jpg" alt="product desc">
-                                </a>
-                            </div><!-- End .product-nav -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-11-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-11-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Shoes</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Loafers</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                $9.99
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                <div class="col-6 col-md-4 col-lg-3">
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-sale">sale</span>
-                            <a href="product.html">
-                                <img src="assets/images/demos/demo-6/products/product-12-1.jpg" alt="Product image" class="product-image">
-                                <img src="assets/images/demos/demo-6/products/product-12-2.jpg" alt="Product image" class="product-image-hover">
-                            </a>
-
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            </div><!-- End .product-action-vertical -->
-
-                            <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <a href="#">Clothing</a>
-                            </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Super Skinny High Jeggings</a></h3><!-- End .product-title -->
-                            <div class="product-price">
-                                <span class="new-price">Now $12.99</span>
-                                <span class="old-price">Was $17.99</span>
-                            </div><!-- End .product-price -->
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-            </div><!-- End .row -->
-        </div><!-- End .products -->
-
-        <div class="more-container text-center mt-2">
-            <a href="#" class="btn btn-outline-dark-2 btn-more"><span>show more</span></a>
-        </div><!-- End .more-container -->
-    </div><!-- End .container -->
-
+       
+    </div>
     <div class="pb-3">
         <div class="container brands pt-5 pt-lg-7 ">
 
@@ -899,37 +775,22 @@
                                 }
                             }
                         }'>
-                <a href="#" class="brand">
-                    <img src="assets/images/brands/1.png" alt="Brand Name">
-                </a>
 
-                <a href="#" class="brand">
-                    <img src="assets/images/brands/2.png" alt="Brand Name">
-                </a>
+                @foreach (var item in Model.Brands)
+                {
+                    <a  class="brand">
+                        <img src="assets/images/logos/@item.Image" alt="Brand Name">
+                    </a>
 
-                <a href="#" class="brand">
-                    <img src="assets/images/brands/3.png" alt="Brand Name">
-                </a>
+                }
 
-                <a href="#" class="brand">
-                    <img src="assets/images/brands/4.png" alt="Brand Name">
-                </a>
 
-                <a href="#" class="brand">
-                    <img src="assets/images/brands/5.png" alt="Brand Name">
-                </a>
 
-                <a href="#" class="brand">
-                    <img src="assets/images/brands/6.png" alt="Brand Name">
-                </a>
 
-                <a href="#" class="brand">
-                    <img src="assets/images/brands/7.png" alt="Brand Name">
-                </a>
-            </div><!-- End .owl-carousel -->
-        </div><!-- End .container -->
+            </div>
+        </div>
 
-        <div class="mb-5 mb-lg-7"></div><!-- End .mb-5 -->
+        <div class="mb-5 mb-lg-7"></div>
 
         <div class="container newsletter">
             <div class="row">
@@ -1171,6 +1032,23 @@
                     "hideMethod": "fadeOut"
                 }
             }
+
+
+            $(".product-notMain").click(function (e) {
+              
+                e.preventDefault();
+                var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+                var newHref = $(this).attr("href")
+                $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+                var closestNav = $(this).closest(".product-nav");
+                $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+
+                $(this).addClass("active")
+                var notmain = $(this).children(".nmSrc").attr("src")
+                $(parent).attr("src", notmain)
+
+
+            })
         })
     </script>
 }
