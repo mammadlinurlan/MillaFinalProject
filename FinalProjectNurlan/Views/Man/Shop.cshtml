@@ -10,7 +10,8 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-controller="man" asp-action="index">Man</a></li>
 
-                <li class="breadcrumb-item active" aria-current="page">@Model.Category.Name</li>
+                <li class="breadcrumb-item active" aria-current="page"><a asp-controller="man" asp-action="shop" asp-route-id="@Model.Category.Id">@Model.Category.Name</a></li>
+
             </ol>
         </div><!-- End .container -->
     </nav><!-- End .breadcrumb-nav -->
@@ -20,7 +21,8 @@
             <div class="row">
                 <div class="col-lg-9">
                     <div class="toolbox">
-                        
+
+
 
                         <div class="toolbox-right">
                             <div class="toolbox-sort">
@@ -38,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="toolbox-layout">
-                             
+
 
                                 <a href="#" id="2col" class="btn-layout">
                                     <svg width="10" height="10">
@@ -60,7 +62,7 @@
                                     </svg>
                                 </a>
 
-                               
+
                             </div>
                         </div>
                     </div>
@@ -74,14 +76,14 @@
                     </div>
 
 
-                <input hidden value="@Model.Category.Id" class="hiddenCategoryId" />
+                    <input hidden value="@Model.Category.Id" class="hiddenCategoryId" />
 
 
 
 
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
+                    @*<nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
                                     <a class="page-link page-link-prev" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
                                         <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
                                     </a>
@@ -89,8 +91,8 @@
 
                                 @for (int i = 1; i <= ViewBag.TotalPage; i++)
                                 {
-                                    <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")"  style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")" ><a class="page-link" asp-controller="man" asp-action="shop" asp-route-page="@i">@i</a></li>
-
+                                    <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")"><a class="page-link" asp-controller="man" asp-action="shop" asp-route-page="@i">@i</a></li>
+                                    <input hidden value="@i" class="hiddenSortPage  @(ViewBag.CurrentPage == i ? "activeId" : "")" />
                                 }
 
 
@@ -100,17 +102,64 @@
                                         Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
                                     </a>
                                 </li>
+                            </ul>
+                        </nav>*@
 
 
 
-                            @*<a href="#" id="loadMore" style="max-width: 18%; background-color: #c96; color: white;" class="btn-product">
-                                Load more
-                            </a>*@
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li style="cursor:pointer" class="page-item-prev disabled">
+                                <a class="page-link page-link-prev" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                </a>
+                            </li>
+
+                            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                            {
+                                <li class="page-item @(i == 1 ? "active" : " ") ">
+                                    <input hidden value="@i" class="hiddenSortPage  @(i == 1 ? "activeInput" : " ")" />
+
+                                    <a class="page-link" asp-controller="man" asp-action="sorting" asp-route-page="@i">@i</a>
+
+                                </li>
+                            }
 
 
 
+                            <li style="cursor:pointer" class="page-item-next  ">
+                                <a class="page-link page-link-next" aria-label="Next">
+                                    Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
+
+
+                    @*<nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item @(ViewBag.Currentpages == 1 ? "disabled" : "")">
+                                    <a class="page-link page-link-prev" asp-controller="man" asp-action="sorting" asp-route-page="@(ViewBag.CurrentPages-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                    </a>
+                                </li>
+
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    <li class="page-item  @(ViewBag.CurrentPages == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPages == i ? "none" : "")"><a class="page-link" asp-controller="man" asp-action="sorting" asp-route-page="@i">@i</a></li>
+
+                                }
+
+
+
+                                <li class="page-item @(ViewBag.CurrentPages == ViewBag.TotalPages ? "disabled" : "")">
+                                    <a class="page-link page-link-next" asp-controller="man" asp-action="sorting" asp-route-page="@(ViewBag.CurrentPages +1)" aria-label="Next">
+                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>*@
+
                 </div><!-- End .col-lg-9 -->
 
                 <aside class="col-lg-3 order-lg-first">
@@ -194,16 +243,16 @@
 
 
                                         @*@foreach (var item in ViewBag.Sizes)
-        {
-            <div class="filter-item">
-                <div class="custom-control custom-checkbox">
+                                            {
+                                                <div class="filter-item">
+                                                    <div class="custom-control custom-checkbox">
 
-                    <input type="checkbox" class="custom-control-input" id="@item.Id">
-                    <label class="custom-control-label" for="@item.Id">@item.Name</label>
+                                                        <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                                        <label class="custom-control-label" for="@item.Id">@item.Name</label>
 
-                </div>
-            </div>
-        }*@
+                                                    </div>
+                                                </div>
+                                            }*@
 
 
                                     </div><!-- End .filter-items -->
@@ -275,7 +324,7 @@
                                             Price Range:
                                             <span id="filter-price-range">$0 - $750</span>
                                         </div>
-                                        <div id="price-slider" class="noUi-target noUi-ltr noUi-horizontal"><div class="noUi-base"><div class="noUi-connects"><div class="noUi-connect" style="transform: translate(0%, 0px) scale(0.75, 1);"></div></div><div class="noUi-origin" style="transform: translate(-100%, 0px); z-index: 5;"><div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="550.0" aria-valuenow="0.0" aria-valuetext="$0"><div class="noUi-touch-area"></div><div class="noUi-tooltip">$0</div></div></div><div class="noUi-origin" style="transform: translate(-25%, 0px); z-index: 4;"><div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="200.0" aria-valuemax="1000.0" aria-valuenow="750.0" aria-valuetext="$750"><div class="noUi-touch-area"></div><div class="noUi-tooltip">$750</div></div></div></div></div><!-- End #price-slider -->
+                                        <div  id="price-slider" class="noUi-target noUi-ltr noUi-horizontal"><div class="noUi-base"><div class="noUi-connects"><div class="noUi-connect" style="transform: translate(0%, 0px) scale(0.75, 1);"></div></div><div class="noUi-origin" style="transform: translate(-100%, 0px); z-index: 5;"><div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="550.0" aria-valuenow="0.0" aria-valuetext="$0"><div class="noUi-touch-area"></div><div class="noUi-tooltip">$0</div></div></div><div class="noUi-origin" style="transform: translate(-25%, 0px); z-index: 4;"><div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="200.0" aria-valuemax="1000.0" aria-valuenow="750.0" aria-valuetext="$750"><div class="noUi-touch-area"></div><div class="noUi-tooltip">$750</div></div></div></div></div><!-- End #price-slider -->
 
 
                                     </div><!-- End .filter-price -->
@@ -292,53 +341,179 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-
-            //var base = window.location.origin;
-            ////var val = $(this).val();
-            //var catid = $(".hiddenCategoryId").val()
-
-            //var url = `${base}/man/Sorting?catid=${catid}&sortval=${1}`
-
-            //fetch(url).then(res => res.text()).then(data => {
-            //    $(".rowprods").empty();
-            //    $(".rowprods").append(data)
-            //    if ($("#2col").hasClass("active")) {
+            var idVal = $(".page-item").next().val();
+            console.log(idVal)
 
 
-            //        $(".productClass").removeClass("col-lg-4");
-            //        $(".productClass").addClass("col-lg-6");
-            //        $(".productClass").removeClass("col-md-4");
-            //        $(".productClass").addClass("col-md-6");
-            //        console.log("3col")
+            var base = window.location.origin;
+            var val = $("#sortby").val();
+            var catid = $(".hiddenCategoryId").val()
+            var page = 1;
 
-            //        $(".product-main").css("height", "430px")
+
+            var url = `${base}/man/Sorting?catid=${catid}&sortval=${val}`
+
+            fetch(url).then(res => res.text()).then(data => {
+                $(".rowprods").empty();
+                $(".rowprods").append(data)
+
+
+
+                if ($("#2col").hasClass("active")) {
+
+
+                    $(".productClass").removeClass("col-lg-4");
+                    $(".productClass").addClass("col-lg-6");
+                    $(".productClass").removeClass("col-md-4");
+                    $(".productClass").addClass("col-md-6");
+                    console.log("3col")
+
+                    $(".product-main").css("height", "430px")
+                }
+                else {
+                    $(".productclass").removeClass("col-lg-6");
+                    $(".productclass").addClass("col-lg-4");
+                    $(".productclass").removeClass("col-md-6");
+                    $(".productclass").addClass("col-md-4");
+                    $(".product-main").css("height", "353px")
+                    console.log("2col")
+                }
+                $(".product-notMain").click(function (e) {
+                    console.log("sa")
+                    e.preventDefault();
+                    var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+                    var newHref = $(this).attr("href")
+                    $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+                    var closestNav = $(this).closest(".product-nav");
+                    $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+
+                    $(this).addClass("active")
+                    var notmain = $(this).children(".nmSrc").attr("src")
+                    $(parent).attr("src", notmain)
+
+                })
+
+            })
+
+
+
+            //console.log(idVal)
+            //$(page)
+
+            var vll = $(".activeInput").val();
+            var nrmlzd = Number(vll) + 1
+
+           
+
+            //$(document).on("click", ".page-item-next", function (e) {
+
+                
+                
+
+
+            //    e.preventDefault();
+            //    var val = $(".activeInput").val();
+            //    var sortval = $("#sortby").val();
+            //    var b = window.location.origin;
+            //    var catid = $(".hiddenCategoryId").val()
+            //    var normalized = Number(val) + 1
+            //    if ($(".page-item").length == normalized) {
+            //        $(this).addClass("disabled")
+            //        $(this).children().first().css("color", "#dcdde1")
+            //        $(this).css("pointer-events", "none")
             //    }
-            //    else {
-            //        $(".productclass").removeClass("col-lg-6");
-            //        $(".productclass").addClass("col-lg-4");
-            //        $(".productclass").removeClass("col-md-6");
-            //        $(".productclass").addClass("col-md-4");
-            //        $(".product-main").css("height", "353px")
-            //        console.log("2col")
+               
+            //    if ($(".page-item").length < normalized) {
+            //        return false;
             //    }
+
+                
+            //    var nextt = $(".activeInput").parent().next();
+
+            //    $(nextt).addClass("active")
+            //    $(".page-item").not(nextt).removeClass("active")
+            //    $(".hiddenSortPage").removeClass("activeInput");
+            //    $(nextt).children().first().addClass("activeInput")
+
+
+            //    var lnk = `${b}/man/Sorting?catid=${catid}&sortval=${sortval}&page=${normalized}`
+            //    console.log(lnk)
+            //    fetch(lnk).then(res => res.text()).then(data => {
+            //        $(".rowprods").empty();
+            //        $(".rowprods").append(data)
+
+
+
+            //        if ($("#2col").hasClass("active")) {
+
+
+            //            $(".productClass").removeClass("col-lg-4");
+            //            $(".productClass").addClass("col-lg-6");
+            //            $(".productClass").removeClass("col-md-4");
+            //            $(".productClass").addClass("col-md-6");
+            //            console.log("3col")
+
+            //            $(".product-main").css("height", "430px")
+            //        }
+            //        else {
+            //            $(".productclass").removeClass("col-lg-6");
+            //            $(".productclass").addClass("col-lg-4");
+            //            $(".productclass").removeClass("col-md-6");
+            //            $(".productclass").addClass("col-md-4");
+            //            $(".product-main").css("height", "353px")
+            //            console.log("2col")
+            //        }
+
+            //        $(".product-notMain").click(function (e) {
+            //            console.log("sa")
+            //            e.preventDefault();
+            //            var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+            //            var newHref = $(this).attr("href")
+            //            $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+            //            var closestNav = $(this).closest(".product-nav");
+            //            $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+
+            //            $(this).addClass("active")
+            //            var notmain = $(this).children(".nmSrc").attr("src")
+            //            $(parent).attr("src", notmain)
+
+            //        })
+            //    })
+
+               
+
             //})
-            $("#sortby").val(1)
-             
-          
 
 
-            $(document).on("change", "#sortby", function () {
-                var base = window.location.origin;
-                var val = $(this).val();
+            $(document).on("click", ".page-item", function (e) {
+
+                e.preventDefault();
+                $(this).addClass("active");
+                $(".page-item").not(this).removeClass("active")
+                $(this).children().first().addClass("activeInput")
+                $(".activeInput").not($(this).children().first()).removeClass("activeInput");
+                page = $(this).children().first().val();
+
+                //$(".page-item-next").removeClass("disabled")
+                //$(".page-item-next").children().first().css("color", "black")
+                //$(".page-item-next").css("cursor", "pointer")
+
+                var sortval = $("#sortby").val();
+                var b = window.location.origin;
                 var catid = $(".hiddenCategoryId").val()
 
-                var url = `${base}/man/Sorting?catid=${catid}&sortval=${val}`
 
-                fetch(url).then(res => res.text()).then(data => {
+                var lnk = `${b}/man/Sorting?catid=${catid}&sortval=${sortval}&page=${page}`
+                console.log(lnk)
+
+                fetch(lnk).then(res => res.text()).then(data => {
                     $(".rowprods").empty();
                     $(".rowprods").append(data)
+
+
+
                     if ($("#2col").hasClass("active")) {
-                     
+
 
                         $(".productClass").removeClass("col-lg-4");
                         $(".productClass").addClass("col-lg-6");
@@ -356,13 +531,94 @@
                         $(".product-main").css("height", "353px")
                         console.log("2col")
                     }
+
+                    $(".product-notMain").click(function (e) {
+                        console.log("sa")
+                        e.preventDefault();
+                        var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+                        var newHref = $(this).attr("href")
+                        $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+                        var closestNav = $(this).closest(".product-nav");
+                        $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+
+                        $(this).addClass("active")
+                        var notmain = $(this).children(".nmSrc").attr("src")
+                        $(parent).attr("src", notmain)
+
+                    })
                 })
-               
 
             })
 
 
 
+
+
+            $(document).on("change", "#sortby", function () {
+                var base = window.location.origin;
+                var val = $(this).val();
+                var catid = $(".hiddenCategoryId").val()
+                var idVal = $(".page-item").next().val();
+
+
+
+                var url = `${base}/man/Sorting?catid=${catid}&sortval=${val}&page=${page}`
+
+                fetch(url).then(res => res.text()).then(data => {
+                    $(".rowprods").empty();
+                    $(".rowprods").append(data)
+
+
+
+                    if ($("#2col").hasClass("active")) {
+
+
+                        $(".productClass").removeClass("col-lg-4");
+                        $(".productClass").addClass("col-lg-6");
+                        $(".productClass").removeClass("col-md-4");
+                        $(".productClass").addClass("col-md-6");
+                        console.log("3col")
+
+                        $(".product-main").css("height", "430px")
+                    }
+                    else {
+                        $(".productclass").removeClass("col-lg-6");
+                        $(".productclass").addClass("col-lg-4");
+                        $(".productclass").removeClass("col-md-6");
+                        $(".productclass").addClass("col-md-4");
+                        $(".product-main").css("height", "353px")
+                        console.log("2col")
+                    }
+
+                    $(".product-notMain").click(function (e) {
+                        console.log("sa")
+                        e.preventDefault();
+                        var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+                        var newHref = $(this).attr("href")
+                        $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+                        var closestNav = $(this).closest(".product-nav");
+                        $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+
+                        $(this).addClass("active")
+                        var notmain = $(this).children(".nmSrc").attr("src")
+                        $(parent).attr("src", notmain)
+
+                    })
+                })
+
+
+            })
+
+
+
+
+            //if ($("#sortby").val() != 1) {
+
+
+
+
+
+            //}
 
             $("#price-slider").children().first().remove()
 
@@ -420,7 +676,7 @@
 
                 }
 
-                
+
             })
 
             $(".brand-item").click(function () {

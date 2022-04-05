@@ -307,7 +307,9 @@ namespace FinalProjectNurlan.Controllers
                 Zip = user.Zip,
                 Email = user.Email,
                 Firstname = user.Firstname,
-                Surname = user.Surname
+                Surname = user.Surname,
+                Order = _context.Orders.OrderByDescending(o => o.Id).Include(o => o.OrderItems).ThenInclude(o => o.ProductSizeColor).ThenInclude(p => p.Size).Include(p => p.OrderItems).ThenInclude(p => p.ProductSizeColor).ThenInclude(pc => pc.Color).Include(p => p.OrderItems).ThenInclude(p => p.ProductSizeColor).ThenInclude(p => p.Product).ThenInclude(p => p.Gender).Include(o => o.Status).Where(o => o.AppUserId == user.Id).ToList()
+
             };
 
             if (user.UserName != editedUser.Username && await _userManager.FindByNameAsync(editedUser.Username) != null)

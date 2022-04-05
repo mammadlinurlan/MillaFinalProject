@@ -36,9 +36,13 @@ namespace FinalProjectNurlan.Controllers
         }
 
 
-        public IActionResult Sorting(int catid ,int sortval=1)
+        public IActionResult Sorting(int catid ,int sortval=1,int page=1)
         {
             Category category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == catid);
+
+            ViewBag.CurrentPages = page;
+            ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).Count() / 6);
+
 
             if (sortval==1)
             {
@@ -48,7 +52,7 @@ namespace FinalProjectNurlan.Controllers
                     Category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == catid),
                     Products = context.Products.Include(p => p.ProductColors).Include(p => p.Category).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Brand).Include(p => p.SubCategory).Include(p => p.Gender).Where(p => p.CategoryId == catid && p.ProductSizeColors.Count > 0).ToList(),
                     ProductSizeColors = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.Product).ThenInclude(p => p.SubCategory).Include(p => p.ProductImages).Where(p => p.Product.CategoryId == catid).ToList(),
-                    ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderByDescending(p => p.Id).ToList(),
+                    ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderByDescending(p => p.Id).Skip((page - 1) * 6).Take(6).ToList(),
                     ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).ToList(),
                 };
 
@@ -64,7 +68,7 @@ namespace FinalProjectNurlan.Controllers
                         Category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == catid),
                         Products = context.Products.Include(p => p.ProductColors).Include(p => p.Category).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Brand).Include(p => p.SubCategory).Include(p => p.Gender).Where(p => p.CategoryId == catid && p.ProductSizeColors.Count > 0).ToList(),
                         ProductSizeColors = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.Product).ThenInclude(p => p.SubCategory).Include(p => p.ProductImages).Where(p => p.Product.CategoryId == catid).ToList(),
-                        ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderBy(p => p.Product.Price ).ToList(),
+                        ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderBy(p => p.Product.Price ).Skip((page-1)*6).Take(6).ToList(),
                         ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).ToList(),
                     };
 
@@ -80,7 +84,7 @@ namespace FinalProjectNurlan.Controllers
                             Category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == catid),
                             Products = context.Products.Include(p => p.ProductColors).Include(p => p.Category).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Brand).Include(p => p.SubCategory).Include(p => p.Gender).Where(p => p.CategoryId == catid && p.ProductSizeColors.Count > 0).ToList(),
                             ProductSizeColors = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.Product).ThenInclude(p => p.SubCategory).Include(p => p.ProductImages).Where(p => p.Product.CategoryId == catid).ToList(),
-                            ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderByDescending(p => p.Product.Price).ToList(),
+                            ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderByDescending(p => p.Product.Price).Skip((page - 1) * 6).Take(6).ToList(),
                             ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).ToList(),
                         };
 
@@ -96,7 +100,7 @@ namespace FinalProjectNurlan.Controllers
                                 Category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == catid),
                                 Products = context.Products.Include(p => p.ProductColors).Include(p => p.Category).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Brand).Include(p => p.SubCategory).Include(p => p.Gender).Where(p => p.CategoryId == catid && p.ProductSizeColors.Count > 0).ToList(),
                                 ProductSizeColors = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.Product).ThenInclude(p => p.SubCategory).Include(p => p.ProductImages).Where(p => p.Product.CategoryId == catid).ToList(),
-                                ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderBy(p => p.Product.Name).ToList(),
+                                ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderBy(p => p.Product.Name).Skip((page - 1) * 6).Take(6).ToList(),
                                 ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).ToList(),
                             };
 
@@ -112,7 +116,7 @@ namespace FinalProjectNurlan.Controllers
                                     Category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == catid),
                                     Products = context.Products.Include(p => p.ProductColors).Include(p => p.Category).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Brand).Include(p => p.SubCategory).Include(p => p.Gender).Where(p => p.CategoryId == catid && p.ProductSizeColors.Count > 0).ToList(),
                                     ProductSizeColors = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.Product).ThenInclude(p => p.SubCategory).Include(p => p.ProductImages).Where(p => p.Product.CategoryId == catid).ToList(),
-                                    ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderByDescending(p => p.Product.Name).ToList(),
+                                    ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).OrderByDescending(p => p.Product.Name).Skip((page - 1) * 6).Take(6).ToList(),
                                     ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 1).ToList(),
                                 };
 
@@ -123,6 +127,7 @@ namespace FinalProjectNurlan.Controllers
                 }
             }
 
+            ViewBag.Sortdata = sortval;
 
             return Json(new { status = 200 });
         }

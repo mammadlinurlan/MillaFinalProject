@@ -22,79 +22,92 @@
 
 
     <div class="page-content">
-        <div class="cart">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <table class="table table-cart table-mobile">
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Color</th>
-                                    <th>Size</th>
-                                    <th>Price</th>
 
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
+        @if (Model.BasketItems.Count == 0)
+        {
+            <div style="display: flex;height:150px;flex-direction:column; justify-content:space-around; align-items: center; margin-top: 9rem">
+                <i style="transform:scale(3.0)" class="fa-solid fa-basket-shopping"></i>
+                <h3 style="margin:0 !important">Your basket is empty!</h3>
+            </div>
+        }
+        else
+        {
+            <div class="cart">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <table class="table table-cart table-mobile">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Color</th>
+                                        <th>Size</th>
+                                        <th>Price</th>
 
-                            <tbody class="forPartial">
-
-                                @await Html.PartialAsync("_cartPartialView",Model)
-
-
-                            </tbody>
-                        </table>
-
-                        <div class="cart-bottom">
-                            <div class="cart-discount">
-                                <form action="#">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" required placeholder="coupon code">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            @*<a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a>*@
-                        </div>
-                    </div>
-                    <aside class="col-lg-3">
-                        <div class="summary summary-cart">
-                            <h3 class="summary-title">Cart Total</h3>
-
-                            <table class="table table-summary">
-                                <tbody>
-                                    <tr class="summary-subtotal">
-                                        <td>Subtotal:</td>
-                                        <td class="totalPriceAppend">
-                                            $@String.Format("{0:0.00}", totalprice)
-
-                                        </td>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th></th>
                                     </tr>
-                                  
-                                 
+                                </thead>
 
-                                    <tr class="summary-total">
-                                        <td>Total:</td>
-                                        <td class="totalPriceAppend">
-                                            $@String.Format("{0:0.00}",totalprice)
-                                        </td>
-                                    </tr>
+                                <tbody class="forPartial">
+
+                                    @await Html.PartialAsync("_cartPartialView", Model)
+
+
                                 </tbody>
                             </table>
 
-                            <a asp-controller="order" asp-action="checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
-                        </div>
+                            <div class="cart-bottom">
+                                <div class="cart-discount">
+                                    <form action="#">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" required placeholder="coupon code">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
 
-                    </aside>
+                                @*<a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a>*@
+                            </div>
+                        </div>
+                        <aside class="col-lg-3">
+                            <div class="summary summary-cart">
+                                <h3 class="summary-title">Cart Total</h3>
+
+                                <table class="table table-summary">
+                                    <tbody>
+                                        <tr class="summary-subtotal">
+                                            <td>Subtotal:</td>
+                                            <td class="totalPriceAppend">
+                                                $@String.Format("{0:0.00}", totalprice)
+
+                                            </td>
+                                        </tr>
+
+
+
+                                        <tr class="summary-total">
+                                            <td>Total:</td>
+                                            <td class="totalPriceAppend">
+                                                $@String.Format("{0:0.00}", totalprice)
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <a asp-controller="order" asp-action="checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                            </div>
+
+                        </aside>
+                    </div>
                 </div>
             </div>
-        </div>
+
+        }
+
     </div>
 </main>
 
@@ -105,6 +118,7 @@
     //window.location.reload();
     $(document).ready(function () {
         var base = window.location.origin;
+
 
 
         var partialurl = `${base}/Basket/CartPartial`
@@ -118,6 +132,7 @@
 
             $(".forPartial").empty();
             $(".forPartial").append(data);
+            $(".quantityClick").attr("readonly")
 
             var minus = `<i class="icon-minus"></i>`
             var plus = `<i class="icon-plus"></i>`
@@ -141,6 +156,7 @@
 
                 $(".totalPriceAppend").append(`$${monet}`)
 
+                $(".quantityClick").attr("readonly")
 
             })
 
@@ -148,6 +164,7 @@
 
                 $(".dropdown-cart-products").empty();
                 $(".dropdown-cart-products").append(data);
+                $(".quantityClick").attr("readonly")
 
             })
 
@@ -155,8 +172,14 @@
 
                 $(".cart-count").empty();
                 $(".cart-count").append(data);
+                $(".quantityClick").attr("readonly")
 
             })
+
+            $(".input-group-prepend").next().attr("readonly", "true")
+
+
+
 
 
 
@@ -190,9 +213,10 @@
             var urlforpartial = `${uruuul}/Basket/GetPartial`
 
 
+
             fetch(url).then(res => res.text()).then(data => {
 
-                console.log(data)
+                //console.log(data)
 
                 $(".forPartial").empty();
                 $(".forPartial").append(data);
@@ -244,7 +268,8 @@
                     $(".dropdown-cart-products").append(data);
 
                 })
-                console.log(updatedPrice)
+                //console.log(updatedPrice)
+                $(".input-group-prepend").next().attr("readonly","true")
 
             })
 
@@ -261,6 +286,7 @@
             console.log(`${base}${linkk}`)
             var comp = `${base}${linkk}`
 
+            $(".quantityClick").attr("readonly")
 
 
             var urlstrt = window.location.origin;
@@ -271,21 +297,25 @@
 
             fetch(comp).then(res => res.text()).then(data => {
                 console.log(data)
+                $(".quantityClick").attr("readonly")
 
 
                 fetch(urlforcount).then(res => res.text()).then(data => {
 
                     $(".cart-count").empty();
                     $(".cart-count").append(data);
+                    $(".quantityClick").attr("readonly")
 
                 })
                 fetch(urlforpartial).then(res => res.text()).then(data => {
 
+                    $(".quantityClick").attr("readonly")
                     $(".dropdown-cart-products").empty();
                     $(".dropdown-cart-products").append(data);
 
                 })
                 fetch(urlforprice).then(res => res.text()).then(data => {
+                    $(".quantityClick").attr("readonly")
 
                     $(".cart-total-price").empty();
                     var monet = parseFloat(data).toFixed(2)
@@ -299,6 +329,7 @@
 
                 var partialurl = `${base}/Basket/CartPartial`
                 var urlforpartial = `${base}/Basket/GetPartial`
+                $(".quantityClick").attr("readonly")
 
 
                 fetch(partialurl).then(res => res.text()).then(data => {
@@ -315,6 +346,7 @@
                     $(".btn-outline-secondary").removeClass("btn-outline-secondary")
 
                     var urlforprice = `${base}/Basket/GetTotalPrice`
+                    $(".quantityClick").attr("readonly")
 
 
                     fetch(urlforprice).then(res => res.text()).then(data => {
@@ -328,6 +360,7 @@
 
                         $(".totalPriceAppend").append(`$${monet}`)
 
+                        $(".quantityClick").attr("readonly")
 
                     })
 
@@ -335,8 +368,12 @@
 
                         $(".dropdown-cart-products").empty();
                         $(".dropdown-cart-products").append(data);
+                        $(".quantityClick").attr("readonly")
+
 
                     })
+                    $(".input-group-prepend").next().attr("readonly", "true")
+
 
 
 

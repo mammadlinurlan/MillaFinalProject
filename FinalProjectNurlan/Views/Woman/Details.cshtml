@@ -295,11 +295,16 @@
     <script src="~/assets/js/jquery.elevateZoom.min.js"></script>
     <script>
         $(document).ready(function () {
+          
+
+
+
+
 
             var b = window.location.origin;
             var vl = $(".firstLoadId").val()
 
-            var ul = `${b}/man/changecolor/${vl}`
+            var ul = `${b}/woman/changecolor/${vl}`
 
             fetch(ul).then(res => res.text()).then(data => {
 
