@@ -62,7 +62,8 @@
 
 
                 </td>
-                <td>
+                <td style="color:@(order.Status.Id == 1 ? "orange" : (order.Status.Id == 2 ? "green" : "red"))">
+
                     @order.Status.Name
                 </td>
 

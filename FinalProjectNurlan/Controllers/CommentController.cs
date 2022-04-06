@@ -35,31 +35,29 @@ namespace FinalProjectNurlan.Controllers
             {
                 return NotFound();
             }
-            //if (Subject == null && Message==null)
-            //{
-            //    return Content("bothnull");
-            //}
-            //if (Subject==null)
-            //{
-            //    return Content("nullsubject");
-            //}
-            //if (Message == null)
-            //{
-            //    return Content("nullmessage");
-            //}
+
+          
 
             Product product = context.Products.Include(p=>p.Comments).FirstOrDefault(p => p.Id == ProductId);
 
-            if (product.Comments == null)
+            if (product.Comments.Count == 0)
             {
                 product.Rating = 0;
             }
+
+
 
             if (product.Rating == null)
             {
                 product.Rating = 0;
 
             }
+            if (context.Comments.Include(c => c.Product).Include(c => c.AppUser).Any(c => c.ProductId == ProductId && c.AppUserId == user.Id))
+            {
+                Star = 0;
+            }
+           
+
             product.Rating += Star;
             if (!context.Products.Any(p=>p.Id==ProductId))
             {
@@ -76,16 +74,19 @@ namespace FinalProjectNurlan.Controllers
                 Subject = Subject,
 
             };
+
+
             context.Comments.Add(comment);
+            product.AvgStar = (short)Math.Ceiling((decimal)product.Rating / product.Comments.Where(c => c.Star != 0).Count());
+
             context.SaveChanges();
 
-
+            ViewBag.Comment = context.Comments.FirstOrDefault(c => c.AppUserId == user.Id && c.ProductId == ProductId);
             ShopVM shopVM = new ShopVM
             {
                 Comments = context.Comments.Include(c=>c.Product).Include(c=>c.AppUser).Where(c => c.ProductId == ProductId).ToList()
+                
             };
-
-
 
             return PartialView("_commentPartialView",shopVM);
         }
@@ -110,6 +111,13 @@ namespace FinalProjectNurlan.Controllers
                 return Json(context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.Id).Count());
             }
 
+        }
+
+        public IActionResult Count(int id)
+        {
+            var count = context.Comments.Include(p=>p.Product).Where(p => p.ProductId == id).Count();
+
+            return Json(count);
         }
     }
 }

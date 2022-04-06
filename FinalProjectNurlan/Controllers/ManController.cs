@@ -167,7 +167,7 @@ namespace FinalProjectNurlan.Controllers
             return View(shopVM);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             if (context.ProductSizeColors.FirstOrDefault(p=>p.Id==id) == null)
             {
@@ -184,8 +184,16 @@ namespace FinalProjectNurlan.Controllers
                 return NotFound();
             }
 
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            //    ViewBag.comment = context.Comments.FirstOrDefault(c => c.ProductId == product.Id && c.AppUserId == user.Id);
+            //}
+
             ProductSizeColor forcolor = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Product).ThenInclude(p => p.ProductColors).FirstOrDefault(p => p.Id == id);
 
+
+            Product prodd = context.Products.Include(p => p.Brand).Include(p => p.Comments).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).FirstOrDefault(p => p.Id == product.ProductId);
             //ViewBag.CurrentPage = page;
             //ViewBag.TotalPage = Math.Ceiling((decimal)context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.ProductId).Count() / 5);
 
@@ -195,6 +203,7 @@ namespace FinalProjectNurlan.Controllers
                 Product = context.Products.Include(p => p.Brand).Include(p=>p.Comments).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).FirstOrDefault(p => p.Id == product.ProductId),
                 ProductColors = context.ProductColors.Include(p=>p.Product).ThenInclude(p=>p.Comments).Where(p => p.Product.CategoryId == product.Product.CategoryId && p.ProductId != forcolor.ProductId).ToList(),
                 Comments = context.Comments.Include(c=>c.Product).Include(p=>p.AppUser).Where(c => c.ProductId == product.ProductId).ToList()
+               
 
         };
 

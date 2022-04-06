@@ -138,9 +138,10 @@
                                     }
                                 }
                             }'>
-                    @foreach (var item in Model.ProductColors.Take(8))
+                    @foreach (var item in Model.ProductColors.OrderByDescending(c=>c.Product.AvgStar).Take(8))
                     {
-                       
+                        
+                    
                             <div class="product product-7 text-center">
                                 <figure class="product-media">
                                     @if (item.Product.CreatedDate.AddDays(3) >= DateTime.Now)
@@ -181,20 +182,20 @@
 
                                             @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
                                             {
-                                                @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                                @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c=>c.Star != 0).Count()); i++)
                                                 {
                                                     <i style="color:#c94" class="fa-solid fa-star"></i>
 
                                                 }
-                                                @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
-                                                {
+                                                @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count())); i++)
+                                                            {
                                                     <i class="fa-solid fa-star"></i>
 
                                                 }
 
-                                            }
+                                                }
                                             else
-                                            {
+                                                {
                                                 <i class="fa-solid fa-star"></i>
                                                 <i class="fa-solid fa-star"></i>
 
@@ -274,7 +275,7 @@
                                     }
                                 }
                             }'>
-                    @foreach (var item in Model.ProductColors.Where(p=>p.Product.GenderId == 2).Take(8))
+                    @foreach (var item in Model.ProductColors.Where(p=>p.Product.GenderId == 2).OrderByDescending(c => c.Product.AvgStar).Take(8))
                     {
 
                         <div class="product product-7 text-center">
@@ -317,12 +318,12 @@
 
                                         @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
                                         {
-                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count()); i++)
                                             {
                                                 <i style="color:#c94" class="fa-solid fa-star"></i>
 
                                             }
-                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count())); i++)
                                             {
                                                 <i class="fa-solid fa-star"></i>
 
@@ -408,7 +409,7 @@
                                     }
                                 }
                             }'>
-                    @foreach (var item in Model.ProductColors.Where(p => p.Product.GenderId == 1).Take(8))
+                    @foreach (var item in Model.ProductColors.Where(p => p.Product.GenderId == 1).OrderByDescending(c => c.Product.AvgStar).Take(8))
                     {
 
                         <div class="product product-7 text-center">
@@ -451,12 +452,12 @@
 
                                         @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
                                         {
-                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count()); i++)
                                             {
                                                 <i style="color:#c94" class="fa-solid fa-star"></i>
 
                                             }
-                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count())); i++)
                                             {
                                                 <i class="fa-solid fa-star"></i>
 
@@ -674,12 +675,12 @@
 
                                         @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
                                         {
-                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count); i++)
+                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count()); i++)
                                             {
                                                 <i style="color:#c94" class="fa-solid fa-star"></i>
 
                                             }
-                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Count)); i++)
+                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count())); i++)
                                             {
                                                 <i class="fa-solid fa-star"></i>
 

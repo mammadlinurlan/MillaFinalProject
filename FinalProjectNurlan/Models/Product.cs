@@ -12,6 +12,8 @@ namespace FinalProjectNurlan.Models
     {
         public int Id { get; set; }
 
+        public short? AvgStar { get; set; }
+
         [Required]
         [StringLength(maximumLength: 120)]
         public string Name { get; set; }
