@@ -79,7 +79,7 @@
                                 <a href="#">Links</a>
                                 <ul>
                                     <li><a href="tel:#"><i class="@layoutService.getSettingDatas().PhoneIcon"></i>Call: @layoutService.getSettingDatas().Phone</a></li>
-                                    <li><a asp-controller="wishlist" asp-action="index"><i class="@layoutService.getSettingDatas().LittleWishlist"></i>Wishlist <span>(3)</span></a></li>
+                                    <li><a asp-controller="wishlist" asp-action="index"><i class="@layoutService.getSettingDatas().LittleWishlist"></i>Wishlist <span class="wishCount">(3)</span></a></li>
 
                                     @if (!User.Identity.IsAuthenticated)
                                     {
@@ -333,6 +333,85 @@
     <script src="~/assets/js/main.js"></script>
     <script>
         $(document).ready(function () {
+
+            var base = window.location.origin;
+
+            var url = `${base}/wishlist/test`
+            var partialwish = `${base}/wishlist/getpartial`
+            fetch(url).then(res => res.text()).then(data => {
+
+                $(".wishCount").empty();
+                $(".wishCount").append(`(${data})`);
+                console.log(data);
+
+            })
+
+            fetch(partialwish).then(res => res.text()).
+                then(data => {
+                    
+                    console.log(data);
+
+                    fetch(partialwish).then(res => res.text()).
+                        then(dt => {
+
+                            
+
+                            $(".forWishes").empty();
+                            $(".forWishes").append(dt);
+
+                        })
+
+                })
+
+
+            $(document).on("click", ".btn-wishlist", function (e) {
+                e.preventDefault()
+                var href = $(this).attr("href");
+                console.log(href);
+
+                var base = window.location.origin;
+
+                var url = `${base}${href}`
+                fetch(url).then(res => res.text()).then(data => {
+
+
+                    $(".wishCount").empty();
+                    $(".wishCount").append(`(${data})`);
+                    console.log(data);
+
+                })
+
+            })
+
+            $(document).on("click", ".removeWish", function (e) {
+                e.preventDefault()
+                var href = $(this).attr("href");
+                console.log(href);
+                var base = window.location.origin;
+
+                var urll = `${base}/wishlist/test`
+                //var base = window.location.origin;
+
+                var url = `${base}${href}`
+                fetch(url).then(res => res.text()).then(data => {
+
+
+                    $(".forWishes").empty();
+                    $(".forWishes").append(data);
+                    console.log(data);
+
+                   
+                    fetch(urll).then(res => res.text()).then(data => {
+
+                        $(".wishCount").empty();
+                        $(".wishCount").append(`(${data})`);
+                        console.log(data);
+
+                    })
+                })
+
+            })
+          
 
             console.log('ready')
 

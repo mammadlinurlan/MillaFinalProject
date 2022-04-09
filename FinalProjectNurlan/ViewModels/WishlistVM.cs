@@ -8,6 +8,8 @@ namespace FinalProjectNurlan.ViewModels
 {
     public class WishlistVM
     {
-        public List<WishlistItem> WishlistItems { get; set; }
+        public List<WishlistItemVM> WishlistItems { get; set; }
+
+
     }
 }

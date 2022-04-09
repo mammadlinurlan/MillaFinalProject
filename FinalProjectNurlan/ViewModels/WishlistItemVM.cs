@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace FinalProjectNurlan.ViewModels
 {
-    public class WishlistCookieItemVM
+    public class WishlistItemVM
     {
-        public int Id { get; set; }
+        public ProductColor ProductColor { get; set; }
+
     }
 }

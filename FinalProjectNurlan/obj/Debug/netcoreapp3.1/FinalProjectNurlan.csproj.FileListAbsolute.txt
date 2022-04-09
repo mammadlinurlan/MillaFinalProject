@@ -204,3 +204,5 @@ C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\ne
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Settings\Index.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Settings\Edit.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_testingPartialView.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_wishPartialView.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Wishlist\EmptyWIsh.cshtml.g.cs
