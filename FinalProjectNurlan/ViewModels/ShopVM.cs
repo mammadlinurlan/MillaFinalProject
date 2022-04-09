@@ -22,5 +22,7 @@ namespace FinalProjectNurlan.ViewModels
 
         public List<Comment> Comments { get; set; }
         public Comment Comment { get; set; }
+
+        public SubCategory SubCategory { get; set; }
     }
 }

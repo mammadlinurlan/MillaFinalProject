@@ -109,11 +109,11 @@
 
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
-                            <li style="cursor:pointer" class="page-item-prev disabled">
+                            @*<li style="cursor:pointer" class="page-item-prev disabled">
                                 <a class="page-link page-link-prev" aria-label="Previous" tabindex="-1" aria-disabled="true">
                                     <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
                                 </a>
-                            </li>
+                            </li>*@
 
                             @for (int i = 1; i <= ViewBag.TotalPage; i++)
                             {
@@ -127,11 +127,11 @@
 
 
 
-                            <li style="cursor:pointer" class="page-item-next  ">
+                            @*<li style="cursor:pointer" class="page-item-next  ">
                                 <a class="page-link page-link-next" aria-label="Next">
                                     Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
                                 </a>
-                            </li>
+                            </li>*@
                         </ul>
                     </nav>
 
@@ -349,51 +349,52 @@
             var val = $("#sortby").val();
             var catid = $(".hiddenCategoryId").val()
             var page = 1;
+            $("#sortby").val(1)
 
 
             var url = `${base}/man/Sorting?catid=${catid}&sortval=${val}`
 
-            fetch(url).then(res => res.text()).then(data => {
-                $(".rowprods").empty();
-                $(".rowprods").append(data)
+            //fetch(url).then(res => res.text()).then(data => {
+            //    $(".rowprods").empty();
+            //    $(".rowprods").append(data)
 
 
 
-                if ($("#2col").hasClass("active")) {
+            //    if ($("#2col").hasClass("active")) {
 
 
-                    $(".productClass").removeClass("col-lg-4");
-                    $(".productClass").addClass("col-lg-6");
-                    $(".productClass").removeClass("col-md-4");
-                    $(".productClass").addClass("col-md-6");
-                    console.log("3col")
+            //        $(".productClass").removeClass("col-lg-4");
+            //        $(".productClass").addClass("col-lg-6");
+            //        $(".productClass").removeClass("col-md-4");
+            //        $(".productClass").addClass("col-md-6");
+            //        console.log("3col")
 
-                    $(".product-main").css("height", "430px")
-                }
-                else {
-                    $(".productclass").removeClass("col-lg-6");
-                    $(".productclass").addClass("col-lg-4");
-                    $(".productclass").removeClass("col-md-6");
-                    $(".productclass").addClass("col-md-4");
-                    $(".product-main").css("height", "353px")
-                    console.log("2col")
-                }
-                $(".product-notMain").click(function (e) {
-                    console.log("sa")
-                    e.preventDefault();
-                    var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
-                    var newHref = $(this).attr("href")
-                    $(parent).closest(".until").removeAttr("href").attr("href", newHref)
-                    var closestNav = $(this).closest(".product-nav");
-                    $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+            //        $(".product-main").css("height", "430px")
+            //    }
+            //    else {
+            //        $(".productclass").removeClass("col-lg-6");
+            //        $(".productclass").addClass("col-lg-4");
+            //        $(".productclass").removeClass("col-md-6");
+            //        $(".productclass").addClass("col-md-4");
+            //        $(".product-main").css("height", "353px")
+            //        console.log("2col")
+            //    }
+            //    $(".product-notMain").click(function (e) {
+            //        console.log("sa")
+            //        e.preventDefault();
+            //        var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+            //        var newHref = $(this).attr("href")
+            //        $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+            //        var closestNav = $(this).closest(".product-nav");
+            //        $(closestNav.children(".product-notMain")).not(this).removeClass("active");
 
-                    $(this).addClass("active")
-                    var notmain = $(this).children(".nmSrc").attr("src")
-                    $(parent).attr("src", notmain)
+            //        $(this).addClass("active")
+            //        var notmain = $(this).children(".nmSrc").attr("src")
+            //        $(parent).attr("src", notmain)
 
-                })
+            //    })
 
-            })
+            //})
 
 
 

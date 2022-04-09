@@ -26,5 +26,7 @@ namespace FinalProjectNurlan.Models
         public List<BasketItem> BasketItems { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public List<Order> Orders { get; set; }
+
+        public List<WishlistItem> WishlistItems { get; set; }
     }
 }

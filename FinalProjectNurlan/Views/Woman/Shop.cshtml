@@ -14,7 +14,11 @@
             </ol>
         </div><!-- End .container -->
     </nav><!-- End .breadcrumb-nav -->
+    @if (Model.SubCategory != null)
+    {
+        <h1>@Model.SubCategory.Name</h1>
 
+    }
     <div class="page-content">
         <div class="container">
             <div class="row">
@@ -71,23 +75,14 @@
                             @await Html.PartialAsync("_productPartialView", Model)
 
 
-
-
-
-
-
-
                         </div>
                     </div>
                     <input hidden value="@Model.Category.Id" class="hiddenCategoryId" />
 
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
-                            <li style="cursor:pointer" class="page-item-prev disabled">
-                                <a class="page-link page-link-prev" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                                </a>
-                            </li>
+
+
 
                             @for (int i = 1; i <= ViewBag.TotalPage; i++)
                             {
@@ -100,12 +95,25 @@
                             }
 
 
+                        </ul>
+                    </nav>
 
-                            <li style="cursor:pointer" class="page-item-next  ">
-                                <a class="page-link page-link-next" aria-label="Next">
-                                    Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                                </a>
-                            </li>
+                    <nav aria-label="Page navigation filterednav">
+                        <ul class="pagination justify-content-center">
+
+
+
+                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == 1 ? "active" : " ") ">
+                                    <input hidden value="@i" class="hiddenSortPage  @(i == 1 ? "activeInput" : " ")" />
+
+                                    <a class="page-link" asp-controller="man" asp-action="sorting" asp-route-page="@i">@i</a>
+
+                                </li>
+                            }
+
+
                         </ul>
                     </nav>
 
@@ -140,7 +148,7 @@
                                             </div>
                                         }
 
-                                      
+
                                     </div>
                                 </div>
                             </div>
@@ -263,12 +271,21 @@
                                         </div>
 
                                         <div id="price-slider" class="noUi-target noUi-ltr noUi-horizontal">
-                                           
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div style="cursor:pointer;text-align: center; background-color: #c94; color: white; padding-top: 5px; padding-bottom: 5px;" class="widget widget-collapsible lastFilter">
+
+
+
+                            <a style="color: white; padding-left: 122px; padding-right: 122px; padding-top: 8px; padding-bottom: 8px;" href="#" class="filterLink">Filter</a>
+
+                        </div>
+
                     </div>
                 </aside>
             </div>
@@ -278,7 +295,193 @@
 
 @section Scripts{
     <script>
+
         $(document).ready(function () {
+
+            $(document).on("click", ".clear-filters", function (e) {
+                e.preventDefault();
+                $(".custom-control-input").removeAttr("checked")
+                $(".colorClick").removeClass("selected")
+                window.location.reload();
+                //.removeAttr("checked")
+            })
+            //$(".sidebar-shop").empty()
+
+
+            let catvals = [];
+            var catfilters = []; // forBtn
+
+            let colorvals = [];
+            var colorfilters = []; // forBtn
+
+            let brandvals = [];
+            var brandfilters = []; // forBtn
+
+            $(document).on("click", ".category-item", function (e) {
+                if ($(this).children().children().first().attr("checked")) {
+                    $(this).children().children().first().removeAttr("checked")
+                } else {
+                    $(this).children().children().first().attr("checked", "")
+
+                }
+
+                var catVal = $(this).children().children().first().val();
+                var catid = $(".hiddenCategoryId").val()
+                if ($(this).children().children().first().attr("checked")) {
+                    catvals.push(Number(catVal));
+                } else {
+                    catvals = catvals.filter(c => Number(c) != Number(catVal));
+                }
+                var base = window.location.origin;
+                let newarr = [];
+                for (var i = 0; i < catvals.length; i++) {
+                    
+                    
+                        newarr.push(`&catvals=${catvals[i]}`)
+                    
+                }
+                var url = `${base}/woman/testing?catvals=${newarr.join("")}&id=${catid}`
+                catfilters = newarr;
+               
+            })
+
+            $(document).on("click", ".brand-item", function (e) {
+                if ($(this).children().children().first().attr("checked")) {
+                    $(this).children().children().first().removeAttr("checked")
+                } else {
+                    $(this).children().children().first().attr("checked", "")
+
+                }
+                var brandVal = $(this).children().children().first().val();
+                if ($(this).children().children().first().attr("checked")) {
+                    brandvals.push(Number(brandVal));
+                } else {
+                    brandvals = brandvals.filter(c => Number(c) != Number(brandVal));
+                }
+                var base = window.location.origin;
+                let newarr = [];
+                for (var i = 0; i < brandvals.length; i++) {
+                    //if (i == 0) {
+                    //    newarr.push(`${brandvals[i]}`)
+                    //}
+                    
+                        newarr.push(`&brandvals=${brandvals[i]}`)
+                    
+                }
+                //var url = `${base}/woman/testing?catvals=${newarr.join("")}&id=${catid}`
+                brandfilters = newarr;
+            })
+
+            $(document).on("click", ".colorClick", function (e) {
+                //e.preventDefault();
+                //console.log("sa")
+                e.preventDefault();
+                $(this).toggleClass("selected")
+
+                var colorid = $(this).next().val();
+                console.log(colorid)
+                if ($(this).hasClass("selected")) {
+                    colorvals.push(Number(colorid))
+                }
+                else {
+                    colorvals = colorvals.filter(c => Number(c) != Number(colorid));
+                }
+                let newarr = [];
+                for (var i = 0; i < colorvals.length; i++) {
+                    //if (i == 0) {
+                    //    newarr.push(`${colorvals[i]}`)
+                    //}
+            
+                        newarr.push(`&colorvals=${colorvals[i]}`)
+                    
+                }
+                colorfilters = newarr;
+                console.log(newarr);
+            })
+
+            $(document).on("click", ".filterLink", function (e) {
+                e.preventDefault();
+                var min = parseInt($(".noUi-handle-lower").attr("aria-valuenow"))
+                var max = parseInt($(".noUi-handle-upper").attr("aria-valuenow"))
+                //console.log("filtered")
+                //if (catfilters.length > 0) {
+                //    console.log(catfilters)
+                //}
+                //console.log(colorfilters)
+                //console.log(brandfilters)
+                //console.log(`min : ${min}`)
+                //console.log(`max : ${max}`)
+
+
+
+
+
+                var base = window.location.origin;
+                var catid = $(".hiddenCategoryId").val()
+
+                var url = `${base}/woman/testing?id=${catid}${catfilters.join("")}${colorfilters.join("")}${brandfilters.join("")}&min=${min}&max=${max}`
+
+                fetch(url).then(res => res.text()).then(data => {
+                    $(".rowprods").empty();
+                    $(".rowprods").append(data);
+
+
+                    if ($("#2col").hasClass("active")) {
+
+
+                        $(".productClass").removeClass("col-lg-4");
+                        $(".productClass").addClass("col-lg-6");
+                        $(".productClass").removeClass("col-md-4");
+                        $(".productClass").addClass("col-md-6");
+                        console.log("3col")
+
+                        $(".product-main").css("height", "430px")
+                    }
+                    else {
+                        $(".productclass").removeClass("col-lg-6");
+                        $(".productclass").addClass("col-lg-4");
+                        $(".productclass").removeClass("col-md-6");
+                        $(".productclass").addClass("col-md-4");
+                        $(".product-main").css("height", "353px")
+                        console.log("2col")
+                    }
+
+                    $(".product-notMain").click(function (e) {
+                        console.log("sa")
+                        e.preventDefault();
+                        var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+                        var newHref = $(this).attr("href")
+                        $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+                        var closestNav = $(this).closest(".product-nav");
+                        $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+
+                        $(this).addClass("active")
+                        var notmain = $(this).children(".nmSrc").attr("src")
+                        $(parent).attr("src", notmain)
+
+                    })
+                })
+
+                console.log(url);
+
+
+            })
+
+         
+
+
+
+
+
+
+
+
+
+
+
+           
+
+            $(".custom-control-input").attr("checked", false)
 
 
             var idVal = $(".page-item").next().val();
@@ -289,62 +492,23 @@
             var val = $("#sortby").val();
             var catid = $(".hiddenCategoryId").val()
             var page = 1;
+            $("#sortby").val(1)
+
 
 
             var url = `${base}/woman/Sorting?catid=${catid}&sortval=${val}`
 
-            fetch(url).then(res => res.text()).then(data => {
-                $(".rowprods").empty();
-                $(".rowprods").append(data)
 
 
 
-                if ($("#2col").hasClass("active")) {
 
-
-                    $(".productClass").removeClass("col-lg-4");
-                    $(".productClass").addClass("col-lg-6");
-                    $(".productClass").removeClass("col-md-4");
-                    $(".productClass").addClass("col-md-6");
-                    console.log("3col")
-
-                    $(".product-main").css("height", "430px")
-                }
-                else {
-                    $(".productclass").removeClass("col-lg-6");
-                    $(".productclass").addClass("col-lg-4");
-                    $(".productclass").removeClass("col-md-6");
-                    $(".productclass").addClass("col-md-4");
-                    $(".product-main").css("height", "353px")
-                    console.log("2col")
-                }
-                $(".product-notMain").click(function (e) {
-                    console.log("sa")
-                    e.preventDefault();
-                    var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
-                    var newHref = $(this).attr("href")
-                    $(parent).closest(".until").removeAttr("href").attr("href", newHref)
-                    var closestNav = $(this).closest(".product-nav");
-                    $(closestNav.children(".product-notMain")).not(this).removeClass("active");
-
-                    $(this).addClass("active")
-                    var notmain = $(this).children(".nmSrc").attr("src")
-                    $(parent).attr("src", notmain)
-
-                })
-
-            })
-
-
-
-         
 
             var vll = $(".activeInput").val();
             var nrmlzd = Number(vll) + 1
 
 
 
-         
+
 
             $(document).on("click", ".page-item", function (e) {
 
@@ -355,7 +519,7 @@
                 $(".activeInput").not($(this).children().first()).removeClass("activeInput");
                 page = $(this).children().first().val();
 
-        
+
 
                 var sortval = $("#sortby").val();
                 var b = window.location.origin;
@@ -469,17 +633,19 @@
 
             })
 
-            //$("#price-slider").children().first().remove()
 
 
 
 
 
-            $(".colorClick").click(function (e) {
-                e.preventDefault();
-                $(this).toggleClass("selected")
-                //console.log("clicked");
-            })
+
+
+        
+
+
+
+
+
 
 
 
@@ -498,75 +664,51 @@
 
             })
 
-            $(".sizeClick").click(function (e) {
-                e.preventDefault();
-                $(this).closest(".product-size").children(".sizeClick").not(this).removeClass("active")
-                $(this).addClass("active")
-            })
-
-            $(".size-item").click(function () {
-
-
-                if ($(this).children().children().first().attr("checked")) {
-                    $(this).children().children().first().removeAttr("checked")
-                } else {
-                    $(this).children().children().first().attr("checked", "")
-
-                }
-
-
-            })
-
-            $(".brand-item").click(function () {
-
-
-                if ($(this).children().children().first().attr("checked")) {
-                    $(this).children().children().first().removeAttr("checked")
-                } else {
-                    $(this).children().children().first().attr("checked", "")
-
-                }
-
-
-            })
-            $(".category-item").click(function () {
-
-
-                if ($(this).children().children().first().attr("checked")) {
-                    $(this).children().children().first().removeAttr("checked")
-                } else {
-                    $(this).children().children().first().attr("checked", "")
-
-                }
-
-
-            })
-
-            $(".clear-filters").click(function (e) {
-                e.preventDefault();
-                $(".custom-control-input").removeAttr("checked")
-                $(".colorClick").removeClass("selected")
-                //.removeAttr("checked")
-
-            })
-
-            //$(".categoryCheck").click(function (e) {
-            //    //e.preventDefault();
-            //    //$(this).prop('salam')
-            //    $(this).attr('checked')
-            //    //console.log("s/*")*/
+           
+            //$(document).on("click", ".brand-item", function () {
+             
 
             //})
 
-            //$(".filtercheck").click(function (e) {
-            //    //e.preventDefault();
-            //    //$(this).prop('salam')
-            //    $(this).attr('checked')
-            //    //console.log("s")
+
+
+
+
+            //$(".sizeClick").click(function (e) {
+            //    e.preventDefault();
+            //    $(this).closest(".product-size").children(".sizeClick").not(this).removeClass("active")
+            //    $(this).addClass("active")
+            //})
+
+            //$(".size-item").click(function () {
+
+
+            //    if ($(this).children().children().first().attr("checked")) {
+            //        $(this).children().children().first().removeAttr("checked")
+            //    } else {
+            //        $(this).children().children().first().attr("checked", "")
+
+            //    }
+
 
             //})
 
-            //$(".filtercheck").click(function)
+            //$(".brand-item").click(function () {
+
+
+              
+
+
+            //})
+            //$(".category-item").click(function () {
+
+
+              
+
+            //})
+
+
+            
         })
     </script>
 }

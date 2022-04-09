@@ -29,12 +29,10 @@ namespace FinalProjectNurlan.Controllers
 
         public async Task<IActionResult> SetBasket(int sizeId, int colorId, int productId, int quantity)
         {
-            //AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
+          
             ProductSizeColor product = await _context.ProductSizeColors.Include(p => p.Product).FirstOrDefaultAsync(p => p.SizeId == sizeId && p.ColorId == colorId && p.ProductId == productId);
 
-            //CheckoutVM checkoutVM = new CheckoutVM();
-
+          
           
             if (User.Identity.IsAuthenticated  && User.IsInRole("Member"))
             {
@@ -125,10 +123,6 @@ namespace FinalProjectNurlan.Controllers
         public async Task<IActionResult> CartCounter(int sizeId, int colorId, int productId, int quantity)
         {
             ProductSizeColor product = await _context.ProductSizeColors.Include(p => p.Product).FirstOrDefaultAsync(p => p.SizeId == sizeId && p.ColorId == colorId && p.ProductId == productId);
-
-          
-
-            
                 AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
                 BasketItem basketItem = _context.BasketItems.FirstOrDefault(i => i.ProductSizeColorId == product.Id && i.AppUserId == user.Id);
 

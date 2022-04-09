@@ -24,8 +24,7 @@ namespace FinalProjectNurlan.Controllers
             {
                 Categories = context.Categories.Include(c => c.Products).ThenInclude(p => p.ProductSizeColors).Include(c => c.SubCategories).Where(c => c.GenderId == 2).ToList(),
                 Colors = context.ProductColors.Where(pc => pc.Product.GenderId == 2).ToList()
-            }
-          ;
+            };
 
             return View(vM);
         }
@@ -34,8 +33,8 @@ namespace FinalProjectNurlan.Controllers
         {
             Category category = context.Categories.Include(c => c.Products).Include(c => c.Gender).Include(c => c.SubCategories).ThenInclude(s => s.Products).FirstOrDefault(c => c.Id == catid);
 
-            ViewBag.CurrentPages = page;
-            ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 2).Count() / 6);
+            //ViewBag.CurrentPages = page;
+            //ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == catid && p.Product.GenderId == 2).Count() / 6);
 
 
             if (sortval == 1)
@@ -126,10 +125,158 @@ namespace FinalProjectNurlan.Controllers
             return Json(new { status = 200 });
         }
 
+        public IActionResult Testing(int id, string[] catvals,  string[] brandvals, string[] colorvals, int min, int max, string[] sizevals,  int page = 1)
+        {
+
+          
+
+            if (catvals.Length != 0 && max != 0 && brandvals.Length != 0 && colorvals.Length != 0)
+            {
+                ViewBag.CurrentPages = page;
+                ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+                ShopVM shopVM = new ShopVM
+                {
+                    ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && catvals.Contains(p.Product.SubCategoryId.ToString()) && p.Product.Price <= max && p.Product.Price >= min && brandvals.Contains(p.Product.BrandId.ToString()) && colorvals.Contains(p.ColorId.ToString())).Skip((page - 1) * 6).Take(6).ToList(),
+                    
+
+                    ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && catvals.Contains(p.Product.SubCategoryId.ToString()) && p.Product.Price <= max && p.Product.Price >= min ).ToList()
+                };
+
+                return PartialView("_productPartialView", shopVM);
+            }
+            
+            else
+            {
+                if (catvals.Length == 0 && max != 0 && brandvals.Length != 0 && colorvals.Length != 0)
+                {
+                    ViewBag.CurrentPages = page;
+                    ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+                    ShopVM shopVM = new ShopVM
+                    {
+                        ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && p.Product.Price <= max && p.Product.Price >= min && brandvals.Contains(p.Product.BrandId.ToString()) && colorvals.Contains(p.ColorId.ToString())).Skip((page - 1) * 6).Take(6).ToList(),
+
+
+                        ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 ).ToList()
+                    };
+
+                    return PartialView("_productPartialView", shopVM);
+                }
+                else
+                {
+                    if (catvals.Length != 0 && max != 0 && brandvals.Length == 0 && colorvals.Length != 0)
+                    {
+                        ViewBag.CurrentPages = page;
+                        ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+                        ShopVM shopVM = new ShopVM
+                        {
+                            ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && p.Product.Price <= max && p.Product.Price >= min && colorvals.Contains(p.ColorId.ToString()) && catvals.Contains(p.Product.SubCategoryId.ToString())).Skip((page - 1) * 6).Take(6).ToList(),
+
+
+                            ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList()
+                        };
+
+                        return PartialView("_productPartialView", shopVM);
+                    }
+                    else
+                    {
+                        if (catvals.Length != 0 && max != 0 && brandvals.Length != 0 && colorvals.Length == 0)
+                        {
+                            ViewBag.CurrentPages = page;
+                            ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+                            ShopVM shopVM = new ShopVM
+                            {
+                                ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && p.Product.Price <= max && p.Product.Price >= min && catvals.Contains(p.Product.SubCategoryId.ToString()) && brandvals.Contains(p.Product.BrandId.ToString())).Skip((page - 1) * 6).Take(6).ToList(),
+
+
+                                ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList()
+                            };
+
+                            return PartialView("_productPartialView", shopVM);
+                        }
+                        else
+                        {
+                            if (catvals.Length == 0 && max != 0 && brandvals.Length == 0 && colorvals.Length != 0)
+                            {
+                                ViewBag.CurrentPages = page;
+                                ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+                                ShopVM shopVM = new ShopVM
+                                {
+                                    ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && p.Product.Price <= max && p.Product.Price >= min && colorvals.Contains(p.ColorId.ToString())).Skip((page - 1) * 6).Take(6).ToList(),
+
+
+                                    ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 ).ToList()
+                                };
+
+                                return PartialView("_productPartialView", shopVM);
+                            }
+                            else
+                            {
+                                if (catvals.Length != 0 && max != 0 && brandvals.Length == 0 && colorvals.Length == 0)
+                                {
+                                    ViewBag.CurrentPages = page;
+                                    ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+                                    ShopVM shopVM = new ShopVM
+                                    {
+                                        ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && p.Product.Price <= max && p.Product.Price >= min && catvals.Contains(p.Product.SubCategoryId.ToString())).Skip((page - 1) * 6).Take(6).ToList(),
+
+
+                                        ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList()
+                                    };
+
+                                    return PartialView("_productPartialView", shopVM);
+                                }
+                                else
+                                {
+                                    if (catvals.Length == 0 && max != 0 && brandvals.Length != 0 && colorvals.Length == 0)
+                                    {
+                                        ViewBag.CurrentPages = page;
+                                        ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+                                        ShopVM shopVM = new ShopVM
+                                        {
+                                            ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && p.Product.Price <= max && p.Product.Price >= min && brandvals.Contains(p.Product.BrandId.ToString())).Skip((page - 1) * 6).Take(6).ToList(),
+
+
+                                            ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList()
+                                        };
+
+                                        return PartialView("_productPartialView", shopVM);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                ViewBag.CurrentPages = page;
+                ViewBag.TotalPages = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
+
+                ShopVM shopVMi = new ShopVM
+                {
+                    ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2 && p.Product.Price <= max && p.Product.Price >= min).Skip((page - 1) * 6).Take(6).ToList(),
+
+
+                    ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Include(p => p.Product).ThenInclude(p => p.SubCategory).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList()
+                };
+
+                return PartialView("_productPartialView", shopVMi);
+            }
 
 
 
-        public IActionResult Shop(int id,int page=1)
+        }
+
+
+
+
+        public IActionResult Shop(int id, int page = 1, string[] catvals=null)
         {
             if (context.Categories.FirstOrDefault(c => c.Id == id) == null)
             {
@@ -141,17 +288,11 @@ namespace FinalProjectNurlan.Controllers
             }
 
             ViewBag.Sizes = context.Sizes.ToList();
+            ViewBag.Colors = context.Colors.ToList();
 
 
             ViewBag.CurrentPage = page;
             ViewBag.TotalPage = Math.Ceiling((decimal)context.ProductColors.Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Count() / 6);
-
-
-
-
-
-            //List<ProductSizeColor> prod = context.ProductSizeColors.GroupBy(p=>p.ProductId).ToList();
-
             ShopVM shopVM = new ShopVM
             {
                 Brands = context.Brands.Include(b => b.Products).ToList(),
@@ -160,15 +301,23 @@ namespace FinalProjectNurlan.Controllers
                 ProductSizeColors = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.Product).ThenInclude(p => p.SubCategory).Include(p => p.ProductImages).Where(p => p.Product.CategoryId == id).ToList(),
 
 
-                ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).Skip((page - 1) * 6).Take(6).ToList(),
-                ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList(),
+                ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).OrderByDescending(c => c.Id).Skip((page - 1) * 6).Take(6).ToList(),
 
+
+                ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Comments).Include(p => p.Product).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).Where(p => p.Product.CategoryId == id && p.Product.GenderId == 2).ToList()
             };
 
-
-            ViewBag.Colors = context.Colors.ToList();
             return View(shopVM);
+
+
+
+
+
+
         }
+
+
+
 
         public IActionResult Details(int id)
         {
@@ -176,7 +325,7 @@ namespace FinalProjectNurlan.Controllers
             {
                 return NotFound();
             }
-         
+
             ProductSizeColor product = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).FirstOrDefault(p => p.Id == id);
             if (product.Product.GenderId != 2)
             {
@@ -190,7 +339,7 @@ namespace FinalProjectNurlan.Controllers
                 ProductSizeColor = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Product).ThenInclude(p => p.ProductColors).FirstOrDefault(p => p.Id == id),
                 Products = context.Products.Include(p => p.Brand).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).Where(p => p.CategoryId == product.Product.CategoryId && p.Id != product.ProductId).ToList(),
                 Product = context.Products.Include(p => p.Brand).Include(p => p.Comments).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).FirstOrDefault(p => p.Id == product.ProductId),
-                ProductColors = context.ProductColors.Include(p=>p.Product).ThenInclude(p=>p.Comments).Where(p => p.Product.CategoryId == product.Product.CategoryId && p.ProductId != forcolor.ProductId).ToList(),
+                ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Where(p => p.Product.CategoryId == product.Product.CategoryId && p.ProductId != forcolor.ProductId).ToList(),
                 Comments = context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.ProductId).ToList()
 
             };

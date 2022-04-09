@@ -109,7 +109,7 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             exist.HomePagePaymentIcon = setting.HomePagePaymentIcon;
             exist.HomePageSupportIcon = setting.HomePageSupportIcon;
             exist.HomePageRefundIcon = setting.HomePageRefundIcon;
-            exist.UserIcon = setting.PinterestIcon;
+            exist.UserIcon = setting.UserIcon;
 
 
 

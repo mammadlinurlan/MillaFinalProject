@@ -112,13 +112,14 @@
 </main>
 
 @section Scripts{ 
-<script>window.location.reload</script>
+@*<script>window.location.reload</script>*@
 <script>
 
     //window.location.reload();
     $(document).ready(function () {
         var base = window.location.origin;
 
+        console.log("cart ready")
 
 
         var partialurl = `${base}/Basket/CartPartial`
@@ -128,60 +129,65 @@
 
 
 
+
+
         fetch(partialurl).then(res => res.text()).then(data => {
+            console.log(data)
 
-            $(".forPartial").empty();
-            $(".forPartial").append(data);
-            $(".quantityClick").attr("readonly")
-
-            var minus = `<i class="icon-minus"></i>`
-            var plus = `<i class="icon-plus"></i>`
-
-            $("input[type='number']").inputSpinner();
-            $("input[type='number']").next().addClass("input-spinner")
-            $(".btn-outline-secondary").removeClass("btn-outline-secondary")
-            $(".btn-outline-secondary").removeClass("btn-outline-secondary")
-
-            var urlforprice = `${base}/Basket/GetTotalPrice`
+            fetch(partialurl).then(res => res.text()).then(data => {
+                $(".forPartial").empty();
+                $(".forPartial").append(data);
 
 
-            fetch(urlforprice).then(res => res.text()).then(data => {
-
-                $(".cart-total-price").empty();
-                var monet = parseFloat(data).toFixed(2)
-                $(".cart-total-price").append(`$${monet}`);
-
-
-                $(".totalPriceAppend").empty()
-
-                $(".totalPriceAppend").append(`$${monet}`)
 
                 $(".quantityClick").attr("readonly")
 
+                var minus = `<i class="icon-minus"></i>`
+                var plus = `<i class="icon-plus"></i>`
+
+                $("input[type='number']").inputSpinner();
+                $("input[type='number']").next().addClass("input-spinner")
+                $(".btn-outline-secondary").removeClass("btn-outline-secondary")
+                $(".btn-outline-secondary").removeClass("btn-outline-secondary")
+
+                var urlforprice = `${base}/Basket/GetTotalPrice`
+
+
+                fetch(urlforprice).then(res => res.text()).then(data => {
+
+                    $(".cart-total-price").empty();
+                    var monet = parseFloat(data).toFixed(2)
+                    $(".cart-total-price").append(`$${monet}`);
+
+
+                    $(".totalPriceAppend").empty()
+
+                    $(".totalPriceAppend").append(`$${monet}`)
+
+                    $(".quantityClick").attr("readonly")
+
+                })
+
+                fetch(urlforpartial).then(res => res.text()).then(data => {
+
+                    $(".dropdown-cart-products").empty();
+                    $(".dropdown-cart-products").append(data);
+                    $(".quantityClick").attr("readonly")
+
+                })
+
+                fetch(urlforcount).then(res => res.text()).then(data => {
+
+                    $(".cart-count").empty();
+                    $(".cart-count").append(data);
+                    $(".quantityClick").attr("readonly")
+
+                })
+
+                $(".input-group-prepend").next().attr("readonly", "true")
             })
 
-            fetch(urlforpartial).then(res => res.text()).then(data => {
-
-                $(".dropdown-cart-products").empty();
-                $(".dropdown-cart-products").append(data);
-                $(".quantityClick").attr("readonly")
-
-            })
-
-            fetch(urlforcount).then(res => res.text()).then(data => {
-
-                $(".cart-count").empty();
-                $(".cart-count").append(data);
-                $(".quantityClick").attr("readonly")
-
-            })
-
-            $(".input-group-prepend").next().attr("readonly", "true")
-
-
-
-
-
+           
 
         })
 

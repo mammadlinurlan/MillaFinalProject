@@ -14,5 +14,7 @@ namespace FinalProjectNurlan.Models
         public int ColorId { get; set; }
 
         public Color Color { get; set; }
+
+        public List<WishlistItem> WishlistItems { get; set; }
     }
 }

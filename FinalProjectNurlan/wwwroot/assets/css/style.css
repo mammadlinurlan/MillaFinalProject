@@ -330,6 +330,16 @@ blockquote {
     width: 100%
 }
 
+.lastFilter:hover{
+    background-color:black !important;
+
+}
+.lastFilter{
+    transition:0.4s;
+    padding:0px /*!important*/
+    
+}
+
 .page-content {
     padding-bottom: 5rem
 }

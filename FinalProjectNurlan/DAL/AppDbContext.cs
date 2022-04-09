@@ -41,5 +41,7 @@ namespace FinalProjectNurlan.DAL
         public DbSet<Status> Statuses { get; set; }
 
         public DbSet<Settings> Settings { get; set; }
+
+        public DbSet<WishlistItem> WishlistItems { get; set; }
     }
 }

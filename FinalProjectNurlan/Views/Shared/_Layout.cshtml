@@ -154,34 +154,10 @@
 
 
                             </form>
-                            <div style="background-color:white;border-top:none;border-bottom-left-radius:5px;border-bottom-right-radius:5px;border: 1px #a4b0be solid; max-height: 275px !important; position: absolute; top: 65px; z-index: 1000000; right: -18px; width: max-content; box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75); -webkit-box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75); -moz-box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75);" class="searchProducts">
+                            <div style="background-color:white;border-top:none;border-bottom-left-radius:5px;border-bottom-right-radius:5px; max-height: 275px !important; position: absolute; top: 65px; z-index: 1000000; right: -18px; width: max-content; box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75); -webkit-box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75); -moz-box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75);" class="searchProducts">
                                
                             </div>
 
-                        </div>
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                                <i class="@layoutService.getSettingDatas().WishlistIcon"></i>
-
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <ul class="compare-products">
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="product.html">Blue Night Dress</a></h4>
-                                    </li>
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="product.html">White Long Skirt</a></h4>
-                                    </li>
-                                </ul>
-
-                                <div class="compare-actions">
-                                    <a href="#" class="action-link">Clear All</a>
-                                    <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="dropdown cart-dropdown">
@@ -356,6 +332,36 @@
   
     <script src="~/assets/js/main.js"></script>
     <script>
+        $(document).ready(function () {
+
+            console.log('ready')
+
+            var urlstrt = window.location.origin;
+            var urlforcount = `${urlstrt}/Basket/ForTotalCount`
+            var urlforpartial = `${urlstrt}/Basket/GetPartial`
+            var urlforprice = `${urlstrt}/Basket/GetTotalPrice`
+
+            //fetch(urlforcount).then(res => res.text()).then(data => {
+
+            //    $(".cart-count").empty();
+            //    $(".cart-count").append(data);
+
+            //})
+            //fetch(urlforpartial).then(res => res.text()).then(data => {
+
+            //    $(".dropdown-cart-products").empty();
+            //    $(".dropdown-cart-products").append(data);
+
+            //})
+            //fetch(urlforprice).then(res => res.text()).then(data => {
+
+            //    $(".cart-total-price").empty();
+            //    var monet = parseFloat(data).toFixed(2)
+            //    $(".cart-total-price").append(`$${monet}`);
+
+
+            //})
+        })
 
 
 
