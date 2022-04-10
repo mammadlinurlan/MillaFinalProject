@@ -124,6 +124,83 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             return Json(new { status = 200 });
         }
 
+        public async Task<IActionResult> Edit()
+        {
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            AdminEditVM adminEdit = new AdminEditVM
+            {
+                Username = user.UserName,
+               
+                Email = user.Email,
+                Firstname = user.Firstname,
+                Surname = user.Surname,
+            };
+            return View(adminEdit);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(AdminEditVM editedUser)
+        {
+            if (!ModelState.IsValid) return View(editedUser);
+
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            AdminEditVM eUser = new AdminEditVM
+            {
+                Username = user.UserName,
+
+                Email = user.Email,
+                Firstname = user.Firstname,
+                Surname = user.Surname,
+
+            };
+
+            if (user.UserName != editedUser.Username && await _userManager.FindByNameAsync(editedUser.Username) != null)
+            {
+                ModelState.AddModelError("", $"{editedUser.Username} has already taken");
+                return View(eUser);
+            }
+            if (user.Email != editedUser.Email && await _userManager.FindByEmailAsync(editedUser.Email) != null)
+            {
+                ModelState.AddModelError("", $"{editedUser.Email} has already taken");
+                return View(eUser);
+            }
+
+            if (string.IsNullOrWhiteSpace(editedUser.CurrentPassword))
+            {
+                user.UserName = editedUser.Username;
+                user.Email = editedUser.Email;
+                user.Firstname = editedUser.Firstname;
+                user.Surname = editedUser.Surname;
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                user.UserName = editedUser.Username;
+                user.Email = editedUser.Email;
+                user.Firstname = editedUser.Firstname;
+                user.Surname = editedUser.Surname;
+
+                IdentityResult result = await _userManager.ChangePasswordAsync(user, editedUser.CurrentPassword, editedUser.Password);
+
+                if (!result.Succeeded)
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+
+                    }
+                    return View(eUser);
+                }
+            }
+            //return Json(editedUser.Password);
+            await _signInResult.SignInAsync(user, true);
+
+            return RedirectToAction("Index", "Dashboard");
+
+        }
+
         //public async Task CreateRole()
         //{
         //    await _roleManager.CreateAsync(new IdentityRole("SuperAdmin"));

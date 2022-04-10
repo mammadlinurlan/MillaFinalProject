@@ -51,6 +51,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assets\images\nyancat.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="wwwroot\assets\images\slider\slide-1.jpg">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

@@ -155,7 +155,7 @@
 
                             </form>
                             <div style="background-color:white;border-top:none;border-bottom-left-radius:5px;border-bottom-right-radius:5px; max-height: 275px !important; position: absolute; top: 65px; z-index: 1000000; right: -18px; width: max-content; box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75); -webkit-box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75); -moz-box-shadow: 11px 13px 17px 0px rgba(0,0,0,0.75);" class="searchProducts">
-                               
+
                             </div>
 
                         </div>
@@ -167,10 +167,10 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
-                           
+
                                 <div style="max-height:220px!important;overflow-y:scroll!important" class="dropdown-cart-products">
-                                   
-                                    @await Html.PartialAsync("_basketProductPartialView",layoutService)
+
+                                    @await Html.PartialAsync("_basketProductPartialView", layoutService)
 
                                 </div>
 
@@ -274,7 +274,7 @@
     </div>
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
-   
+
     <div class="mobile-menu-overlay"></div>
 
     <div class="mobile-menu-container">
@@ -314,8 +314,8 @@
             </div>
         </div>
     </div>
-    
-    
+
+
     <script src="~/assets/js/jquery.min.js"></script>
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/jquery.hoverIntent.min.js"></script>
@@ -327,12 +327,53 @@
     <script src="~/assets/js/jquery.magnific-popup.min.js"></script>
     <script src="~/assets/js/nouislider.min.js"></script>
     <script src="~/assets/js/jquery.elevateZoom.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/assets/js/image-zoom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
+
     <script src="~/assets/js/main.js"></script>
     <script>
         $(document).ready(function () {
+
+          
+
+      //      let timerInterval;
+      //      Swal.fire({
+
+      //          title: 'Custom width, padding, color, background.',
+      //          width: 600,
+      //          padding: '3em',
+      //          color: '#716add',
+      //          background: '#fff url(/assets/images/tree-image.png)',
+      //          backdrop: `
+      //  rgba(0,0,123,0.4)
+      //  url("/assets/images/nyannn.gif")
+      //  left top
+      //  no-repeat
+      //`
+
+      //          , html: 'I will close in <b></b> milliseconds.',
+      //          timer: 2000,
+      //          timerProgressBar: true,
+      //          didOpen: () => {
+      //              Swal.showLoading()
+      //              const b = Swal.getHtmlContainer().querySelector('b')
+      //              timerInterval = setInterval(() => {
+      //                  b.textContent = Swal.getTimerLeft()
+      //              }, 100)
+      //          },
+      //          willClose: () => {
+      //              clearInterval(timerInterval)
+      //          }
+      //      }).then((result) => {
+      //          /* Read more about handling dismissals below */
+      //          if (result.dismiss === Swal.DismissReason.timer) {
+      //              console.log('I was closed by the timer')
+      //          }
+      //      })
+
 
             var base = window.location.origin;
 
@@ -348,13 +389,13 @@
 
             fetch(partialwish).then(res => res.text()).
                 then(data => {
-                    
+
                     console.log(data);
 
                     fetch(partialwish).then(res => res.text()).
                         then(dt => {
 
-                            
+
 
                             $(".forWishes").empty();
                             $(".forWishes").append(dt);
@@ -375,11 +416,42 @@
                 fetch(url).then(res => res.text()).then(data => {
 
 
-                    $(".wishCount").empty();
-                    $(".wishCount").append(`(${data})`);
-                    console.log(data);
+
+                    if (data == `{"status":500}`) {
+                        swal({
+                            title: "This product already exists in your wishlist!",
+                            icon: "error",
+                            buttons: false,
+                            timer: 1000,
+
+                        });
+                    } else {
+                        $(".wishCount").empty();
+                        $(".wishCount").append(`(${data})`);
+
+
+
+                        console.log(data);
+                        swal({
+                            title: "Added to wishlist!",
+                            icon: "success",
+                            buttons: false,
+                            timer: 1000,
+
+                        });
+
+                    }
+
+
+
+
 
                 })
+
+
+
+
+
 
             })
 
@@ -400,7 +472,7 @@
                     $(".forWishes").append(data);
                     console.log(data);
 
-                   
+
                     fetch(urll).then(res => res.text()).then(data => {
 
                         $(".wishCount").empty();
@@ -411,7 +483,7 @@
                 })
 
             })
-          
+
 
             console.log('ready')
 
@@ -464,7 +536,7 @@
             e.preventDefault();
             $(this).css("background-color", "white")
             $(this).css("color", "#c94")
-            $(".add-to-cart span").css("color","#c94f")
+            $(".add-to-cart span").css("color", "#c94f")
 
             var sizeId = $(".forSizeId").val();
             var colorId = $(".forColorId").val();
@@ -476,7 +548,7 @@
             if (!quantity) {
                 quantity = 1;
             }
-           
+
             var url = uruuul + '/Basket/SetBasket' + '?sizeId=' + sizeId + '&colorId=' + colorId + '&productId=' + productId + '&quantity=' + quantity
             var urlstrt = window.location.origin;
             var urlforcount = `${urlstrt}/Basket/ForTotalCount`
@@ -485,25 +557,32 @@
             console.log(url)
             console.log(urlforcount);
             if (sizeId == 0) {
-                Command: toastr["error"]("Select a size!")
+                //Command: toastr["error"]("Select a size!")
 
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": true,
-                    "positionClass": "toast-bottom-center",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
+                //toastr.options = {
+                //    "closeButton": false,
+                //    "debug": false,
+                //    "newestOnTop": false,
+                //    "progressBar": true,
+                //    "positionClass": "toast-bottom-center",
+                //    "preventDuplicates": false,
+                //    "onclick": null,
+                //    "showDuration": "300",
+                //    "hideDuration": "1000",
+                //    "timeOut": "5000",
+                //    "extendedTimeOut": "1000",
+                //    "showEasing": "swing",
+                //    "hideEasing": "linear",
+                //    "showMethod": "fadeIn",
+                //    "hideMethod": "fadeOut"
+                //}
+                swal({
+                    title: "Select a size!",
+                    icon: "error",
+                    buttons: false,
+                    timer: 1000,
+
+                });
             }
             else {
 
@@ -547,7 +626,7 @@
                         $(".cart-total-price").empty();
                         var monet = parseFloat(data).toFixed(2)
                         $(".cart-total-price").append(`$${monet}`);
-                      
+
 
                     })
 
@@ -566,7 +645,7 @@
 
 
         $(document).on("click", ".btn-remove", function (e) {
-            
+
             e.preventDefault();
             var linkk = $(this).attr("href");
             var base = window.location.origin
@@ -616,8 +695,8 @@
             $(".productClass").addClass("col-lg-6");
             $(".productClass").removeClass("col-md-4");
             $(".productClass").addClass("col-md-6");
-            $(".product-main").css("height","430px")
-           
+            $(".product-main").css("height", "430px")
+
         })
         $(document).on("click", "#3col", function (e) {
             e.preventDefault();
@@ -629,7 +708,7 @@
             $(".productClass").addClass("col-md-4");
             $(".product-main").css("height", "353px")
 
-           
+
         })
 
         if (!$(".search-toggle").hasClass("active")) {
@@ -644,7 +723,7 @@
 
                 $(".search-input").val('')
                 $(".searchProducts").empty()
-               
+
             }
         })
 
@@ -655,7 +734,7 @@
             var fetchUrl = `${base}/search/SearchPartial?word=${text}`
             console.log(fetchUrl)
 
-           
+
 
             if (text.length >= 3) {
 

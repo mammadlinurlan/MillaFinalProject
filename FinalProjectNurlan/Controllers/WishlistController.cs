@@ -159,13 +159,17 @@ namespace FinalProjectNurlan.Controllers
                     };
                     _context.WishlistItems.Add(wishlistItem);
 
+                    _context.SaveChanges();
 
-                
+                    return Json(_context.WishlistItems.Where(c => c.AppUserId == user.Id).Count());
+
+                }
+                else
+                {
+                    return Json(new { status = 500 });
                 }
                
-                _context.SaveChanges();
-
-                return Json(_context.WishlistItems.Where(c=>c.AppUserId == user.Id).Count());
+              
 
 
             }

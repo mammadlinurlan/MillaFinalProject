@@ -153,7 +153,7 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                        <a asp-controller="wishlist" asp-action="SetWishlist" asp-route-id="@item.Id" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
                                         <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
                                     </div>
@@ -289,7 +289,7 @@
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a asp-controller="wishlist" asp-action="SetWishlist" asp-route-id="@item.Id" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
                                     <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
                                 </div>
@@ -423,7 +423,7 @@
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a asp-controller="wishlist" asp-action="SetWishlist" asp-route-id="@item.Id" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
                                     <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
                                 </div>
@@ -646,7 +646,7 @@
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a asp-controller="wishlist" asp-action="SetWishlist" asp-route-id="@item.Id" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
                                     <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
                                 </div>
@@ -802,36 +802,37 @@
                         </a>
 
                         <div class="banner-content banner-content-center">
-                            <h4 class="banner-subtitle text-white"><a href="#">Limited time only.</a></h4><!-- End .banner-subtitle -->
-                            <h3 class="banner-title text-white"><a href="#">End of Season<br>save 50% off</a></h3><!-- End .banner-title -->
+                            <h4 class="banner-subtitle text-white"><a href="#">Limited time only.</a></h4>
+                            <h3 class="banner-title text-white"><a href="#">End of Season<br>save 50% off</a></h3>
                             <a href="#" class="btn btn-outline-white banner-link underline">Shop Now</a>
-                        </div><!-- End .banner-content -->
-                    </div><!-- End .banner -->
-                </div><!-- End .col-lg-6 -->
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-lg-6 d-flex align-items-stretch subscribe-div">
                     <div class="cta cta-box">
                         <div class="cta-content">
-                            <h3 class="cta-title">Subscribe To Our Newsletter</h3><!-- End .cta-title -->
+                            <h3 class="cta-title">Subscribe To Our Newsletter</h3>
                             <p>Sign up now for <span class="primary-color">10% discount</span> on first order. Customise my news:</p>
 
-                            <form action="#">
-                                <input type="email" class="form-control" placeholder="Enter your Email Address" aria-label="Email Adress" required>
+                            <form method="post" >
+                                <input class="form-control emailValue" type="email"  required/>
+                                @*<span class="text text-danger" asp-validation-for="Subscriber"></span>*@
                                 <div class="text-center">
-                                    <button class="btn btn-outline-dark-2" type="submit"><span>subscribe</span></button>
-                                </div><!-- End .text-center -->
+                                    <button class="btn btn-outline-dark-2 forSubscribe" type="submit"><span>subscribe</span></button>
+                                </div>
                             </form>
-                        </div><!-- End .cta-content -->
-                    </div><!-- End .cta -->
-                </div><!-- End .col-lg-6 -->
-            </div><!-- End .row -->
-        </div><!-- End .container -->
-    </div><!-- End .bg-gray -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="mb-2"></div><!-- End .mb-5 -->
+    <div class="mb-2"></div>
 
     <div class="container">
-    </div><!-- End .container -->
+    </div>
 
     <div class="blog-posts mb-5">
         <div class="container">
@@ -861,74 +862,121 @@
                         <a href="single.html">
                             <img src="assets/images/demos/demo-6/blog/post-1.jpg" alt="image desc">
                         </a>
-                    </figure><!-- End .entry-media -->
+                    </figure>
 
                     <div class="entry-body text-center">
                         <div class="entry-meta">
                             <a href="#">Nov 22, 2018</a>, 1 Comments
-                        </div><!-- End .entry-meta -->
+                        </div>
 
                         <h3 class="entry-title">
                             <a href="single.html">Sed adipiscing ornare.</a>
-                        </h3><!-- End .entry-title -->
+                        </h3>
 
                         <div class="entry-content">
                             <a href="single.html" class="read-more">Read More</a>
-                        </div><!-- End .entry-content -->
-                    </div><!-- End .entry-body -->
-                </article><!-- End .entry -->
+                        </div>
+                    </div>
+                </article>
 
                 <article class="entry">
                     <figure class="entry-media">
                         <a href="single.html">
                             <img src="assets/images/demos/demo-6/blog/post-2.jpg" alt="image desc">
                         </a>
-                    </figure><!-- End .entry-media -->
+                    </figure>
 
                     <div class="entry-body text-center">
                         <div class="entry-meta">
                             <a href="#">Dec 12, 2018</a>, 0 Comments
-                        </div><!-- End .entry-meta -->
+                        </div>
 
                         <h3 class="entry-title">
                             <a href="single.html">Fusce lacinia arcuet nulla.</a>
-                        </h3><!-- End .entry-title -->
+                        </h3>
 
                         <div class="entry-content">
                             <a href="single.html" class="read-more">Read More</a>
-                        </div><!-- End .entry-content -->
-                    </div><!-- End .entry-body -->
-                </article><!-- End .entry -->
+                        </div>
+                    </div>
+                </article>
 
                 <article class="entry">
                     <figure class="entry-media">
                         <a href="single.html">
                             <img src="assets/images/demos/demo-6/blog/post-3.jpg" alt="image desc">
                         </a>
-                    </figure><!-- End .entry-media -->
+                    </figure>
 
                     <div class="entry-body text-center">
                         <div class="entry-meta">
                             <a href="#">Dec 19, 2018</a>, 2 Comments
-                        </div><!-- End .entry-meta -->
+                        </div>
 
                         <h3 class="entry-title">
                             <a href="single.html">Quisque volutpat mattis eros.</a>
-                        </h3><!-- End .entry-title -->
+                        </h3>
 
                         <div class="entry-content">
                             <a href="single.html" class="read-more">Read More</a>
-                        </div><!-- End .entry-content -->
-                    </div><!-- End .entry-body -->
-                </article><!-- End .entry -->
-            </div><!-- End .owl-carousel -->
-        </div><!-- End .container -->
-    </div><!-- End .blog-posts -->
-</main><!-- End .main -->
-
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</main>
 @section Scripts{
     <script>
         $(document).ready(function () {
+            $(document).on("click", ".forSubscribe", function (e) {
+
+
+                e.preventDefault();
+                var value = $(".emailValue").val();
+                var base = window.location.origin;
+                
+
+                if ($(".emailValue").is(':valid')) {
+                    var url = `${base}/home/subscribe?email=${value}`
+                    console.log(url)
+
+                    fetch(url).then(res => res.json()).then(data => {
+                        console.log(data)
+                        if (data.status == 200) {
+                            swal({
+                                title: "Thank you for subscribing",
+                                icon: "success",
+                                buttons: false,
+                                timer: 1000,
+
+                            });
+
+                            $(".emailValue").val('')
+                        } else {
+                            if (data.status == 500) {
+                                swal({
+                                    title: "You have already subscribed!",
+                                    icon: "error",
+                                    buttons: false,
+                                    timer: 1000,
+
+                                });
+                            }
+                        }
+                    })
+                }
+                else {
+                    swal({
+                        title: "Enter valid email!",
+                        icon: "warning",
+                        buttons: false,
+                        timer: 1000,
+
+                    });
+                }
+
+            })
 
             if ($("#toastrJs").length) {
                 if ($("#toastrJs").attr("data-succeed").toLowerCase() == "true") {

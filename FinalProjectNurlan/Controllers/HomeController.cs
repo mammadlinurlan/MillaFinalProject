@@ -38,6 +38,30 @@ namespace FinalProjectNurlan.Controllers
             return View(home);
         }
 
+        public IActionResult Subscribe(string email)
+        {
+            Subscriber subscriber = context.Subscribers.FirstOrDefault(c => c.Email.Trim().ToLower() == email.Trim().ToLower());
+            if (subscriber==null)
+            {
+
+                Subscriber news = new Subscriber
+                {
+                    Email = email
+                };
+                context.Subscribers.Add(news);
+                context.SaveChanges();
+                return Json(new { status=200});
+
+            }
+            else
+            {
+                return Json(new { status = 500 });
+
+            }
+
+
+
+        }
       
     }
 }

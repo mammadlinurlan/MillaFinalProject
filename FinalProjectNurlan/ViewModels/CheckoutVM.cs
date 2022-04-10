@@ -51,6 +51,7 @@ namespace FinalProjectNurlan.ViewModels
 
         public List<BasketItem> BasketItems { get; set; }
 
+        [StringLength(maximumLength:200)]
         public string MessagesToAdmin { get; set; }
     }
 }

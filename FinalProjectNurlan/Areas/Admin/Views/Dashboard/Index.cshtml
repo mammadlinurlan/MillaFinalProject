@@ -1,1 +1,191 @@
-﻿<h1>Index Dashboard</h1>
+﻿@model BestsellerVM
+<div class="row">
+    <div style="display:flex;justify-content:center" class="col-lg-3">
+        <div style="height: 80px; -webkit-box-shadow: 5px 2px 15px -4px rgba(0,0,0,0.86); box-shadow: 5px 2px 15px -4px rgba(0,0,0,0.86); background-color: white; padding: 10px; display: flex; justify-content: center; align-items: center" class="col-lg-9">
+            <div class="cardHeader">
+
+
+                <i style="font-size:35px;color:red" class="fa-solid fa-bag-shopping"></i>
+
+            </div>
+            <div class="cardBody">
+                <p style="margin:0 !important">Daily Order</p>
+                <p id="dailyorder" style="margin:0 !important">5</p>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <div style="display:flex;justify-content:center"  class="col-lg-3">
+
+        <div style="height: 80px; -webkit-box-shadow: 5px 2px 15px -4px rgba(0,0,0,0.86); box-shadow: 5px 2px 15px -4px rgba(0,0,0,0.86); background-color: white; padding: 10px; display: flex; justify-content: center; align-items: center " class="col-lg-9">
+            <div class="cardHeader">
+                @*<i  class="typcn typcn-shopping-bag">
+
+                    </i>*@
+                <i style="font-size: 35px; color: purple" class="fa-solid fa-wallet"></i>
+
+
+            </div>
+
+            <div class="cardBody">
+                <p style="margin:0 !important">Daily Revenue</p>
+                <p id="dailyrevenue" style="margin:0 !important">5</p>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div style="display:flex;justify-content:center"  class="col-lg-3">
+
+        <div style="height: 80px; -webkit-box-shadow: 5px 2px 15px -4px rgba(0,0,0,0.86); box-shadow: 5px 2px 15px -4px rgba(0,0,0,0.86); background-color: white; padding: 10px; display: flex; justify-content: center; align-items: center " class="col-lg-9">
+            <div class="cardHeader">
+                @*<i  class="typcn typcn-shopping-bag">
+
+                    </i>*@
+                <i style="font-size: 35px; color: orange" class="fa-solid fa-clock"></i>
+
+
+            </div>
+
+            <div class="cardBody">
+                <p style="margin:0 !important">Pending Orders</p>
+                <p id="pendingcount" style="margin:0 !important">5</p>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div style="display:flex;justify-content:center"  class="col-lg-3">
+        <div style="height: 80px; -webkit-box-shadow: 5px 2px 15px -4px rgba(0,0,0,0.86); box-shadow: 5px 2px 15px -4px rgba(0,0,0,0.86); background-color: white; padding: 10px; display: flex; justify-content: center; align-items: center " class="col-lg-9">
+            <div class="cardHeader">
+
+                <i style="font-size:35px;color:green" class="fa-solid fa-sack-dollar"></i>
+
+            </div>
+
+            <div class="cardBody">
+                <p style="margin:0 !important">Monthly Revenue</p>
+                <p id="monthlyrevenue" style="margin:0 !important">5</p>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="row">
+    <div class="col-lg-4" id="chartGender">
+
+    </div>
+    <div class="col-lg-4">
+        <div class="card" style="width: 18rem;margin-top:30px">
+            <img style="height:200px ; object-fit:cover" src="~/assets/images/products/@Model.Daily.MainImage" class="card-img-top" alt="...">
+            <div style="padding-bottom:0px !important" class="card-body">
+                <h5 class="card-title">Daily best seller</h5>
+                <p>@Model.Daily.Product.Name</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Daily sale count : @Model.Daily.DailySoldCount</li>
+
+                <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Brand : @Model.Daily.Product.Brand.Name</li>
+                <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Size : @Model.Daily.Size.Name</li>
+                <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Color : @Model.Daily.Color.Name</li>
+
+                <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Revenue : @ViewBag.daily $</li>
+            </ul>
+            @*<div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var base = window.location.origin;
+            var url = `${base}/admin/order/dailycount`
+            var pending = `${base}/admin/order/pendingcount`
+            var dlyrevenue = `${base}/admin/order/dailyrevenue`
+            var monthrevenue = `${base}/admin/order/monthlyrevenue`
+            var mancount = `${base}/admin/order/orderedman`
+            var womancount = `${base}/admin/order/orderedwoman`
+            var orderedwoman;
+            var orderedman;
+
+
+            fetch(url).then(res => res.text()).then(data => {
+                $("#dailyorder").empty();
+                $("#dailyorder").append(data)
+
+            })
+            fetch(pending).then(res => res.text()).then(data => {
+                $("#pendingcount").empty();
+                $("#pendingcount").append(data)
+
+            })
+            fetch(dlyrevenue).then(res => res.text()).then(data => {
+                $("#dailyrevenue").empty();
+                var nrml = parseInt(data).toFixed(2);
+                $("#dailyrevenue").append(`${nrml} $`)
+
+            })
+            fetch(monthrevenue).then(res => res.text()).then(data => {
+                $("#monthlyrevenue").empty();
+                var nrml = parseInt(data).toFixed(2);
+                $("#monthlyrevenue").append(`${nrml} $`)
+
+            })
+          
+            fetch(womancount).then(res => res.text()).then(woman => {
+                fetch(mancount).then(res => res.text()).then(man => {
+                    new Morris.Donut({
+
+                        element: 'chartGender',
+
+
+                        data: [
+
+                            { label: "Sales man", value: man },
+                            { label: "Sales woman", value: woman }
+
+                        ],
+                        colors: ['#0652DD', '#6F1E51']
+
+                    })
+                })
+               
+            })
+        })
+
+      
+
+    </script>
+
+
+
+
+
+}
+
+
+@section Styles{
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+}

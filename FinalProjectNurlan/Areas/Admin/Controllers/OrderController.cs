@@ -71,7 +71,8 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             {
                 foreach (OrderItem item in exist.OrderItems)
                 {
-                    ProductSizeColor product = context.ProductSizeColors.FirstOrDefault(p => p.Id == item.ProductSizeColor.Id);
+                    ProductSizeColor product = context.ProductSizeColors.Include(p=>p.Product).FirstOrDefault(p => p.Id == item.ProductSizeColor.Id);
+                    product.Product.TotalSold += item.Count;
                     product.TotalSold += item.Count;
                     product.TotalStock -= item.Count;
 
@@ -82,5 +83,156 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
+
+        public IActionResult Dailycount()
+        {
+         
+
+            List<Order> orders = context.Orders.Where(c => c.Date.Day == DateTime.Now.Day).ToList();
+            if (orders==null)
+            {
+                return Json(0);
+            }
+            else
+            {
+                return Json(orders.Count);
+
+            }
+
+
+        }
+
+        public IActionResult Pendingcount()
+        {
+            List<Order> orders = context.Orders.Include(c=>c.Status).Where(c => c.StatusId == 1).ToList();
+            if (orders == null)
+            {
+                return Json(0);
+            }
+            else
+            {
+                return Json(orders.Count);
+
+            }
+        }
+
+        public IActionResult Dailyrevenue()
+        {
+            double? revenue = 0;
+            List<Order> orders = context.Orders.Include(c => c.Status).Where(c => c.Date.Day == DateTime.Now.Day && c.StatusId==2).ToList();
+            if (orders == null)
+            {
+                return Json(0);
+            }
+            else
+            {
+                foreach (var item in orders)
+                {
+                    revenue += item.TotalPrice;
+                };
+                return Json(revenue);
+
+            }
+        }
+
+        public IActionResult Monthlyrevenue()
+        {
+            double? revenue = 0;
+            List<Order> orders = context.Orders.Include(c => c.Status).Where(c => c.Date.Month == DateTime.Now.Month && c.StatusId == 2).ToList();
+            if (orders == null)
+            {
+                return Json(0);
+            }
+            else
+            {
+                foreach (var item in orders)
+                {
+                    revenue += item.TotalPrice;
+                };
+                return Json(revenue);
+
+            }
+        }
+        public IActionResult OrderedMan()
+        {
+            int totalsold = 0;
+            List<ProductSizeColor> productSizeColors = context.ProductSizeColors.Include(c => c.Product).Where(c => c.Product.GenderId == 1).ToList();
+
+            if (productSizeColors!= null)
+            {
+                foreach (var item in productSizeColors)
+                {
+                    totalsold += item.TotalSold;
+                }
+                return Json(totalsold);
+
+
+            }
+            else
+            {
+                return Json(0);
+            }
+
+        }
+        public IActionResult OrderedWoman()
+        {
+            int totalsold = 0;
+            List<ProductSizeColor> productSizeColors = context.ProductSizeColors.Include(c => c.Product).Where(c => c.Product.GenderId == 2).ToList();
+
+            if (productSizeColors != null)
+            {
+                foreach (var item in productSizeColors)
+                {
+                    totalsold += item.TotalSold;
+                }
+                return Json(totalsold);
+
+
+            }
+            else
+            {
+                return Json(0);
+            }
+
+        }
+
+        public IActionResult Improving()
+        {
+            List<OrderItem> dailyOrderItems = context.OrderItems.Include(c => c.Order).ThenInclude(c => c.Status).Include(c => c.ProductSizeColor).ThenInclude(c => c.Product).Where(c => c.Order.Date.Day == DateTime.Now.Day && c.Order.StatusId == 2).ToList();
+            foreach (OrderItem item in dailyOrderItems)
+            {
+
+                ProductSizeColor product = context.ProductSizeColors.FirstOrDefault(c => c.Id == item.ProductSizeColorId);
+
+                product.DailySoldCount = 0;
+
+            }
+
+            foreach (OrderItem item in dailyOrderItems)
+            {
+
+                ProductSizeColor product = context.ProductSizeColors.FirstOrDefault(c => c.Id == item.ProductSizeColorId);
+
+                product.DailySoldCount += item.Count;
+
+            }
+            context.SaveChanges();
+            return Json(12);
+
+        }
+
+
+
+        //public IActionResult DailyBestseller()
+        //{
+        //    List<Order> orders = context.Orders.Where(c=>c.Date.Day == DateTime.Now.Day).ToList();
+
+
+
+
+        //    return Json(order.ProductSizeColor.Product.Name);
+        //        //ProductSizeColor product = context.ProductSizeColors.FirstOrDefault(c=>c.or)
+        //}
     }
 }

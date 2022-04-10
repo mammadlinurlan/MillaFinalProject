@@ -22,5 +22,7 @@ namespace FinalProjectNurlan.ViewModels
         public List<ProductColor> ProductColors2 { get; set; }
 
         public List<Comment> Comments { get; set; }
+
+        public Subscriber Subscriber { get; set; }
     }
 }
