@@ -3,8 +3,8 @@
     <div class="page-header text-center" style="background-image: url('~/assets/images/page-header-bg.jpg')">
         <div class="container">
             <h1 class="page-title">List<span>Shop</span></h1>
-        </div><!-- End .container -->
-    </div><!-- End .page-header -->
+        </div>
+    </div>
     <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
         <div class="container">
             <ol class="breadcrumb">
@@ -12,8 +12,8 @@
 
                 <li class="breadcrumb-item active" aria-current="page">@Model.Category.Name</li>
             </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
+        </div>
+    </nav>
     @if (Model.SubCategory != null)
     {
         <h1>@Model.SubCategory.Name</h1>
@@ -89,7 +89,7 @@
                                 <li class="page-item @(i == 1 ? "active" : " ") ">
                                     <input hidden value="@i" class="hiddenSortPage  @(i == 1 ? "activeInput" : " ")" />
 
-                                    <a class="page-link" asp-controller="man" asp-action="sorting" asp-route-page="@i">@i</a>
+                                    <a class="page-link" asp-controller="woman" asp-action="sorting" asp-route-page="@i">@i</a>
 
                                 </li>
                             }
@@ -98,7 +98,7 @@
                         </ul>
                     </nav>
 
-                    <nav aria-label="Page navigation filterednav">
+                    @*<nav aria-label="Page navigation filterednav">
                         <ul class="pagination justify-content-center">
 
 
@@ -115,7 +115,7 @@
 
 
                         </ul>
-                    </nav>
+                    </nav>*@
 
 
 
@@ -305,7 +305,7 @@
                 window.location.reload();
                 //.removeAttr("checked")
             })
-            //$(".sidebar-shop").empty()
+          
 
 
             let catvals = [];

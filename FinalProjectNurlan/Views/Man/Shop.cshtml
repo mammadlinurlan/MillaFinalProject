@@ -3,8 +3,8 @@
     <div class="page-header text-center" style="background-image: url('~/assets/images/page-header-bg.jpg')">
         <div class="container">
             <h1 class="page-title">List<span>Shop</span></h1>
-        </div><!-- End .container -->
-    </div><!-- End .page-header -->
+        </div>
+    </div>
     <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
         <div class="container">
             <ol class="breadcrumb">
@@ -13,8 +13,8 @@
                 <li class="breadcrumb-item active" aria-current="page"><a asp-controller="man" asp-action="shop" asp-route-id="@Model.Category.Id">@Model.Category.Name</a></li>
 
             </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
+        </div>
+    </nav>
 
     <div class="page-content">
         <div class="container">
@@ -82,38 +82,38 @@
 
 
                     @*<nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
-                                    <a class="page-link page-link-prev" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                                    </a>
-                                </li>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.Currentpage == 1 ? "disabled" : "")">
+                        <a class="page-link page-link-prev" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                            <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                        </a>
+                    </li>
 
-                                @for (int i = 1; i <= ViewBag.TotalPage; i++)
-                                {
-                                    <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")"><a class="page-link" asp-controller="man" asp-action="shop" asp-route-page="@i">@i</a></li>
-                                    <input hidden value="@i" class="hiddenSortPage  @(ViewBag.CurrentPage == i ? "activeId" : "")" />
-                                }
+                    @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                    {
+                        <li class="page-item  @(ViewBag.CurrentPage == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPage == i ? "none" : "")"><a class="page-link" asp-controller="man" asp-action="shop" asp-route-page="@i">@i</a></li>
+                        <input hidden value="@i" class="hiddenSortPage  @(ViewBag.CurrentPage == i ? "activeId" : "")" />
+                    }
 
 
 
-                                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPage ? "disabled" : "")">
-                                    <a class="page-link page-link-next" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage +1)" aria-label="Next">
-                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>*@
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPage ? "disabled" : "")">
+                        <a class="page-link page-link-next" asp-controller="man" asp-action="shop" asp-route-page="@(ViewBag.CurrentPage +1)" aria-label="Next">
+                            Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>*@
 
 
 
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
                             @*<li style="cursor:pointer" class="page-item-prev disabled">
-                                <a class="page-link page-link-prev" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                    <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                                </a>
-                            </li>*@
+                        <a class="page-link page-link-prev" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                            <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                        </a>
+                    </li>*@
 
                             @for (int i = 1; i <= ViewBag.TotalPage; i++)
                             {
@@ -128,53 +128,53 @@
 
 
                             @*<li style="cursor:pointer" class="page-item-next  ">
-                                <a class="page-link page-link-next" aria-label="Next">
-                                    Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                                </a>
-                            </li>*@
+                        <a class="page-link page-link-next" aria-label="Next">
+                            Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                        </a>
+                    </li>*@
                         </ul>
                     </nav>
 
 
                     @*<nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item @(ViewBag.Currentpages == 1 ? "disabled" : "")">
-                                    <a class="page-link page-link-prev" asp-controller="man" asp-action="sorting" asp-route-page="@(ViewBag.CurrentPages-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                                    </a>
-                                </li>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.Currentpages == 1 ? "disabled" : "")">
+                        <a class="page-link page-link-prev" asp-controller="man" asp-action="sorting" asp-route-page="@(ViewBag.CurrentPages-1)" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                            <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                        </a>
+                    </li>
 
-                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                                {
-                                    <li class="page-item  @(ViewBag.CurrentPages == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPages == i ? "none" : "")"><a class="page-link" asp-controller="man" asp-action="sorting" asp-route-page="@i">@i</a></li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item  @(ViewBag.CurrentPages == i ? "active" : "")" style="pointer-events: @(ViewBag.CurrentPages == i ? "none" : "")"><a class="page-link" asp-controller="man" asp-action="sorting" asp-route-page="@i">@i</a></li>
 
-                                }
+                    }
 
 
 
-                                <li class="page-item @(ViewBag.CurrentPages == ViewBag.TotalPages ? "disabled" : "")">
-                                    <a class="page-link page-link-next" asp-controller="man" asp-action="sorting" asp-route-page="@(ViewBag.CurrentPages +1)" aria-label="Next">
-                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>*@
+                    <li class="page-item @(ViewBag.CurrentPages == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link page-link-next" asp-controller="man" asp-action="sorting" asp-route-page="@(ViewBag.CurrentPages +1)" aria-label="Next">
+                            Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>*@
 
-                </div><!-- End .col-lg-9 -->
+                </div>
 
                 <aside class="col-lg-3 order-lg-first">
                     <div class="sidebar sidebar-shop">
                         <div class="widget widget-clean">
                             <label>Filters:</label>
                             <a href="#" class="clear-filters">Clean All</a>
-                        </div><!-- End .widget widget-clean -->
+                        </div>
 
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
                                     Category
                                 </a>
-                            </h3><!-- End .widget-title -->
+                            </h3>
 
                             <div class="collapse show" id="widget-1">
                                 <div class="widget-body">
@@ -189,83 +189,69 @@
                                             </div>
                                         }
 
-                                        <!-- End .filter-item -->
-                                    </div><!-- End .filter-items -->
-                                </div><!-- End .widget-body -->
-                            </div><!-- End .collapse -->
-                        </div><!-- End .widget -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
 
 
 
-                        <div class="widget widget-collapsible">
-                            <h3 class="widget-title">
-                                <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
-                                    Size
-                                </a>
-                            </h3><!-- End .widget-title -->
+                        @*<div class="widget widget-collapsible">
+                    <h3 class="widget-title">
+                        <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
+                            Size
+                        </a>
+                    </h3>
 
-                            <div class="collapse show" id="widget-2">
-                                <div class="widget-body">
-                                    <div class="filter-items">
-                                        @if (Model.Category.Name.ToLower() != "Shoes".ToLower())
-                                        {
-                                            @for (int i = 0; i < 6; i++)
-                                            {
-                                                <div class="filter-item size-item">
-                                                    <div class="custom-control custom-checkbox">
+                    <div class="collapse show" id="widget-2">
+                        <div class="widget-body">
+                            <div class="filter-items">
+                                @if (Model.Category.Name.ToLower() != "Shoes".ToLower())
+                                {
+                                    @for (int i = 0; i < 6; i++)
+                                    {
+                                        <div class="filter-item size-item">
+                                            <div class="custom-control custom-checkbox">
 
-                                                        <input value="@ViewBag.Sizes[i].Id" type="checkbox" class="custom-control-input" id="@ViewBag.Sizes[i].Name">
-                                                        <label class="custom-control-label">@ViewBag.Sizes[i].Name</label>
+                                                <input value="@ViewBag.Sizes[i].Id" type="checkbox" class="custom-control-input" id="@ViewBag.Sizes[i].Name">
+                                                <label class="custom-control-label">@ViewBag.Sizes[i].Name</label>
 
-                                                    </div>
-                                                </div>
-                                            }
-
-
-
-                                        }
-                                        else
-                                        {
-                                            @for (int i = 6; i < 18; i++)
-                                            {
-                                                <div class="filter-item size-item">
-                                                    <div class="custom-control custom-checkbox">
-
-                                                        <input value="@ViewBag.Sizes[i].Id" type="checkbox" class="custom-control-input" id="@ViewBag.Sizes[i].Name">
-                                                        <label class="custom-control-label">@ViewBag.Sizes[i].Name</label>
-
-                                                    </div>
-                                                </div>
-                                            }
-                                        }
+                                            </div>
+                                        </div>
+                                    }
 
 
-                                        @*@foreach (var item in ViewBag.Sizes)
-                                            {
-                                                <div class="filter-item">
-                                                    <div class="custom-control custom-checkbox">
 
-                                                        <input type="checkbox" class="custom-control-input" id="@item.Id">
-                                                        <label class="custom-control-label" for="@item.Id">@item.Name</label>
+                                }
+                                else
+                                {
+                                    @for (int i = 6; i < 18; i++)
+                                    {
+                                        <div class="filter-item size-item">
+                                            <div class="custom-control custom-checkbox">
 
-                                                    </div>
-                                                </div>
-                                            }*@
+                                                <input value="@ViewBag.Sizes[i].Id" type="checkbox" class="custom-control-input" id="@ViewBag.Sizes[i].Name">
+                                                <label class="custom-control-label">@ViewBag.Sizes[i].Name</label>
 
+                                            </div>
+                                        </div>
+                                    }
+                                }
 
-                                    </div><!-- End .filter-items -->
-                                </div><!-- End .widget-body -->
-                            </div><!-- End .collapse -->
-                        </div><!-- End .widget -->
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
 
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-3" role="button" aria-expanded="true" aria-controls="widget-3">
                                     Colour
                                 </a>
-                            </h3><!-- End .widget-title -->
+                            </h3>
 
                             <div class="collapse show" id="widget-3">
                                 <div class="widget-body">
@@ -273,20 +259,20 @@
                                         @foreach (var item in ViewBag.Colors)
                                         {
                                             <a class="colorClick" href="#" style="background: @item.Name;"><span class="sr-only">@item.Name</span></a>
-                                            <input hidden value="@item.Id" />
+                                            <input value="@item.Id" hidden />
                                         }
 
-                                    </div><!-- End .filter-colors -->
-                                </div><!-- End .widget-body -->
-                            </div><!-- End .collapse -->
-                        </div><!-- End .widget -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
                                     Brand
                                 </a>
-                            </h3><!-- End .widget-title -->
+                            </h3>
 
                             <div class="collapse show" id="widget-4">
                                 <div class="widget-body">
@@ -296,7 +282,7 @@
                                         {
                                             <div class="filter-item brand-item">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input value="@item.Id" type="checkbox" class="custom-control-input filtercheck" id="@item.Id">
+                                                    <input type="checkbox" class="custom-control-input filtercheck" value="@item.Id" id="@item.Id">
                                                     <label class="custom-control-label">@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(item.Name.ToLower())</label>
                                                 </div>
                                             </div>
@@ -305,17 +291,17 @@
 
 
 
-                                    </div><!-- End .filter-items -->
-                                </div><!-- End .widget-body -->
-                            </div><!-- End .collapse -->
-                        </div><!-- End .widget -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
                                     Price
                                 </a>
-                            </h3><!-- End .widget-title -->
+                            </h3>
 
                             <div class="collapse show" id="widget-5">
                                 <div class="widget-body">
@@ -324,23 +310,207 @@
                                             Price Range:
                                             <span id="filter-price-range">$0 - $750</span>
                                         </div>
-                                        <div  id="price-slider" class="noUi-target noUi-ltr noUi-horizontal"><div class="noUi-base"><div class="noUi-connects"><div class="noUi-connect" style="transform: translate(0%, 0px) scale(0.75, 1);"></div></div><div class="noUi-origin" style="transform: translate(-100%, 0px); z-index: 5;"><div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="550.0" aria-valuenow="0.0" aria-valuetext="$0"><div class="noUi-touch-area"></div><div class="noUi-tooltip">$0</div></div></div><div class="noUi-origin" style="transform: translate(-25%, 0px); z-index: 4;"><div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="200.0" aria-valuemax="1000.0" aria-valuenow="750.0" aria-valuetext="$750"><div class="noUi-touch-area"></div><div class="noUi-tooltip">$750</div></div></div></div></div><!-- End #price-slider -->
 
+                                        <div id="price-slider" class="noUi-target noUi-ltr noUi-horizontal">
 
-                                    </div><!-- End .filter-price -->
-                                </div><!-- End .widget-body -->
-                            </div><!-- End .collapse -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div><!-- End .sidebar sidebar-shop -->
-                </aside><!-- End .col-lg-3 -->
-            </div><!-- End .row -->
-        </div><!-- End .container -->
-    </div><!-- End .page-content -->
-</main><!-- End .main -->
+
+                        <div style="cursor:pointer;text-align: center; background-color: #c94; color: white; padding-top: 5px; padding-bottom: 5px;" class="widget widget-collapsible lastFilter">
+
+
+
+                            <a style="color: white; padding-left: 122px; padding-right: 122px; padding-top: 8px; padding-bottom: 8px;" href="#" class="filterLink">Filter</a>
+
+                        </div>
+
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </div>
+</main>
 
 @section Scripts{
     <script>
         $(document).ready(function () {
+
+            $(document).on("click", ".clear-filters", function (e) {
+                e.preventDefault();
+                $(".custom-control-input").removeAttr("checked")
+                $(".colorClick").removeClass("selected")
+                window.location.reload();
+                //.removeAttr("checked")
+            })
+
+
+
+            let catvals = [];
+            var catfilters = []; // forBtn
+
+            let colorvals = [];
+            var colorfilters = []; // forBtn
+
+            let brandvals = [];
+            var brandfilters = []; // forBtn
+
+            $(document).on("click", ".category-item", function (e) {
+                if ($(this).children().children().first().attr("checked")) {
+                    $(this).children().children().first().removeAttr("checked")
+                } else {
+                    $(this).children().children().first().attr("checked", "")
+
+                }
+
+                var catVal = $(this).children().children().first().val();
+                var catid = $(".hiddenCategoryId").val()
+                if ($(this).children().children().first().attr("checked")) {
+                    catvals.push(Number(catVal));
+                } else {
+                    catvals = catvals.filter(c => Number(c) != Number(catVal));
+                }
+                var base = window.location.origin;
+                let newarr = [];
+                for (var i = 0; i < catvals.length; i++) {
+
+
+                    newarr.push(`&catvals=${catvals[i]}`)
+
+                }
+                var url = `${base}/man/testing?catvals=${newarr.join("")}&id=${catid}`
+                catfilters = newarr;
+
+            })
+
+            $(document).on("click", ".brand-item", function (e) {
+                if ($(this).children().children().first().attr("checked")) {
+                    $(this).children().children().first().removeAttr("checked")
+                } else {
+                    $(this).children().children().first().attr("checked", "")
+
+                }
+                var brandVal = $(this).children().children().first().val();
+                if ($(this).children().children().first().attr("checked")) {
+                    brandvals.push(Number(brandVal));
+                } else {
+                    brandvals = brandvals.filter(c => Number(c) != Number(brandVal));
+                }
+                var base = window.location.origin;
+                let newarr = [];
+                for (var i = 0; i < brandvals.length; i++) {
+                    //if (i == 0) {
+                    //    newarr.push(`${brandvals[i]}`)
+                    //}
+
+                    newarr.push(`&brandvals=${brandvals[i]}`)
+
+                }
+                //var url = `${base}/woman/testing?catvals=${newarr.join("")}&id=${catid}`
+                brandfilters = newarr;
+            })
+
+            $(document).on("click", ".colorClick", function (e) {
+                //e.preventDefault();
+                //console.log("sa")
+                e.preventDefault();
+                $(this).toggleClass("selected")
+
+                var colorid = $(this).next().val();
+                console.log(colorid)
+                if ($(this).hasClass("selected")) {
+                    colorvals.push(Number(colorid))
+                }
+                else {
+                    colorvals = colorvals.filter(c => Number(c) != Number(colorid));
+                }
+                let newarr = [];
+                for (var i = 0; i < colorvals.length; i++) {
+                    //if (i == 0) {
+                    //    newarr.push(`${colorvals[i]}`)
+                    //}
+
+                    newarr.push(`&colorvals=${colorvals[i]}`)
+
+                }
+                colorfilters = newarr;
+                console.log(newarr);
+            })
+
+            $(document).on("click", ".filterLink", function (e) {
+                e.preventDefault();
+                var min = parseInt($(".noUi-handle-lower").attr("aria-valuenow"))
+                var max = parseInt($(".noUi-handle-upper").attr("aria-valuenow"))
+                //console.log("filtered")
+                //if (catfilters.length > 0) {
+                //    console.log(catfilters)
+                //}
+                //console.log(colorfilters)
+                //console.log(brandfilters)
+                //console.log(`min : ${min}`)
+                //console.log(`max : ${max}`)
+
+
+
+
+
+                var base = window.location.origin;
+                var catid = $(".hiddenCategoryId").val()
+
+                var url = `${base}/man/testing?id=${catid}${catfilters.join("")}${colorfilters.join("")}${brandfilters.join("")}&min=${min}&max=${max}`
+                console.log(url);
+
+                fetch(url).then(res => res.text()).then(data => {
+                    $(".rowprods").empty();
+                    $(".rowprods").append(data);
+
+
+
+                    if ($("#2col").hasClass("active")) {
+
+
+                        $(".productClass").removeClass("col-lg-4");
+                        $(".productClass").addClass("col-lg-6");
+                        $(".productClass").removeClass("col-md-4");
+                        $(".productClass").addClass("col-md-6");
+                        console.log("3col")
+
+                        $(".product-main").css("height", "430px")
+                    }
+                    else {
+                        $(".productclass").removeClass("col-lg-6");
+                        $(".productclass").addClass("col-lg-4");
+                        $(".productclass").removeClass("col-md-6");
+                        $(".productclass").addClass("col-md-4");
+                        $(".product-main").css("height", "353px")
+                        console.log("2col")
+                    }
+
+                    $(".product-notMain").click(function (e) {
+                        console.log("sa")
+                        e.preventDefault();
+                        var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
+                        var newHref = $(this).attr("href")
+                        $(parent).closest(".until").removeAttr("href").attr("href", newHref)
+                        var closestNav = $(this).closest(".product-nav");
+                        $(closestNav.children(".product-notMain")).not(this).removeClass("active");
+
+                        $(this).addClass("active")
+                        var notmain = $(this).children(".nmSrc").attr("src")
+                        $(parent).attr("src", notmain)
+
+                    })
+                })
+
+                console.log(url);
+
+
+            })
+
+
             var idVal = $(".page-item").next().val();
             console.log(idVal)
 
@@ -354,47 +524,7 @@
 
             var url = `${base}/man/Sorting?catid=${catid}&sortval=${val}`
 
-            //fetch(url).then(res => res.text()).then(data => {
-            //    $(".rowprods").empty();
-            //    $(".rowprods").append(data)
-
-
-
-            //    if ($("#2col").hasClass("active")) {
-
-
-            //        $(".productClass").removeClass("col-lg-4");
-            //        $(".productClass").addClass("col-lg-6");
-            //        $(".productClass").removeClass("col-md-4");
-            //        $(".productClass").addClass("col-md-6");
-            //        console.log("3col")
-
-            //        $(".product-main").css("height", "430px")
-            //    }
-            //    else {
-            //        $(".productclass").removeClass("col-lg-6");
-            //        $(".productclass").addClass("col-lg-4");
-            //        $(".productclass").removeClass("col-md-6");
-            //        $(".productclass").addClass("col-md-4");
-            //        $(".product-main").css("height", "353px")
-            //        console.log("2col")
-            //    }
-            //    $(".product-notMain").click(function (e) {
-            //        console.log("sa")
-            //        e.preventDefault();
-            //        var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
-            //        var newHref = $(this).attr("href")
-            //        $(parent).closest(".until").removeAttr("href").attr("href", newHref)
-            //        var closestNav = $(this).closest(".product-nav");
-            //        $(closestNav.children(".product-notMain")).not(this).removeClass("active");
-
-            //        $(this).addClass("active")
-            //        var notmain = $(this).children(".nmSrc").attr("src")
-            //        $(parent).attr("src", notmain)
-
-            //    })
-
-            //})
+          
 
 
 
@@ -406,85 +536,7 @@
 
            
 
-            //$(document).on("click", ".page-item-next", function (e) {
-
-                
-                
-
-
-            //    e.preventDefault();
-            //    var val = $(".activeInput").val();
-            //    var sortval = $("#sortby").val();
-            //    var b = window.location.origin;
-            //    var catid = $(".hiddenCategoryId").val()
-            //    var normalized = Number(val) + 1
-            //    if ($(".page-item").length == normalized) {
-            //        $(this).addClass("disabled")
-            //        $(this).children().first().css("color", "#dcdde1")
-            //        $(this).css("pointer-events", "none")
-            //    }
-               
-            //    if ($(".page-item").length < normalized) {
-            //        return false;
-            //    }
-
-                
-            //    var nextt = $(".activeInput").parent().next();
-
-            //    $(nextt).addClass("active")
-            //    $(".page-item").not(nextt).removeClass("active")
-            //    $(".hiddenSortPage").removeClass("activeInput");
-            //    $(nextt).children().first().addClass("activeInput")
-
-
-            //    var lnk = `${b}/man/Sorting?catid=${catid}&sortval=${sortval}&page=${normalized}`
-            //    console.log(lnk)
-            //    fetch(lnk).then(res => res.text()).then(data => {
-            //        $(".rowprods").empty();
-            //        $(".rowprods").append(data)
-
-
-
-            //        if ($("#2col").hasClass("active")) {
-
-
-            //            $(".productClass").removeClass("col-lg-4");
-            //            $(".productClass").addClass("col-lg-6");
-            //            $(".productClass").removeClass("col-md-4");
-            //            $(".productClass").addClass("col-md-6");
-            //            console.log("3col")
-
-            //            $(".product-main").css("height", "430px")
-            //        }
-            //        else {
-            //            $(".productclass").removeClass("col-lg-6");
-            //            $(".productclass").addClass("col-lg-4");
-            //            $(".productclass").removeClass("col-md-6");
-            //            $(".productclass").addClass("col-md-4");
-            //            $(".product-main").css("height", "353px")
-            //            console.log("2col")
-            //        }
-
-            //        $(".product-notMain").click(function (e) {
-            //            console.log("sa")
-            //            e.preventDefault();
-            //            var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
-            //            var newHref = $(this).attr("href")
-            //            $(parent).closest(".until").removeAttr("href").attr("href", newHref)
-            //            var closestNav = $(this).closest(".product-nav");
-            //            $(closestNav.children(".product-notMain")).not(this).removeClass("active");
-
-            //            $(this).addClass("active")
-            //            var notmain = $(this).children(".nmSrc").attr("src")
-            //            $(parent).attr("src", notmain)
-
-            //        })
-            //    })
-
-               
-
-            //})
-
+        
 
             $(document).on("click", ".page-item", function (e) {
 
@@ -613,15 +665,9 @@
 
 
 
-            //if ($("#sortby").val() != 1) {
+           
 
-
-
-
-
-            //}
-
-            $("#price-slider").children().first().remove()
+            //$("#price-slider").children().first().remove()
 
 
             //$(".productClass").slice(0, 6).show()
@@ -637,11 +683,11 @@
 
 
 
-            $(".colorClick").click(function (e) {
-                e.preventDefault();
-                $(this).toggleClass("selected")
-                //console.log("clicked");
-            })
+            //$(".colorClick").click(function (e) {
+            //    e.preventDefault();
+            //    $(this).toggleClass("selected")
+            //    //console.log("clicked");
+            //})
 
 
 
@@ -660,58 +706,58 @@
 
             })
 
-            $(".sizeClick").click(function (e) {
-                e.preventDefault();
-                $(this).closest(".product-size").children(".sizeClick").not(this).removeClass("active")
-                $(this).addClass("active")
-            })
+            //$(".sizeClick").click(function (e) {
+            //    e.preventDefault();
+            //    $(this).closest(".product-size").children(".sizeClick").not(this).removeClass("active")
+            //    $(this).addClass("active")
+            //})
 
 
-            $(".size-item").click(function () {
+            //$(".size-item").click(function () {
 
 
-                if ($(this).children().children().first().attr("checked")) {
-                    $(this).children().children().first().removeAttr("checked")
-                } else {
-                    $(this).children().children().first().attr("checked", "")
+            //    if ($(this).children().children().first().attr("checked")) {
+            //        $(this).children().children().first().removeAttr("checked")
+            //    } else {
+            //        $(this).children().children().first().attr("checked", "")
 
-                }
-
-
-            })
-
-            $(".brand-item").click(function () {
+            //    }
 
 
-                if ($(this).children().children().first().attr("checked")) {
-                    $(this).children().children().first().removeAttr("checked")
-                } else {
-                    $(this).children().children().first().attr("checked", "")
+            //})
 
-                }
+            //$(".brand-item").click(function () {
 
 
-            })
-            $(".category-item").click(function () {
+            //    if ($(this).children().children().first().attr("checked")) {
+            //        $(this).children().children().first().removeAttr("checked")
+            //    } else {
+            //        $(this).children().children().first().attr("checked", "")
+
+            //    }
 
 
-                if ($(this).children().children().first().attr("checked")) {
-                    $(this).children().children().first().removeAttr("checked")
-                } else {
-                    $(this).children().children().first().attr("checked", "")
-
-                }
+            //})
+            //$(".category-item").click(function () {
 
 
-            })
+            //    if ($(this).children().children().first().attr("checked")) {
+            //        $(this).children().children().first().removeAttr("checked")
+            //    } else {
+            //        $(this).children().children().first().attr("checked", "")
 
-            $(".clear-filters").click(function (e) {
-                e.preventDefault();
-                $(".custom-control-input").removeAttr("checked")
-                $(".colorClick").removeClass("selected")
-                //.removeAttr("checked")
+            //    }
 
-            })
+
+            //})
+
+            //$(".clear-filters").click(function (e) {
+            //    e.preventDefault();
+            //    $(".custom-control-input").removeAttr("checked")
+            //    $(".colorClick").removeClass("selected")
+            //    //.removeAttr("checked")
+
+            //})
 
 
 

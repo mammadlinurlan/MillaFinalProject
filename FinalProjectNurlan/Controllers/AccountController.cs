@@ -89,6 +89,9 @@ namespace FinalProjectNurlan.Controllers
 
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             string link = Url.Action(nameof(VerifyEmail), "Account", new { email = user.Email, token }, Request.Scheme, Request.Host.ToString());
+           
+
+          
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress("satilirbuz4@gmail.com", "Milla");
             mail.To.Add(new MailAddress(user.Email));
@@ -121,8 +124,20 @@ namespace FinalProjectNurlan.Controllers
         {
             AppUser user = await _userManager.FindByEmailAsync(email);
             if (user == null) return BadRequest();
-            await _userManager.ConfirmEmailAsync(user, token);
+            if (_context.BlacklistTokens.Any(c=>c.Token.ToLower().Trim() == token.ToLower().Trim()))
+            {
+                TempData["BlackToken"] = true;
+                return RedirectToAction("Index", "Home");
 
+            }
+            BlacklistTokens blackToken = new BlacklistTokens
+            {
+                Token = token
+            };
+            _context.BlacklistTokens.Add(blackToken);
+            _context.SaveChanges();
+
+            await _userManager.ConfirmEmailAsync(user, token);
             await _signInManager.SignInAsync(user, true);
             TempData["Verified"] = true;
 

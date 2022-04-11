@@ -14,6 +14,8 @@ namespace FinalProjectNurlan.ViewModels
         public Product Product { get; set; }
         public List<Product> Products { get; set; }
 
+        public Settings Settings { get; set; }
+
         public List<ProductSizeColor> ProductSizeColors { get; set; }
         public ProductSizeColor ProductSizeColor { get; set; }
 

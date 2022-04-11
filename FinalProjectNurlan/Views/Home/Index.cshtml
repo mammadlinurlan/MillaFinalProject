@@ -17,10 +17,17 @@
     <input type="hidden" id="Reseted" />
 
 }
+@if (TempData["BlackToken"] != null)
+{
+    <input type="hidden" id="TokenFailed" />
+
+}
 @if (TempData["Succeeded"] != null)
 {
     <input type="hidden" id="toastrJs" data-succeed="@TempData["Succeeded"]" />
 }
+
+
 
 
 
@@ -138,110 +145,110 @@
                                     }
                                 }
                             }'>
-                    @foreach (var item in Model.ProductColors.OrderByDescending(c=>c.Product.AvgStar).Take(8))
+                    @foreach (var item in Model.ProductColors.OrderByDescending(c => c.Product.AvgStar).Take(8))
                     {
-                        
-                    
-                            <div class="product product-7 text-center">
-                                <figure class="product-media">
-                                    @if (item.Product.CreatedDate.AddDays(3) >= DateTime.Now)
+
+
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                @if (item.Product.CreatedDate.AddDays(3) >= DateTime.Now)
+                                {
+                                    <span class="product-label label-new">New</span>
+                                }
+                                <a class="until" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
+                                    <img style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
+                                </a>
+
+                                <div class="product-action-vertical">
+                                    <a asp-controller="wishlist" asp-action="SetWishlist" asp-route-id="@item.Id" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+
+                                </div>
+
+                            </figure>
+
+                            <div class="product-body">
+
+                                <h3 class="product-title"><a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">@item.Product.Name</a></h3>
+                                <div class="product-price">
+
+                                    @if (item.Product.Discount != null && item.Product.Discount != 0)
                                     {
-                                        <span class="product-label label-new">New</span>
+                                        <span class="new-price" style="color:orangered">@((item.Product.Price - (item.Product.Price * item.Product.Discount / 100) ) ) $ </span> <span class="old-price" style="text-decoration:line-through">was @item.Product.Price$</span>
+
                                     }
-                                    <a class="until" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
-                                        <img style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
-                                    </a>
+                                    else
+                                    {
+                                        <span style="color: #c96">@item.Product.Price $</span>
+                                    }
+                                </div>
 
-                                    <div class="product-action-vertical">
-                                        <a asp-controller="wishlist" asp-action="SetWishlist" asp-route-id="@item.Id" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                        <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
 
-                                    </div>
+                                <div class="ratings-container">
+                                    <div class="rating">
 
-                                </figure>
-
-                                <div class="product-body">
-
-                                    <h3 class="product-title"><a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">@item.Product.Name</a></h3>
-                                    <div class="product-price">
-
-                                        @if (item.Product.Discount != null && item.Product.Discount != 0)
+                                        @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
                                         {
-                                            <span class="new-price" style="color:orangered">@((item.Product.Price - (item.Product.Price * item.Product.Discount / 100) ) ) $ </span> <span class="old-price" style="text-decoration:line-through">was @item.Product.Price$</span>
+                                            @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count()); i++)
+                                            {
+                                                <i style="color:#c94" class="fa-solid fa-star"></i>
+
+                                            }
+                                            @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count())); i++)
+                                            {
+                                                <i class="fa-solid fa-star"></i>
+
+                                            }
 
                                         }
                                         else
                                         {
-                                            <span style="color: #c96">@item.Product.Price $</span>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+
+                                            <i class="fa-solid fa-star"></i>
+
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+
+
                                         }
+
+
                                     </div>
+                                    <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                </div>
 
+                                @*<div class="product-size">
 
-                                    <div class="ratings-container">
-                                        <div class="rating">
-
-                                            @if (item.Product.Rating != null && item.Product.Comments.Count != 0)
-                                            {
-                                                @for (int i = 0; i < Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c=>c.Star != 0).Count()); i++)
-                                                {
-                                                    <i style="color:#c94" class="fa-solid fa-star"></i>
-
-                                                }
-                                                @for (int i = 0; i < (5 - Math.Ceiling((decimal)item.Product.Rating / item.Product.Comments.Where(c => c.Star != 0).Count())); i++)
-                                                            {
-                                                    <i class="fa-solid fa-star"></i>
-
-                                                }
-
-                                                }
-                                            else
-                                                {
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-
-                                                <i class="fa-solid fa-star"></i>
-
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-
-
-                                            }
-
-
-                                        </div>
-                                        <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
-                                    </div>
-
-                                    @*<div class="product-size">
-
-                            @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
-                            {
-                                <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
-                            }
-
-                        </div>*@
-                                    <div class="product-nav product-nav-thumbs">
-                                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
-                                            <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
-                                        </a>
-
-
-
-                                        @foreach (var prd in Model.ProductColors2.Where(p => p.ProductId == item.ProductId && p.ColorId != item.ColorId))
+                                        @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
                                         {
-
-
-                                            <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
-                                                <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
-
-                                            </a>
+                                            <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
                                         }
 
+                                    </div>*@
+                                <div class="product-nav product-nav-thumbs">
+                                    <a style="height:52px;width:40px" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                                        <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
+                                    </a>
 
-                                    </div>
+
+
+                                    @foreach (var prd in Model.ProductColors2.Where(p => p.ProductId == item.ProductId && p.ColorId != item.ColorId))
+                                    {
+
+
+                                        <a style="height:52px;width:40px" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                                            <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
+
+                                        </a>
+                                    }
+
+
                                 </div>
                             </div>
-                       
+                        </div>
+
                     }
 
 
@@ -275,7 +282,7 @@
                                     }
                                 }
                             }'>
-                    @foreach (var item in Model.ProductColors.Where(p=>p.Product.GenderId == 2).OrderByDescending(c => c.Product.AvgStar).Take(8))
+                    @foreach (var item in Model.ProductColors.Where(p => p.Product.GenderId == 2).OrderByDescending(c => c.Product.AvgStar).Take(8))
                     {
 
                         <div class="product product-7 text-center">
@@ -350,14 +357,14 @@
 
                                 @*<div class="product-size">
 
-                        @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
-                        {
-                            <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
-                        }
+                                        @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
+                                        {
+                                            <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
+                                        }
 
-                    </div>*@
+                                    </div>*@
                                 <div class="product-nav product-nav-thumbs">
-                                    <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                                    <a style="height:52px;width:40px" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
                                         <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
                                     </a>
 
@@ -367,7 +374,7 @@
                                     {
 
 
-                                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                                        <a style="height:52px;width:40px" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
                                             <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
 
                                         </a>
@@ -484,14 +491,14 @@
 
                                 @*<div class="product-size">
 
-                        @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
-                        {
-                            <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
-                        }
+                                        @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
+                                        {
+                                            <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
+                                        }
 
-                    </div>*@
+                                    </div>*@
                                 <div class="product-nav product-nav-thumbs">
-                                    <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                                    <a style="height:52px;width:40px" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
                                         <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
                                     </a>
 
@@ -501,7 +508,7 @@
                                     {
 
 
-                                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                                        <a style="height:52px;width:40px" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
                                             <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
 
                                         </a>
@@ -575,7 +582,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="icon-box text-center">
                         <span class="icon-box-icon">
-                            <i class="icon-truck"></i>
+                            <i style="color:#c94" class="@Model.Settings.HomePageDeliveryIcon"></i>
                         </span>
                         <div class="icon-box-content">
                             <h3 class="icon-box-title">Payment & Delivery</h3>
@@ -587,7 +594,8 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="icon-box text-center">
                         <span class="icon-box-icon">
-                            <i class="icon-rotate-left"></i>
+                            <i style="color:#c94" class="@Model.Settings.HomePageRefundIcon"></i>
+
                         </span>
                         <div class="icon-box-content">
                             <h3 class="icon-box-title">Return & Refund</h3>
@@ -599,7 +607,8 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="icon-box text-center">
                         <span class="icon-box-icon">
-                            <i class="icon-unlock"></i>
+                            <i style="color:#c94" class="@Model.Settings.HomePagePaymentIcon"></i>
+
                         </span>
                         <div class="icon-box-content">
                             <h3 class="icon-box-title">Secure Payment</h3>
@@ -611,7 +620,8 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="icon-box text-center">
                         <span class="icon-box-icon">
-                            <i class="icon-headphones"></i>
+                            <i style="color:#c94" class="@Model.Settings.HomePageSupportIcon"></i>
+
                         </span>
                         <div class="icon-box-content">
                             <h3 class="icon-box-title">Quality Support</h3>
@@ -631,7 +641,7 @@
         <div class="products">
             <div class="row justify-content-center">
 
-                @foreach (var item in Model.ProductColors.OrderByDescending(p=>p.Product.CreatedDate).Take(8))
+                @foreach (var item in Model.ProductColors.OrderByDescending(p => p.Product.CreatedDate).Take(8))
                 {
 
                     <div class="col-6 col-md-4 col-lg-3">
@@ -707,14 +717,14 @@
 
                                 @*<div class="product-size">
 
-                            @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
-                            {
-                                <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
-                            }
+                                        @foreach (var prodForSize in Model.ProductSizeColors.Where(p => p.ProductId == item.ProductId && p.ColorId == item.ColorId))
+                                        {
+                                            <a href="#"  class="@(prodForSize.TotalStock < 5 ? "disabled" : "") sizeClick"    >@prodForSize.Size.Name</a>
+                                        }
 
-                        </div>*@
+                                    </div>*@
                                 <div class="product-nav product-nav-thumbs">
-                                    <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
+                                    <a style="height:52px;width:40px" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).Id" class="active product-notMain">
                                         <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="product desc">
                                     </a>
 
@@ -724,7 +734,7 @@
                                     {
 
 
-                                        <a asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
+                                        <a style="height:52px;width:40px" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId==prd.ColorId).Id" class="product-notMain">
                                             <img class="nmSrc" style="height:52px;width:40px" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == prd.ProductId && p.ColorId == prd.ColorId).MainImage" alt="product desc">
 
                                         </a>
@@ -745,7 +755,7 @@
             </div>
         </div>
 
-       
+
     </div>
     <div class="pb-3">
         <div class="container brands pt-5 pt-lg-7 ">
@@ -779,7 +789,7 @@
 
                 @foreach (var item in Model.Brands)
                 {
-                    <a  class="brand">
+                    <a class="brand">
                         <img src="assets/images/logos/@item.Image" alt="Brand Name">
                     </a>
 
@@ -815,8 +825,8 @@
                             <h3 class="cta-title">Subscribe To Our Newsletter</h3>
                             <p>Sign up now for <span class="primary-color">10% discount</span> on first order. Customise my news:</p>
 
-                            <form method="post" >
-                                <input class="form-control emailValue" type="email"  required/>
+                            <form method="post">
+                                <input class="form-control emailValue" type="email" required />
                                 @*<span class="text text-danger" asp-validation-for="Subscriber"></span>*@
                                 <div class="text-center">
                                     <button class="btn btn-outline-dark-2 forSubscribe" type="submit"><span>subscribe</span></button>
@@ -935,7 +945,7 @@
                 e.preventDefault();
                 var value = $(".emailValue").val();
                 var base = window.location.origin;
-                
+
 
                 if ($(".emailValue").is(':valid')) {
                     var url = `${base}/home/subscribe?email=${value}`
@@ -962,6 +972,8 @@
                                     timer: 1000,
 
                                 });
+                                $(".emailValue").val('')
+
                             }
                         }
                     })
@@ -1020,6 +1032,27 @@
                 }
             }
 
+            if ($("#TokenFailed").length) {
+                Command: toastr["error"]("Invalid token!")
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+            }
+
 
             if ($("#VerifyEmail").length) {
                 Command: toastr["success"]("Please check your email!")
@@ -1041,6 +1074,8 @@
                     "hideMethod": "fadeOut"
                 }
             }
+
+
             if ($("#VerifiedEmail").length) {
                 Command: toastr["success"]("Successfully verified")
                 toastr.options = {
@@ -1084,7 +1119,7 @@
 
 
             $(".product-notMain").click(function (e) {
-              
+
                 e.preventDefault();
                 var parent = $(this).closest(".product-body").prev().children(".until").children(".product-main")
                 var newHref = $(this).attr("href")

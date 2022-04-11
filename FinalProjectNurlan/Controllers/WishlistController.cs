@@ -202,13 +202,18 @@ namespace FinalProjectNurlan.Controllers
                            Id = product.Id
                         };
                         wishlistCookieItems.Add(cookieItem);
+                        string wishlistStr = JsonConvert.SerializeObject(wishlistCookieItems);
+                        HttpContext.Response.Cookies.Append("Wishlists", wishlistStr);
+
+
+                        return Json(wishlistCookieItems.Count());
+                    }
+                    else
+                    {
+                        return Json(new { status = 500 });
                     }
                    
-                    string wishlistStr = JsonConvert.SerializeObject(wishlistCookieItems);
-                    HttpContext.Response.Cookies.Append("Wishlists", wishlistStr);
-
                    
-                    return Json(wishlistCookieItems.Count());
                 }
 
 

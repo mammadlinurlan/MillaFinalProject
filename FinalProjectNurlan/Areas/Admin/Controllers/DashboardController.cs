@@ -35,15 +35,23 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             double? startPrice = 0;
             
             List<OrderItem> orderItems = context.OrderItems.Include(c => c.ProductSizeColor).Where(c => c.Order.Date.Day == DateTime.Now.Day && c.ProductSizeColorId == todays.Id && c.Order.StatusId == 2).ToList();
-            foreach (var item in orderItems)
+            
+
+            if (bestsellerVM.Daily != null)
             {
-                startPrice += item.Price;
+                foreach (var item in orderItems)
+                {
+                    startPrice += item.Price;
+                }
+                ViewBag.Daily = startPrice;
+                return View(bestsellerVM);
+
+            }
+            else
+            {
+                return View();
             }
 
-            ViewBag.Daily = startPrice;
-
-
-            return View(bestsellerVM);
         }
 
         public IActionResult Test()

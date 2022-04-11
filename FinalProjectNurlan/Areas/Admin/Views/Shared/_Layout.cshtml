@@ -153,6 +153,29 @@
                         </li>
                         <li><a asp-controller="settings" asp-action="index"><i class="typcn typcn-support mr-2"></i>Settings</a></li>
                         <li><a asp-controller="subscriber" asp-action="index"><i class="typcn typcn-mail mr-2"></i>Subscribers</a></li>
+                        <li>
+                            <a href="#" class="has-arrow">
+                                <i class="typcn typcn-chart-pie-outline mr-2 "></i>
+                                Contact-Store
+                            </a>
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a asp-controller="contact" asp-action="index">
+                                        <i class="typcn typcn-chart-pie-outline mr-2"></i>
+                                        Contact
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="contact" asp-action="stores">
+                                        <i class="typcn typcn-chart-pie-outline mr-2"></i>
+                                        Stores
+                                    </a>
+                                </li>
+                            </ul>
+
+
+                        </li>
+                        <li><a asp-controller="account" asp-action="userlist"><i class="typcn typcn-user-add-outline mr-2"></i>Users</a></li>
 
                         @*<li class="nav-label">Components</li>
                                 <li>
@@ -446,6 +469,11 @@
     @*<script src="~/admin/assets/dist/js/pages/dashboard.js"></script>*@
     <!--Page Scripts(used by all page)-->
     <script src="~/admin/assets/dist/js/sidebar.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <script>
         $(document).ready(function (e) {
             var base = window.location.origin;

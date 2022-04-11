@@ -31,12 +31,19 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
 
 
         [Authorize(Roles = "SuperAdmin")]
-        public IActionResult UserList()
+        public IActionResult UserList(int page=1)
         {
+            ViewBag.Currentpage = page;
+            ViewBag.Totalpage = Math.Ceiling((decimal)_context.Users.Count() / 10);
 
-            List<AppUser> users = _userManager.Users.ToList();
+            List<AppUser> users = _userManager.Users.Skip((page-1)*10).Take(10).ToList();
+            //_context.UserRoles.FirstOrDefault(c => c.UserId ==).RoleId;
+            //_userManager.GetRolesAsync()
+              
 
             return View(users);
+            //string[] roleNames = Roles.GetRolesForUser();
+            //System.Web.Security.
         }
         [Authorize(Roles = "SuperAdmin")]
 
@@ -52,24 +59,30 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             }
             if (await _userManager.IsInRoleAsync(user, "SuperAdmin") == true)
             {
-                return Content("you cannot touch superadmin!");
-            }
-
-
-            if (!user.IsAdmin == true)
-            {
-                await _userManager.AddToRoleAsync(user, "Admin");
-                user.IsAdmin = true;
+                return Json(new {status=500 });
             }
             else
             {
-                await _userManager.RemoveFromRoleAsync(user, "Admin");
-                user.IsAdmin = false;
+
+                if (!user.IsAdmin == true)
+                {
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                    await _userManager.RemoveFromRoleAsync(user, "Member");
+                    user.IsAdmin = true;
+                }
+                else
+                {
+                    await _userManager.RemoveFromRoleAsync(user, "Admin");
+                    user.IsAdmin = false;
+                    await _userManager.AddToRoleAsync(user, "Member");
+                }
+                await _context.SaveChangesAsync();
+                return Json(new { status = 200 });
             }
 
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction("UserList", "Account");
+
+
         }
 
 
