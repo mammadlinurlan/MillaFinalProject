@@ -523,65 +523,105 @@
                         }
                     }
 
-
-                  
-
-
-                    
-
                 }
                 else {
-                    var url = `${base}/man/AddComment?Subject=${subject}&Message=${message}&ProductId=${productit}&Star=${star}`
-                    var forpartial = base + '/Comment/GetPartial' + '?id=' + productit
-                    var link = base + '/Comment/AddComment' + '?Subject=' + subject + '&Message=' + message + '&ProductId=' + productit + '&Star=' + star
 
-                    fetch(link).then(res => res.text()).then(data => {
+                    if ($("#message").next().val().length > 350 || $("#subj").next().val().length > 60) {
+                        let timerInterval;
+                        Swal.fire({
 
-                        $(".review-place").empty();
-                        $(".review-place").append(data);
-                        //console.log(data)
+                            title: 'Dont mess with inputs :)',
+                            width: 600,
+                            padding: '3em',
+                            color: '#716add',
+                            background: '#fff url(/assets/images/tree-image.png)',
+                            backdrop: `
+            rgba(0,0,123,0.4)
+            url("/assets/images/nyannn.gif")
+            left top
+            no-repeat
+          `
 
-                        $(".starRate").removeClass("active-star");
-
-                        $(".starhidden").val(1)
-                        $("#subj").next().val('');
-                        $("#message").next().val('');
-                        console.log(data)
-
-                        if (data.status==200) {
-                            Command: toastr["success"]("Your comment added successfully!")
-
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toast-top-center",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
+                            , html: 'I will close in <b></b> milliseconds.',
+                            timer: 2000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
                             }
-                            //fetch(forpartial).then(res => res.text()).then(data => {
-                            //    console.log(data)
-                            //})
-                        }
-
-                        fetch(forpartial).then(res => res.json()).then(data => {
-                            $("#product-review-link").empty();
-                            $("#product-review-link").append(`Reviews(${data})`);
+                        }).then((result) => {
+                           
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                console.log('I was closed by the timer')
+                            }
                         })
+                        setTimeout(window.location.reload.bind(window.location), 2000);
+                       
+                    } else {
+                        var url = `${base}/man/AddComment?Subject=${subject}&Message=${message}&ProductId=${productit}&Star=${star}`
+                        var forpartial = base + '/Comment/GetPartial' + '?id=' + productit
+                        var link = base + '/Comment/AddComment' + '?Subject=' + subject + '&Message=' + message + '&ProductId=' + productit + '&Star=' + star
+                        console.log(link)
+                        fetch(link).then(res => res.text()).then(data => {
 
-                        $(".forcommentbtn").css("background-color","#c94")
+                            $(".review-place").empty();
+                            $(".review-place").append(data);
+                            //console.log(data)
 
-                    })
-                    //console.log(url)
+                            $(".starRate").removeClass("active-star");
+
+                            $(".starhidden").val(1)
+                            $("#subj").next().val('');
+                            $("#message").next().val('');
+                            //console.log(data)
+
+                            if (data.status == 200) {
+                                Command: toastr["success"]("Your comment added successfully!")
+
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toast-top-center",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                //fetch(forpartial).then(res => res.text()).then(data => {
+                                //    console.log(data)
+                                //})
+
+                            }
+
+
+
+                            fetch(forpartial).then(res => res.json()).then(data => {
+                                $("#product-review-link").empty();
+                                $("#product-review-link").append(`Reviews(${data})`);
+                            })
+
+                            $(".forcommentbtn").css("background-color", "#c94")
+
+                        })
+                    }
+
+
+               
+                   
                 }
 
 

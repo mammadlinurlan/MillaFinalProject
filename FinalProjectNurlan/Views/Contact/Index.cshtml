@@ -36,11 +36,11 @@
                                     </li>
                                     <li>
                                         <i class="@Model.Contact.PhoneIcon"></i>
-                                        <a >@Model.Contact.Phone</a>
+                                        <a>@Model.Contact.Phone</a>
                                     </li>
                                     <li>
                                         <i class="@Model.Contact.MailIcon"></i>
-                                        <a >@Model.Contact.Mail</a>
+                                        <a>@Model.Contact.Mail</a>
                                     </li>
                                 </ul>
                             </div>
@@ -55,7 +55,7 @@
                                         <i class="@Model.Contact.OclockIcon"></i>
                                         <span class="text-dark">Monday-Saturday</span> <br>@Model.Contact.OpenTime am-@Model.Contact.CloseTime pm ET
                                     </li>
-                                   
+
                                 </ul>
                             </div>
                         </div>
@@ -65,35 +65,40 @@
                     <h2 class="title mb-1">Got Any Questions?</h2>
                     <p class="mb-2">Use the form below to get in touch with the sales team</p>
 
-                    <form action="#" class="contact-form mb-3">
+                    <form method="post">
                         <div class="row">
                             <div class="col-sm-6">
-                                <label for="cname" class="sr-only">Name</label>
-                                <input type="text" class="form-control" id="cname" placeholder="Name *" required>
+                                <label asp-for="@Model.Question.Name" class="sr-only">Name</label>
+                                <input class="form-control nameInput" asp-for="@Model.Question.Name" placeholder="Name *">
+                                <span class="text text-danger" asp-validation-for="@Model.Question.Name"></span>
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="cemail" class="sr-only">Email</label>
-                                <input type="email" class="form-control" id="cemail" placeholder="Email *" required>
+                                <label asp-for="@Model.Question.Mail" class="sr-only">Mail</label>
+                                <input class="form-control mailInput" asp-for="@Model.Question.Mail" placeholder="Mail *">
+                                <span class="text text-danger" asp-validation-for="@Model.Question.Mail"></span>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <label for="cphone" class="sr-only">Phone</label>
-                                <input type="tel" class="form-control" id="cphone" placeholder="Phone">
+                                <label asp-for="@Model.Question.Phone" class="sr-only">Phone</label>
+                                <input class="form-control phoneInput" asp-for="@Model.Question.Phone" placeholder="Phone *">
+                                <span class="text text-danger" asp-validation-for="@Model.Question.Phone"></span>
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="csubject" class="sr-only">Subject</label>
-                                <input type="text" class="form-control" id="csubject" placeholder="Subject">
+                                <label asp-for="@Model.Question.Subject" class="sr-only">Subject</label>
+                                <input class="form-control subjectInput" asp-for="@Model.Question.Subject" placeholder="Subject *">
+                                <span class="text text-danger" asp-validation-for="@Model.Question.Subject"></span>
                             </div>
                         </div>
 
                         <label for="cmessage" class="sr-only">Message</label>
-                        <textarea class="form-control" cols="30" rows="4" id="cmessage" required placeholder="Message *"></textarea>
+                        <textarea class="form-control messageInput" cols="30" rows="4" asp-for="@Model.Question.Message" placeholder="Message *"></textarea>
+                        <span class="text text-danger" asp-validation-for="@Model.Question.Message"></span>
 
-                        <button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm">
+                        <button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm btn-post-message">
                             <span>SUBMIT</span>
                             <i class="icon-long-arrow-right"></i>
                         </button>
@@ -124,7 +129,7 @@
                                             <div><a href="tel:#">@item.Phone</a></div>
 
                                             <h4 class="store-subtitle">Store Hours:</h4>
-                                            <div>Monday - Saturday @item.StoreOpenTime am to @item.StoreCloseTime pm</div>
+                                            <div>Monday - Saturday @item.StoreOpenTime.ToString("HH:mm")am to @item.StoreCloseTime.ToString("HH:mm")pm</div>
                                             @*<div>Sunday 11am to 6pm</div>*@
 
                                             <a href="@item.StoreLink" class="btn btn-link" target="_blank"><span>View Map</span><i class="icon-long-arrow-right"></i></a>
@@ -141,23 +146,79 @@
             </div>
         </div>
         <div id="map">
-            <div class="mapouter"><div class="gmap_canvas"><iframe width="1263" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=baku%20azerbaijan&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org">123movies</a><br>
-            <style>
-                .mapouter {
-                    position: relative;
-                    text-align: right;
-                    height: 500px;
-                    width: 1263px;
-                }
-            </style><a href="https://www.embedgooglemap.net">add google maps to html</a>
-            <style>
-                .gmap_canvas {
-                    overflow: hidden;
-                    background: none !important;
-                    height: 500px;
-                    width: 1263px;
-                }
-            </style></div></div>
+            <div class="mapouter">
+                <div class="gmap_canvas">
+                    <iframe width="1263" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=baku%20azerbaijan&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org">123movies</a><br>
+                    <style>
+                        .mapouter {
+                            position: relative;
+                            text-align: right;
+                            height: 500px;
+                            width: 1263px;
+                        }
+                    </style><a href="https://www.embedgooglemap.net">add google maps to html</a>
+                    <style>
+                        .gmap_canvas {
+                            overflow: hidden;
+                            background: none !important;
+                            height: 500px;
+                            width: 1263px;
+                        }
+                    </style>
+                </div>
+            </div>
         </div>
     </div>
 </main>
+
+@section Scripts{
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        //$(document).ready(function () {
+           
+        //    $(document).on("click", ".btn-post-message", function (e) {
+
+        //        e.preventDefault();
+        //        var mail = $(".mailInput").val();
+        //        var msg = $(".messageInput").val()
+        //        var name = $(".nameInput").val();
+        //        var subj = $(".subjectInput").val();
+        //        var phone = $(".phoneInput").val();
+
+        //        //console.log(`${mail}   ----  ${msg} ---- ${name} =---- ${subj} =---- ${phone}`)
+        //        var base = window.location.origin;
+        //        var url = `${base}/contact/send?name=${name}&mail=${mail}&subject=${subj}&phone=${phone}&message=${msg}`
+        //        console.log(url)
+        //        if ($(".phoneInput").is(':valid') && $(".mailInput").is(':valid') && $(".messageInput").is(':valid') && $(".nameInput").is(':valid') && $(".subjectInput").is(':valid')) {
+        //            //fetch(url).then(res => res.json()).then(data => {
+        //            //    if (data.status == 200) {
+        //            //      new  swal({
+        //            //            title: "Thank you for subscribing",
+        //            //            icon: "success",
+        //            //            buttons: false,
+        //            //            timer: 1000,
+
+        //            //        });
+        //            //    }
+        //            //    else {
+        //            //      new  swal({
+        //            //            title: "Something went wrong :/",
+        //            //            icon: "error",
+        //            //            buttons: false,
+        //            //            timer: 1000,
+
+        //            //        });
+        //            //    }
+        //            //})
+        //            console.log("all valid")
+        //        }
+
+
+
+        //    })
+        //})
+    </script>
+}

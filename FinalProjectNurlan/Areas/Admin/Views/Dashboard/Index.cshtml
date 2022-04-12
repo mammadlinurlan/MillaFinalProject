@@ -99,7 +99,7 @@
                 <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Size : @Model.Daily.Size.Name</li>
                 <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Color : @Model.Daily.Color.Name</li>
 
-                <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Revenue : @ViewBag.daily $</li>
+                <li style="padding-top:0px !important;padding-bottom:0px !important" class="list-group-item">Revenue : @(String.Format("{0:0.00}", ViewBag.daily)) $</li>
             </ul>
             @*<div class="card-body">
                 <a href="#" class="card-link">Card link</a>
@@ -140,7 +140,7 @@
             })
             fetch(dlyrevenue).then(res => res.text()).then(data => {
                 $("#dailyrevenue").empty();
-                var nrml = parseInt(data).toFixed(2);
+                var nrml = parseFloat(data).toFixed(2);
                 $("#dailyrevenue").append(`${nrml} $`)
 
             })

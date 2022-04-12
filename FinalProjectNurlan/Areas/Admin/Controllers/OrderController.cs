@@ -200,13 +200,18 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
         public IActionResult Improving()
         {
             List<OrderItem> dailyOrderItems = context.OrderItems.Include(c => c.Order).ThenInclude(c => c.Status).Include(c => c.ProductSizeColor).ThenInclude(c => c.Product).Where(c => c.Order.Date.Day == DateTime.Now.Day && c.Order.StatusId == 2).ToList();
-            foreach (OrderItem item in dailyOrderItems)
+            //foreach (OrderItem item in dailyOrderItems)
+            //{
+
+            //    ProductSizeColor product = context.ProductSizeColors.FirstOrDefault(c => c.Id == item.ProductSizeColorId);
+
+            //    product.DailySoldCount = 0;
+
+            //}
+
+            foreach (var item in context.ProductSizeColors)
             {
-
-                ProductSizeColor product = context.ProductSizeColors.FirstOrDefault(c => c.Id == item.ProductSizeColorId);
-
-                product.DailySoldCount = 0;
-
+                item.DailySoldCount = 0;
             }
 
             foreach (OrderItem item in dailyOrderItems)

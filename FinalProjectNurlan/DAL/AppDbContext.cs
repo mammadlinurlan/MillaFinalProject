@@ -51,5 +51,7 @@ namespace FinalProjectNurlan.DAL
 
         public DbSet<BlacklistTokens> BlacklistTokens { get; set; }
 
+        public DbSet<Questions> Questions { get; set; }
+
     }
 }

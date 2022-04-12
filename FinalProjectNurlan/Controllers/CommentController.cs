@@ -29,7 +29,7 @@ namespace FinalProjectNurlan.Controllers
             AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
             if (!ModelState.IsValid)
             {
-                return View();
+                return Json(new { status = 31 });
             }
             if (user==null)
             {

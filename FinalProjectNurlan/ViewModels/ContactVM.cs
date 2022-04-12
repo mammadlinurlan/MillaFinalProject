@@ -10,5 +10,7 @@ namespace FinalProjectNurlan.ViewModels
     {
         public Contact Contact { get; set; }
         public List<Store> Stores { get; set; }
+
+        public Questions Question { get; set; }
     }
 }

@@ -89,21 +89,15 @@ namespace FinalProjectNurlan.Controllers
 
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             string link = Url.Action(nameof(VerifyEmail), "Account", new { email = user.Email, token }, Request.Scheme, Request.Host.ToString());
-           
-
-          
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress("satilirbuz4@gmail.com", "Milla");
             mail.To.Add(new MailAddress(user.Email));
-
             mail.Subject = "Email Verification";
             string body = string.Empty;
             using (StreamReader reader = new StreamReader("wwwroot/assets/template/VerifyEmail.html"))
             {
                 body = reader.ReadToEnd();
             }
-
-
 
             mail.Body = body.Replace("{{link}}", link);
             mail.IsBodyHtml = true;
