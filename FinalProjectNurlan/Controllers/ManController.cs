@@ -207,13 +207,13 @@ namespace FinalProjectNurlan.Controllers
 
         };
 
-            if (context.Comments.Where(c => c.ProductId == product.Id) == null)
+            if (context.Comments.Where(c => c.ProductId == product.Id && c.IsAccepted == true) == null)
             {
                 ViewBag.Comments = 0;
             }
             else
             {
-                ViewBag.Comments = context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.ProductId).Count();
+                ViewBag.Comments = context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.ProductId && c.IsAccepted == true).Count();
             }
 
 

@@ -101,14 +101,14 @@ namespace FinalProjectNurlan.Controllers
         {
             Product product= context.Products.Include(p => p.Brand).Include(p => p.Comments).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).FirstOrDefault(p => p.Id == id);
 
-            if (context.Comments.Where(c => c.ProductId == product.Id) == null)
+            if (context.Comments.Where(c => c.ProductId == product.Id && c.IsAccepted == true) == null)
             {
                 return Json(0); 
             }
             else
             {
 
-                return Json(context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.Id).Count());
+                return Json(context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.Id && c.IsAccepted == true).Count());
             }
 
         }

@@ -579,33 +579,35 @@
                             $(".starhidden").val(1)
                             $("#subj").next().val('');
                             $("#message").next().val('');
+
+                            Command: toastr["success"]("Your comment added successfully!")
+
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toast-top-center",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
                             //console.log(data)
 
-                            if (data.status == 200) {
-                                Command: toastr["success"]("Your comment added successfully!")
+                            //if (data.status == 200) {
+                               
+                            //    //fetch(forpartial).then(res => res.text()).then(data => {
+                            //    //    console.log(data)
+                            //    //})
 
-                                toastr.options = {
-                                    "closeButton": false,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": false,
-                                    "positionClass": "toast-top-center",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
-                                //fetch(forpartial).then(res => res.text()).then(data => {
-                                //    console.log(data)
-                                //})
-
-                            }
+                            //}
 
 
 

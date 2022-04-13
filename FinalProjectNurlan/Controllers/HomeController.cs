@@ -7,7 +7,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace FinalProjectNurlan.Controllers
@@ -49,8 +52,34 @@ namespace FinalProjectNurlan.Controllers
                 {
                     Email = email
                 };
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("satilirbuz4@gmail.com", "Milla");
+                mail.To.Add(new MailAddress(email));
+                mail.Subject = "Thanks for subscribing!";
+                string body = string.Empty;
+                string link = "sa";
+                using (StreamReader reader = new StreamReader("wwwroot/assets/template/SubscribedEmail.html"))
+                {
+                    body = reader.ReadToEnd();
+                }
+
+                mail.Body = body.Replace("{{link}}", link);
+                mail.IsBodyHtml = true;
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+
+                smtp.Credentials = new NetworkCredential("satilirbuz4@gmail.com", "Finalproject123");
+                smtp.Send(mail);
+
+
                 context.Subscribers.Add(news);
                 context.SaveChanges();
+
+
                 return Json(new { status=200});
 
             }

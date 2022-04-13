@@ -227,7 +227,12 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
 
         }
 
+        public IActionResult PendingPartial()
+        {
+            List<Order> pendings = context.Orders.Include(c => c.Status).Include(c=>c.AppUser).Where(c => c.StatusId == 1).OrderByDescending(c=>c.Id).Take(3).ToList();
 
+            return PartialView("_pendingPartial",pendings);
+        }
 
         //public IActionResult DailyBestseller()
         //{

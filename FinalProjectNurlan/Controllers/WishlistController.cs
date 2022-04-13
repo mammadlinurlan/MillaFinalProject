@@ -237,7 +237,7 @@ namespace FinalProjectNurlan.Controllers
             {
                 AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
                 //ProductColor product = _context.ProductColors.FirstOrDefault(c => c.Id == id);
-                WishlistItem removable = _context.WishlistItems.FirstOrDefault(c => c.ProductColorId == id);
+                WishlistItem removable = _context.WishlistItems.Include(c=>c.AppUser).FirstOrDefault(c => c.ProductColorId == id && c.AppUserId == user.Id);
 
                 //List<WishlistItem> wishlistItems = _context.WishlistItems.Where(c => c.AppUserId == user.Id).ToList();
 

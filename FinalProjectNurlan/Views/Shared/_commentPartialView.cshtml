@@ -1,5 +1,5 @@
 ﻿@model ShopVM
-@foreach (var item in Model.Comments.OrderByDescending(p=>p.CreatedTime))
+@foreach (var item in Model.Comments.OrderByDescending(p=>p.CreatedTime).Where(c=>c.IsAccepted == true))
 {
     <div class="review">
         <div class="row no-gutters">

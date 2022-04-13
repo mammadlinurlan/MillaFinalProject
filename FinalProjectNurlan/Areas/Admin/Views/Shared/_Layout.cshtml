@@ -186,6 +186,7 @@
 
                         </li>
                         <li><a asp-controller="account" asp-action="userlist"><i class="typcn typcn-user-add-outline mr-2"></i>Users</a></li>
+                        <li><a asp-controller="comment" asp-action="index"><i class="typcn typcn-messages mr-2"></i>Reviews</a></li>
 
                         @*<li class="nav-label">Components</li>
             <li>
@@ -330,68 +331,44 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="nav-grid-row row">
-                                        <a href="#" class="icon-menu-item col-4">
-                                            <i class="typcn typcn-cog-outline d-block"></i>
-                                            <span>Settings</span>
-                                        </a>
-                                        <a href="#" class="icon-menu-item col-4">
+                                      
+                                        <a asp-controller="account" asp-action="userlist" class="icon-menu-item col-4">
                                             <i class="typcn typcn-group-outline d-block"></i>
                                             <span>Users</span>
                                         </a>
-                                        <a href="#" class="icon-menu-item col-4">
-                                            <i class="typcn typcn-puzzle-outline d-block"></i>
-                                            <span>Components</span>
-                                        </a>
-                                        <a href="#" class="icon-menu-item col-4">
+                                        
+                                        <a asp-controller="dashboard" asp-action="index" class="icon-menu-item col-4">
                                             <i class="typcn typcn-chart-bar-outline d-block"></i>
                                             <span>Profits</span>
                                         </a>
-                                        <a href="#" class="icon-menu-item col-4">
-                                            <i class="typcn typcn-time d-block"></i>
-                                            <span>New Event</span>
-                                        </a>
-                                        <a href="#" class="icon-menu-item col-4">
-                                            <i class="typcn typcn-edit d-block"></i>
-                                            <span>Tasks</span>
-                                        </a>
+                                        
                                     </div>
                                 </div>
                             </li><!--/.dropdown-->
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a class="nav-link" href="chat.html"><i class="typcn typcn-messages"></i></a>
-                            </li>
+                            </li>*@
                             <li class="nav-item dropdown notification">
-                                <a class="nav-link dropdown-toggle badge-dot" href="#" data-toggle="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                                     <i class="typcn typcn-bell"></i>
+                                    <div style=" width:25px;background-color:red;border-radius: 50%; position: absolute; top: 0px; right: 0px; transform: scale(0.7);">
+                                        <span class="pendingLive" style="color:white">5</span>
+
+                                    </div>
+
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <h6 class="notification-title">Notifications</h6>
                                     <p class="notification-text">You have 2 unread notification</p>
                                     <div class="notification-list">
-                                        <div class="media new">
-                                            <div class="img-user"><img src="~/admin/assets/dist/img/avatar.png" alt=""></div>
-                                            <div class="media-body">
-                                                <h6>Congratulate <strong>Socrates Itumay</strong> for work anniversaries</h6>
-                                                <span>Mar 15 12:32pm</span>
-                                            </div>
-                                        </div><!--/.media -->
-                                        <div class="media new">
-                                            <div class="img-user online"><img src="~/admin/assets/dist/img/avatar2.png" alt=""></div>
-                                            <div class="media-body">
-                                                <h6><strong>Joyce Chua</strong> just created a new blog post</h6>
-                                                <span>Mar 13 04:16am</span>
-                                            </div>
-                                        </div><!--/.media -->
-                                        <div class="media">
-                                            <div class="img-user"><img src="~/admin/assets/dist/img/avatar3.png" alt=""></div>
-                                            <div class="media-body">
-                                                <h6><strong>Althea Cabardo</strong> just created a new blog post</h6>
-                                                <span>Mar 13 02:56am</span>
-                                            </div>
-                                        </div><!--/.media -->
+                                        
+                                       
+
+
+
                                         @*!--/.media -->*@
                                     </div><!--/.notification -->
-                                    <div class="dropdown-footer"><a href="#">View All Notifications</a></div>
+                                    <div class="dropdown-footer"><a asp-controller="order" asp-action="index">View All Notifications</a></div>
                                 </div><!--/.dropdown-menu -->
                             </li><!--/.dropdown-->
                             <li class="nav-item dropdown user-menu">
@@ -426,7 +403,7 @@
                     </div>
                 </nav><!--/.navbar-->
                 <!--Content Header (Page header)-->
-                <div class="content-header row align-items-center m-0">
+                @*<div class="content-header row align-items-center m-0">
                     <nav aria-label="breadcrumb" class="col-sm-4 order-sm-last mb-3 mb-sm-0 p-0 ">
                         <ol class="breadcrumb d-inline-flex font-weight-600 fs-13 bg-white mb-0 float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -442,7 +419,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
                 <!--/.Content Header (Page header)-->
                 <div class="body-content">
                     <div>
@@ -455,8 +432,8 @@
             </div><!--/.main content-->
             <footer class="footer-content">
                 <div class="footer-text d-flex align-items-center justify-content-between">
-                    <div class="copy">© 2018 Bdtask Responsive Bootstrap 4 Dashboard Template</div>
-                    <div class="credit">Designed by: <a href="#">Bdtask</a></div>
+                    <div class="copy">© 2022 Nurlan Mammadli</div>
+                    <div class="credit">Designed by: <a>Nurlan Mammadli</a></div>
                 </div>
             </footer><!--/.footer content-->
             <div class="overlay"></div>
@@ -490,6 +467,21 @@
             var url = `${base}/admin/order/improving`
             fetch(url).then(res => res.json()).then(data => {
                 console.log("improved successfully!")
+            })
+
+            var pendingurl = `${base}/admin/order/pendingcount`
+            fetch(pendingurl).then(res => res.text()).then(data => {
+                $(".notification-text").empty();
+                $(".notification-text").append(`You have ${data} pending orders!`);
+                $(".pendingLive").empty();
+                $(".pendingLive").append(data)
+
+            })
+
+            var url = `${base}/admin/order/pendingpartial`
+            fetch(url).then(res => res.text()).then(data => {
+                $(".notification-list").empty();
+                $(".notification-list").append(data);
             })
         })
     </script>

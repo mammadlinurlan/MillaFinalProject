@@ -1,5 +1,6 @@
 ﻿using FinalProjectNurlan.DAL;
 using FinalProjectNurlan.Extensions;
+using FinalProjectNurlan.Helpers;
 using FinalProjectNurlan.Models;
 using FinalProjectNurlan.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace FinalProjectNurlan.Controllers
@@ -55,7 +59,7 @@ namespace FinalProjectNurlan.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(ProdCreateVM prodVM)
+        public async Task<IActionResult> Create(ProdCreateVM prodVM)
         {
             ViewBag.Genders = context.Genders.Include(g => g.Categories).ThenInclude(c => c.SubCategories).ToList();
             ViewBag.Categories = context.Categories.Include(c => c.Gender).Include(c => c.SubCategories).ToList();
@@ -174,10 +178,85 @@ namespace FinalProjectNurlan.Controllers
                 ProductId = prodVM.Product.Id
             };
 
+
+
             prodVM.Product.ProductColors.Add(productColor);
-            //prodVM.Product.Clrs.Add(productSizeColor.ColorId);
+           
             context.Products.Add(prodVM.Product);
             context.SaveChanges();
+
+            //string body = string.Empty;
+            //string link = "sa";
+            //using (StreamReader reader = new StreamReader("wwwroot/assets/template/SubscribedEmail.html"))
+            //{
+            //    body = reader.ReadToEnd();
+            //}
+
+            //email.Body = body.Replace("{{link}}", link);
+            //email. = true;
+            //EmailService email = new EmailService();
+
+
+            //List<string> e = context.Subscribers.Select(x => x.Email).ToList();
+
+            ////await email.SendEmailAsync(e, "Yeni product",
+
+            ////$"Yeni event: <a href=https://localhost:44388/{prodVM.Product.Gender.Name}/Details/" + $"{productSizeColor.Id}" + ">link</a>");
+
+            //string imglink = "https://localhost:44388/assets/images/products/40dcd7de-600d-40c8-8ca9-8b740d3ac71e3eb1a8f4-2bc9-470d-afd2-943fbeabc61c.png";
+
+            //await email.SendEmailAsync(e, "Yeni product", $"<img src='{imglink}' >");
+
+
+            string prodlink = $"https://localhost:44388/{prodVM.Product.Gender.Name}/Details/" + $"{productSizeColor.Id}";
+            MailMessage mail = new MailMessage();
+            
+
+
+            string body = string.Empty;
+          
+            using (StreamReader reader = new StreamReader("wwwroot/assets/template/NewProduct.html"))
+            {
+                body = reader.ReadToEnd();
+            }
+
+            //body = body.Replace("{photolink}", imglink);
+            body = body.Replace("{link}", prodlink);
+
+
+            //mail.Body = body.Replace("{{photolink}}", imglink);
+            //mail.Body = body.Replace("{{link}}", imglink);
+            mail.From = new MailAddress("satilirbuz4@gmail.com", "Milla");
+
+            mail.Subject = "New product!";
+
+            mail.Body = body;
+            foreach (var item in context.Subscribers)
+            {
+
+                mail.To.Add(new MailAddress(item.Email));
+
+
+            }
+            mail.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+
+            smtp.Credentials = new NetworkCredential("satilirbuz4@gmail.com", "Finalproject123");
+            //mail.To.Add(new mail())
+
+
+
+
+          
+            smtp.Send(mail);
+
+
+
+
+
             return RedirectToAction(nameof(Index));
         }
 
