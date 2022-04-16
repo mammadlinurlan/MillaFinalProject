@@ -813,5 +813,22 @@ namespace FinalProjectNurlan.Controllers
             return RedirectToAction(nameof(ColorSizes));
 
         }
+
+        public IActionResult Dealoftheday(int id)
+        {
+            Product product = context.Products.FirstOrDefault(c => c.Id == id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            foreach (var item in context.Products)
+            {
+                item.DealOfTheDay = false;
+            }
+
+            product.DealOfTheDay = true;
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -223,7 +223,13 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
 
             }
             context.SaveChanges();
-            return Json(12);
+
+            if (dailyOrderItems.Count == 0)
+            {
+                return Json(new { status = 201 });
+            }
+
+            return Json(dailyOrderItems.Count);
 
         }
 

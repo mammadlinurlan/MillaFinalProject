@@ -53,5 +53,11 @@ namespace FinalProjectNurlan.DAL
 
         public DbSet<Questions> Questions { get; set; }
 
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogComment> BlogComments { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<BlogTag>  BlogTags { get; set; }
+
     }
 }

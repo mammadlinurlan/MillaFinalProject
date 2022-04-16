@@ -26,6 +26,8 @@ namespace FinalProjectNurlan.Controllers
         public async Task<IActionResult> AddComment(string Subject,string Message,int ProductId,short Star)
         {
 
+           
+
             AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
             if (!ModelState.IsValid)
             {

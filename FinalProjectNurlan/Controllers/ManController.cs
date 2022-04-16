@@ -173,11 +173,27 @@ namespace FinalProjectNurlan.Controllers
             {
                 return NotFound();
             }
-            //if (context.ProductSizeColors.FirstOrDefault(p => p.Id == id).Product.GenderId != 1)
-            //{
-            //    return NotFound();
-            //}
+
+            //ViewBag.FirstStar = null;
+
             ProductSizeColor product = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).FirstOrDefault(p => p.Id == id);
+            Product prodd = context.Products.Include(p => p.Brand).Include(p => p.Comments).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).FirstOrDefault(p => p.Id == product.ProductId);
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            //    if (prodd.Comments.Any(c=>c.AppUserId == user.Id))
+            //    {
+            //        ViewBag.FirstStar = true;
+            //    }
+            //    else
+            //    {
+            //        ViewBag.FirstStar = false;
+            //    }
+            //}
+
+
+           
+          
 
             if (product.Product.GenderId != 1)
             {
@@ -193,7 +209,7 @@ namespace FinalProjectNurlan.Controllers
             ProductSizeColor forcolor = context.ProductSizeColors.Include(p => p.Color).Include(p => p.Size).Include(p => p.ProductImages).Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(s => s.Category).Include(p => p.Product).ThenInclude(p => p.Brand).Include(p => p.Product).ThenInclude(p => p.Gender).Include(p => p.Product).ThenInclude(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.Product).ThenInclude(p => p.ProductColors).FirstOrDefault(p => p.Id == id);
 
 
-            Product prodd = context.Products.Include(p => p.Brand).Include(p => p.Comments).Include(p => p.Category).Include(p => p.SubCategory).Include(p => p.ProductSizeColors).ThenInclude(p => p.ProductImages).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).ThenInclude(p => p.Size).Include(p => p.ProductSizeColors).ThenInclude(p => p.Color).FirstOrDefault(p => p.Id == product.ProductId);
+          
             //ViewBag.CurrentPage = page;
             //ViewBag.TotalPage = Math.Ceiling((decimal)context.Comments.Include(c => c.Product).Include(p => p.AppUser).Where(c => c.ProductId == product.ProductId).Count() / 5);
 

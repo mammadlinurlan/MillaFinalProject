@@ -74,6 +74,22 @@
                     <i class="mdi mdi-alert btn-icon-prepend"></i>
                     Delete
                 </a>
+                @if (product.DealOfTheDay == false)
+                {
+                    <a asp-controller="product" asp-action="dealoftheday" asp-route-id="@product.Id" class="btn btn-success-soft btn-icon-text ">
+                        <i class="mdi mdi-alert btn-icon-prepend"></i>
+                        Deal of the day
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="product" asp-action="dealoftheday" asp-route-id="@product.Id" class="btn btn-secondary btn-icon-text ">
+                        <i class="mdi mdi-alert btn-icon-prepend"></i>
+                        Deal of the day
+                    </a>
+                }
+
+
             </td>
         </tr>
         }

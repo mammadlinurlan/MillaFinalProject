@@ -148,6 +148,90 @@ namespace FinalProjectNurlan.Migrations
                     b.ToTable("BlacklistTokens");
                 });
 
+            modelBuilder.Entity("FinalProjectNurlan.Models.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("BlackQuote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(350)")
+                        .HasMaxLength(350);
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(120)")
+                        .HasMaxLength(120);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(140)")
+                        .HasMaxLength(140);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.BlogComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(350)")
+                        .HasMaxLength(350);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogComments");
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.BlogTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("BlogTags");
+                });
+
             modelBuilder.Entity("FinalProjectNurlan.Models.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -913,6 +997,23 @@ namespace FinalProjectNurlan.Migrations
                     b.ToTable("Subscribers");
                 });
 
+            modelBuilder.Entity("FinalProjectNurlan.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("FinalProjectNurlan.Models.WishlistItem", b =>
                 {
                     b.Property<int>("Id")
@@ -1075,6 +1176,30 @@ namespace FinalProjectNurlan.Migrations
                     b.HasOne("FinalProjectNurlan.Models.ProductSizeColor", "ProductSizeColor")
                         .WithMany("BasketItems")
                         .HasForeignKey("ProductSizeColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.BlogComment", b =>
+                {
+                    b.HasOne("FinalProjectNurlan.Models.Blog", "Blog")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.BlogTag", b =>
+                {
+                    b.HasOne("FinalProjectNurlan.Models.Blog", "Blog")
+                        .WithMany("BlogTags")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinalProjectNurlan.Models.Tag", "Tag")
+                        .WithMany("BlogTags")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

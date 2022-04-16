@@ -1,0 +1,246 @@
+﻿@model BlogVM
+
+   
+        <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title">Default With Sidebar<span>Blog</span></h1>
+            </div>
+        </div>
+        <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="blog" asp-action="index">Blog</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Details</li>
+                </ol>
+            </div>
+        </nav>
+
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <article class="entry single-entry">
+                            <figure class="entry-media">
+                                <img style="width:811px;height:419px;object-fit:cover" src="~/assets/images/blog/@Model.Blog.Image" alt="image desc">
+                            </figure>
+
+                            <div class="entry-body">
+                                <div class="entry-meta">
+                                    <span class="entry-author">
+                                        by <a>@Model.Blog.Author</a>
+                                    </span>
+                                    <span class="meta-separator">|</span>
+                                    <a>@Model.Blog.CreatedTime.ToString("dd MMMM yyyy, HH:mm")</a>
+                                    <span class="meta-separator">|</span>
+                                    <a>@Model.Blog.Comments.Count Comments</a>
+                                </div>
+
+                                <h2 class="entry-title">
+                                    <a asp-controller="blog" asp-action="details" asp-route-id="@Model.Blog.Id">@Model.Blog.Name</a>
+                                </h2>
+
+                                <div class="entry-cats">
+                                    in @foreach (var itvarem in Model.Blog.BlogTags)
+                                    {
+                                        <a>@itvarem.Tag.Name</a>
+                                    }
+                                </div>
+
+                                <div class="entry-content editor-content">
+                                    <p>@Model.Blog.Description</p>
+
+
+                                    <blockquote>
+                                        <p>" @Model.Blog.BlackQuote "</p>
+                                    </blockquote>
+
+                                </div>
+
+                                <div class="entry-footer row no-gutters flex-column flex-md-row">
+                                    <div class="col-md">
+                                        <div class="entry-tags">
+                                            <span>Tags:</span>
+                                            @foreach (var itvarem in Model.Blog.BlogTags)
+                                            {
+                                                <a asp-controller="blog" asp-action="tagrelated" asp-route-id="@itvarem.Id">@itvarem.Tag.Name</a>
+                                            }
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                        </article>
+
+
+
+                        <div class="related-posts">
+                            <h3 class="title">Related Posts</h3>
+
+                            <div class="owl-carousel owl-simple" data-toggle="owl"
+                                 data-owl-options='{
+                                        "nav": false,
+                                        "dots": true,
+                                        "margin": 20,
+                                        "loop": false,
+                                        "responsive": {
+                                            "0": {
+                                                "items":1
+                                            },
+                                            "480": {
+                                                "items":2
+                                            },
+                                            "768": {
+                                                "items":3
+                                            }
+                                        }
+                                    }'>
+                                @foreach (var item in Model.Blogs.Where(c => c.BlogTags.Contains(Model.Blog.BlogTags.FirstOrDefault())))
+                                {
+                                    <article class="entry entry-grid">
+                                        <figure class="entry-media">
+                                            <a asp-controller="blog" asp-action="details" asp-route-id="@item.Id">
+                                                <img style="width:277px;height:185px;object-fit:cover" src="~/assets/images/blog/@item.Image" alt="image desc">
+                                            </a>
+                                        </figure>
+
+                                        <div class="entry-body">
+                                            <div class="entry-meta">
+
+                                               
+                                                <a>@Model.Blog.CreatedTime.ToString("dd MMMM yyyy, HH:mm")</a>
+                                                <span class="meta-separator">|</span>
+                                                <a>@Model.Blog.Comments.Count Comments</a>
+                                            </div>
+
+                                            <h2 class="entry-title">
+                                                <a asp-controller="blog" asp-action="details" asp-route-id="@Model.Blog.Id">@Model.Blog.Name</a>
+                                            </h2>
+
+                                            <div class="entry-cats">
+                                                in @foreach (var itvarem in Model.Blog.BlogTags)
+                                                {
+                                                    <a>@itvarem.Tag.Name</a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </article>
+                                }
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="comments">
+                            <h3 class="title">@Model.Blog.Comments.Count Comments</h3>
+
+                            <ul>
+
+
+                                <li>
+                                    <div class="comment">
+
+
+                                        <div class="comment-body">
+                                            <a href="#" class="comment-reply">Reply</a>
+                                            <div class="comment-user">
+                                                <h4><a href="#">Johnathan Castillo</a></h4>
+                                                <span class="comment-date">November 9, 2018 at 2:19 pm</span>
+                                            </div>
+
+                                            <div class="comment-content">
+                                                <p>Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="reply">
+                                <div class="heading">
+                                    <h3 class="title">Leave A Reply</h3>
+                                    <p class="title-desc">Your email address will not be published. Required fields are marked *</p>
+                                </div>
+
+                                <form method="post">
+                                    <label for="reply-message" class="sr-only">Comment</label>
+                                    <textarea name="reply-message" id="reply-message" cols="30" rows="4" class="form-control" required placeholder="Comment *"></textarea>
+
+
+                                    <button type="submit" class="btn btn-outline-primary-2">
+                                        <span>POST COMMENT</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        }
+
+                    </div>
+
+                    <aside class="col-lg-3">
+                        <div class="sidebar">
+                            <div class="widget widget-search">
+                                <h3 class="widget-title">Search</h3>
+
+                                <form action="#">
+                                    <label for="ws" class="sr-only">Search in blog</label>
+                                    <input type="search" class="form-control" name="ws" id="ws" placeholder="Search in blog" required>
+                                    <button type="submit" class="btn"><i class="icon-search"></i><span class="sr-only">Search</span></button>
+                                </form>
+                            </div>
+                            <div class="widget">
+                                <h3 class="widget-title">Browse Tags</h3>
+
+                                <div class="tagcloud">
+                                    @foreach (var item in Model.Tags)
+                                    {
+                                        <a asp-controller="blog" asp-action="tagrelated" asp-route-id="@item.Id">@item.Name</a>
+
+                                    }
+                                </div>
+                            </div>
+
+
+                            <div class="widget">
+                                <h3 class="widget-title">Latest Posts</h3>
+
+                                <ul class="posts-list">
+
+                                    @foreach (var item in Model.Blogs.OrderByDescending(c => c.Id).Take(3))
+                                    {
+                                        <li>
+                                            <figure>
+                                                <a asp-controller="blog" asp-action="details" asp-route-id="@item.Id">
+                                                    <img style="object-fit:cover;width:80px;height:80px" src="~/assets/images/blog/@item.Image " alt="post">
+                                                </a>
+                                            </figure>
+
+                                            <div>
+                                                <span>@item.CreatedTime.ToString("dd MMMM yyyy, HH:mm")</span>
+                                                <h4><a asp-controller="blog" asp-action="details" asp-route-id="@item.Id">@item.Name</a></h4>
+                                            </div>
+                                        </li>
+
+                                    }
+
+                                </ul>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+  

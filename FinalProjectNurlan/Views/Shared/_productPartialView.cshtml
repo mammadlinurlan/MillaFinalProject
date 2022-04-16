@@ -9,14 +9,20 @@
                     <span class="product-label label-new">New</span>
                 }
                 <a class="until" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
-                    <img  style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
+                    <img style="height:353px ;object-fit:cover" src="~/assets/images/products/@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId == item.ColorId).MainImage" alt="Product image" class="product-image product-main">
                 </a>
 
                 <div class="product-action-vertical">
                     <a asp-controller="wishlist" asp-action="SetWishlist" asp-route-id="@item.Id" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                   
+                    <a class="btn-product-icon btn-quickview " title="Quick view" data-target="#productModal" data-toggle="modal" asp-controller="@item.Product.Category.Gender.Name" asp-action="details" asp-route-id="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id">
+                        <span>Quick view</span>
+                    </a>
+                    <input hidden value="@item.Product.Gender.Name" />
+                    <input  hidden value="@item.Product.ProductSizeColors.FirstOrDefault(p=>p.ProductId == item.ProductId && p.ColorId==item.ColorId).Id" />
+
                 </div>
+
+              
 
             </figure>
 

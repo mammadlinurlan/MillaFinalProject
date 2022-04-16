@@ -221,3 +221,7 @@ C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\bin\Debug\ne
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_pendingPartial.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Comment\Index.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Blog\Index.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Blog\Index.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Blog\Create.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Blog\Details.cshtml.g.cs

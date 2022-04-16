@@ -7545,7 +7545,7 @@ p {
     margin-bottom: 0
 }
 
-#scroll-top {
+#scroll-top-button {
     width: 5rem;
     height: 5rem;
     position: fixed;
@@ -7569,21 +7569,41 @@ p {
     -ms-transform: translateY(60px)
 }
 
-    #scroll-top:hover, #scroll-top:focus {
+    #scroll-top-button:hover, #scroll-top-button:focus {
         color: #777;
         background-color: #eaeaea
     }
 
-    #scroll-top.show {
+    #scroll-top-button.show {
         visibility: visible;
         opacity: 1;
-        transform: translateY(0);
-        -webkit-transform: translateY(0);
-        -ms-transform: translateY(0)
+        transform: translateY(1);
+        -webkit-transform: translateY(1);
+        -ms-transform: translateY(1)
     }
 
+#chatbox i{
+    animation-name: customAnimation;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+    /*position: absolute;*/
+}
+
+@keyframes customAnimation {
+
+    0% {
+       font-size:25px
+    }
+
+    100% {
+       font-size:35px
+    }
+}
+
 @media screen and (min-width: 768px) {
-    #scroll-top {
+    #scroll-top-button {
         display: flex
     }
 }
