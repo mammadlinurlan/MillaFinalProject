@@ -12,6 +12,8 @@ namespace FinalProjectNurlan.Models
         public string Surname { get; set; }
 
         public bool IsAdmin { get; set; }
+        public bool IsBlocked { get; set; }
+
 
         public string Country { get; set; }
 

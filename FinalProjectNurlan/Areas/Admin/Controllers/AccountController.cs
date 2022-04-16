@@ -61,6 +61,7 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             {
                 return Json(new {status=500 });
             }
+            
             else
             {
 
@@ -214,11 +215,46 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
 
         }
 
+        public async Task<IActionResult> BlockStatus(string id)
+        {
+            AppUser user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (await _userManager.IsInRoleAsync(user, "SuperAdmin") || await _userManager.IsInRoleAsync(user, "Admin"))
+            {
+                return Json(new { status = 500 });
+            }
+
+            if (await _userManager.IsInRoleAsync(user,"Blocked"))
+            {
+                await _userManager.RemoveFromRoleAsync(user,"Blocked");
+                await _userManager.AddToRoleAsync(user, "Member");
+                user.IsBlocked = false;
+
+            }
+            else
+            {
+
+                await _userManager.RemoveFromRoleAsync(user, "Member");
+
+                await _userManager.AddToRoleAsync(user, "Blocked");
+                user.IsBlocked = true;
+              
+            }
+
+            await _context.SaveChangesAsync();
+            return Json(new {status=200 });
+
+        }
+
         //public async Task CreateRole()
         //{
-        //    await _roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
-        //    await _roleManager.CreateAsync(new IdentityRole("Admin"));
-        //    await _roleManager.CreateAsync(new IdentityRole("Member"));
+        //    await _roleManager.CreateAsync(new IdentityRole("Blocked"));
+        //    //await _roleManager.CreateAsync(new IdentityRole("Admin"));
+        //    //await _roleManager.CreateAsync(new IdentityRole("Member"));
         //}
 
         //public async Task CreateAdmin()

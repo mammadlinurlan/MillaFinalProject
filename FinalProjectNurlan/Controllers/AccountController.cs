@@ -162,6 +162,11 @@ namespace FinalProjectNurlan.Controllers
                 ModelState.AddModelError("", "username or password is incorrect");
                 return View();
             }
+            if (user.IsBlocked == true)
+            {
+                ModelState.AddModelError("", "You have blocked, contact with admin!");
+                return View();
+            }
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user.UserName, login.Password, login.RememberMe, true);
 
             if (!result.Succeeded)

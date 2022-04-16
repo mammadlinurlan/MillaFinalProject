@@ -35,7 +35,8 @@ namespace FinalProjectNurlan.Controllers
                 ProductColors = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).Include(p=>p.Product).ThenInclude(p=>p.Category).ThenInclude(c=>c.Gender).Include(p=>p.Product).ThenInclude(p=>p.ProductSizeColors).OrderBy(pc=>pc.Product.Name).ToList(),
                 ProductColors2 = context.ProductColors.Include(p => p.Product).ThenInclude(p => p.Comments).ToList(),
                 Product = context.Products.Include(p=>p.ProductSizeColors).Include(p=>p.Gender).FirstOrDefault(p=>p.DealOfTheDay==true),
-                Settings = context.Settings.FirstOrDefault()
+                Settings = context.Settings.FirstOrDefault(),
+                Blogs = context.Blogs.Include(c=>c.Comments).ToList()
                 
             };
 

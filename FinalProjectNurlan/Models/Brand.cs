@@ -20,5 +20,7 @@ namespace FinalProjectNurlan.Models
 
         [NotMapped]
         public IFormFile ImageFile { get; set; }
+
+        public int? Totalsold { get; set; }
     }
 }

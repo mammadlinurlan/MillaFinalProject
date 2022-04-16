@@ -111,17 +111,17 @@
                                             <div class="entry-meta">
 
                                                
-                                                <a>@Model.Blog.CreatedTime.ToString("dd MMMM yyyy, HH:mm")</a>
+                                                <a>@item.CreatedTime.ToString("dd MMMM yyyy, HH:mm")</a>
                                                 <span class="meta-separator">|</span>
-                                                <a>@Model.Blog.Comments.Count Comments</a>
+                                                <a>@item.Comments.Count Comments</a>
                                             </div>
 
                                             <h2 class="entry-title">
-                                                <a asp-controller="blog" asp-action="details" asp-route-id="@Model.Blog.Id">@Model.Blog.Name</a>
+                                                <a asp-controller="blog" asp-action="details" asp-route-id="@item.Id">@item.Name</a>
                                             </h2>
 
                                             <div class="entry-cats">
-                                                in @foreach (var itvarem in Model.Blog.BlogTags)
+                                                in @foreach (var itvarem in item.BlogTags)
                                                 {
                                                     <a>@itvarem.Tag.Name</a>
                                                 }

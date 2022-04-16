@@ -37,6 +37,8 @@ namespace FinalProjectNurlan.Controllers
                 return NotFound();
             }
 
+          
+
             BlogVM vM = new BlogVM
             {
                 Blogs = context.Blogs.Include(c => c.Comments).Include(b => b.BlogTags).ThenInclude(b => b.Tag).ToList(),

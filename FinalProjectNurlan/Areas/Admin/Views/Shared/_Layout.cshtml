@@ -488,9 +488,12 @@
             fetch(url).then(res => res.json()).then(data => {
                 console.log("improved successfully!")
                 if (data.status == 201) {
+                    $(".dailySellerDiv").html('<h1 style="color:yellow">No sales today</h1>')
 
                 }
             })
+
+            
 
             var pendingurl = `${base}/admin/order/pendingcount`
             fetch(pendingurl).then(res => res.text()).then(data => {

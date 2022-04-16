@@ -47,8 +47,8 @@
             {
                 <div class="intro-slide" style="background-image: url(assets/images/slider/@item.Image);">
                     <div class="container intro-content text-center">
-                        <h3 class="intro-subtitle text-white">@item.TextSmall</h3>
-                        <h1 class="intro-title text-white">@item.TextBig</h1>
+                        <h3 style="font-size:1.3rem;font-weight:bolder" class="intro-subtitle text-white">@item.TextSmall</h3>
+                        <h1 style="font-size:9rem;letter-spacing:5px" class="intro-title text-white">@item.TextBig</h1>
 
                         <a href="@item.Link" class="btn btn-outline-white-4">
                             <span>Discover More</span>
@@ -77,9 +77,9 @@
                             <h3 class="banner-title text-white"><a asp-controller="woman" asp-action="index"><strong>Women’s</strong></a></h3><!-- End .banner-title -->
 
                             <a asp-controller="woman" asp-action="index" class="btn btn-outline-white banner-link underline">Shop Now</a>
-                        </div><!-- End .banner-content -->
-                    </div><!-- End .banner -->
-                </div><!-- End .col-sm-6 -->
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-sm-6">
                     <div class="banner banner-overlay">
@@ -91,18 +91,18 @@
                             <h4 class="banner-subtitle text-white"><a asp-controller="man" asp-action="index">New in</a></h4><!-- End .banner-subtitle -->
                             <h3 class="banner-title text-white"><a asp-controller="man" asp-action="index"><strong>Men’s</strong></a></h3><!-- End .banner-title -->
                             <a asp-controller="man" asp-action="index" class="btn btn-outline-white banner-link underline">Shop Now</a>
-                        </div><!-- End .banner-content -->
-                    </div><!-- End .banner -->
-                </div><!-- End .col-sm-6 -->
-            </div><!-- End .row -->
+                        </div>
+                    </div>
+                </div>
+            </div>
             <hr class="mt-0 mb-0">
-        </div><!-- End .container -->
-    </div><!-- End .bg-gray -->
+        </div>
+    </div>
 
-    <div class="mb-5"></div><!-- End .mb-5 -->
+    <div class="mb-5"></div>
     <div class="container">
         <div class="heading heading-center mb-3">
-            <h2 class="title">Trending</h2><!-- End .title -->
+            <h2 class="title">Trending</h2>
 
             <ul class="nav nav-pills justify-content-center" role="tablist">
                 <li class="nav-item">
@@ -115,7 +115,7 @@
                     <a class="nav-link" id="trending-men-link" data-toggle="tab" href="#trending-men-tab" role="tab" aria-controls="trending-men-tab" aria-selected="false">Men</a>
                 </li>
             </ul>
-        </div><!-- End .heading -->
+        </div>
 
         <div class="tab-content tab-content-carousel">
             <div class="tab-pane p-0 fade show active" id="trending-all-tab" role="tabpanel" aria-labelledby="trending-all-link">
@@ -823,7 +823,7 @@
             <div class="row">
                 <div class="col-lg-6 banner-overlay-div">
                     <div class="banner banner-overlay">
-                        <a href="#">
+                        <a asp-controller="woman" asp-action="index">
                             <img src="assets/images/demos/demo-6/banners/banner-3.jpg" alt="Banner">
                         </a>
 
@@ -862,7 +862,7 @@
 
     <div class="blog-posts mb-5">
         <div class="container">
-            <h2 class="title text-center mb-4">From Our Blog</h2><!-- End .title text-center -->
+            <h2 class="title text-center mb-4">From Our Blog</h2>
 
             <div class="owl-carousel owl-simple mb-3" data-toggle="owl"
                  data-owl-options='{
@@ -883,71 +883,36 @@
                                 }
                             }
                         }'>
-                <article class="entry">
-                    <figure class="entry-media">
-                        <a href="single.html">
-                            <img src="assets/images/demos/demo-6/blog/post-1.jpg" alt="image desc">
-                        </a>
-                    </figure>
 
-                    <div class="entry-body text-center">
-                        <div class="entry-meta">
-                            <a href="#">Nov 22, 2018</a>, 1 Comments
+                @foreach (var item in Model.Blogs)
+                {
+                    <article class="entry">
+                        <figure class="entry-media">
+                            <a asp-controller="blog" asp-action="details" asp-route-id="@item.Id">
+                                <img style="width:376px;height:250px;object-fit:cover" src="~/assets/images/blog/@item.Image" alt="image desc">
+                            </a>
+                        </figure>
+
+                        <div class="entry-body text-center">
+                            <div class="entry-meta">
+                                <a >@item.CreatedTime.ToString("dd MMMM yyyy")</a>, @item.Comments.Count Comments
+                            </div>
+
+                            <h3 class="entry-title">
+                                <a asp-controller="blog" asp-action="details" asp-route-id="@item.Id">@item.Name</a>
+                            </h3>
+
+                            <div class="entry-content">
+                                <a asp-controller="blog" asp-action="details" asp-route-id="@item.Id" class="read-more">Read More</a>
+                            </div>
                         </div>
+                    </article>
 
-                        <h3 class="entry-title">
-                            <a href="single.html">Sed adipiscing ornare.</a>
-                        </h3>
+                    
 
-                        <div class="entry-content">
-                            <a href="single.html" class="read-more">Read More</a>
-                        </div>
-                    </div>
-                </article>
+                }
 
-                <article class="entry">
-                    <figure class="entry-media">
-                        <a href="single.html">
-                            <img src="assets/images/demos/demo-6/blog/post-2.jpg" alt="image desc">
-                        </a>
-                    </figure>
 
-                    <div class="entry-body text-center">
-                        <div class="entry-meta">
-                            <a href="#">Dec 12, 2018</a>, 0 Comments
-                        </div>
-
-                        <h3 class="entry-title">
-                            <a href="single.html">Fusce lacinia arcuet nulla.</a>
-                        </h3>
-
-                        <div class="entry-content">
-                            <a href="single.html" class="read-more">Read More</a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="entry">
-                    <figure class="entry-media">
-                        <a href="single.html">
-                            <img src="assets/images/demos/demo-6/blog/post-3.jpg" alt="image desc">
-                        </a>
-                    </figure>
-
-                    <div class="entry-body text-center">
-                        <div class="entry-meta">
-                            <a href="#">Dec 19, 2018</a>, 2 Comments
-                        </div>
-
-                        <h3 class="entry-title">
-                            <a href="single.html">Quisque volutpat mattis eros.</a>
-                        </h3>
-
-                        <div class="entry-content">
-                            <a href="single.html" class="read-more">Read More</a>
-                        </div>
-                    </div>
-                </article>
             </div>
         </div>
     </div>

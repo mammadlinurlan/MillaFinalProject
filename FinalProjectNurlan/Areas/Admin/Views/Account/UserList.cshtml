@@ -39,18 +39,36 @@
 
 
                     <td>
-                        @if (!user.IsAdmin == true)
+                        @if (!user.IsBlocked)
                         {
-                            <a asp-controller="account" asp-action="AdminStatus" asp-route-id="@user.Id" class="btn btn-success btn-icon-text cllls">
+                            @if (!user.IsAdmin == true)
+                            {
+                                <a asp-controller="account" asp-action="AdminStatus" asp-route-id="@user.Id" class="btn btn-success btn-icon-text cllls">
+                                    <i class="mdi mdi-file-check btn-icon-append"></i>
+                                    GiveAdminRole
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="account" asp-action="AdminStatus" asp-route-id="@user.Id" class="btn btn-danger btn-icon-text cllls">
+                                    <i class="mdi mdi-file-check btn-icon-append"></i>
+                                    TakeAdminRole
+                                </a>
+                            }
+                        }
+
+                        @if (user.IsBlocked == false)
+                        {<a asp-controller="account" asp-action="blockstatus" asp-route-id="@user.Id" class="btn btn-warning btn-icon-text blocking">
                                 <i class="mdi mdi-file-check btn-icon-append"></i>
-                                GiveAdminRole
+                                Block user
                             </a>
+
                         }
                         else
                         {
-                            <a asp-controller="account" asp-action="AdminStatus" asp-route-id="@user.Id" class="btn btn-danger btn-icon-text cllls">
+                            <a asp-controller="account" asp-action="blockstatus" asp-route-id="@user.Id" class="btn btn-primary btn-icon-text blocking">
                                 <i class="mdi mdi-file-check btn-icon-append"></i>
-                                TakeAdminRole
+                                UnBlock user
                             </a>
                         }
 
@@ -110,6 +128,28 @@
             })
 
 
+        })
+
+        $(document).on("click", ".blocking", function (e) {
+            e.preventDefault();
+            var href = $(this).attr("href");
+            var base = window.location.origin;
+            var url = `${base}${href}`
+            console.log(url);
+
+            fetch(url).then(res => res.json()).then(data => {
+                if (data.status == 500) {
+                    swal({
+                        title: "You can not touch admin/superadmin!",
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000,
+
+                    });
+                } else {
+                    location.reload(true)
+                }
+            })
         })
     })
 </script>

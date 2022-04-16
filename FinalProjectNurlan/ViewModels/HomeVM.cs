@@ -13,6 +13,7 @@ namespace FinalProjectNurlan.ViewModels
         public List<Brand> Brands { get; set; }
         public Product Product { get; set; }
         public List<Product> Products { get; set; }
+        public List<Blog> Blogs { get; set; }
 
         public Settings Settings { get; set; }
 
