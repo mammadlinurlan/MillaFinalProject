@@ -895,7 +895,7 @@
 
                         <div class="entry-body text-center">
                             <div class="entry-meta">
-                                <a >@item.CreatedTime.ToString("dd MMMM yyyy")</a>, @item.Comments.Count Comments
+                                <a >@item.CreatedTime.ToString("dd MMMM yyyy")</a>, @item.Comments.Where(c=>c.IsAccepted==true).Count() Comments
                             </div>
 
                             <h3 class="entry-title">

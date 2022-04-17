@@ -38,13 +38,17 @@ namespace FinalProjectNurlan.Controllers
             List<Product> products = context.Products.Include(p => p.SubCategory).Include(p => p.Category).Include(p => p.Gender).Include(p => p.Brand).Include(p => p.ProductColors).Include(p => p.ProductSizeColors).Skip((page - 1) * 10).Take(10).ToList();
             return View(products);
         }
-        public IActionResult ColorSizes(int page = 1)
+        public IActionResult ColorSizes(int id,int page = 1)
         {
+         
+            List<ProductSizeColor> products = context.ProductSizeColors.Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(c => c.Color).Include(p => p.Size).Where(c=>c.ProductId == id).Skip((page - 1) * 10).Take(10).ToList();
+           
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPage = Math.Ceiling((decimal)context.ProductSizeColors.Count() / 10);
-            List<ProductSizeColor> products = context.ProductSizeColors.Include(p => p.Product).ThenInclude(p => p.SubCategory).ThenInclude(p => p.Category).ThenInclude(c => c.Gender).Include(c => c.Color).Include(p => p.Size).Skip((page - 1) * 10).Take(10).ToList();
+            ViewBag.TotalPage = Math.Ceiling((decimal)context.ProductSizeColors.Include(c=>c.Product).Where(c=>c.ProductId==id).Count()/ 10);
             return View(products);
         }
+
+
 
         public IActionResult Create()
         {
@@ -210,8 +214,10 @@ namespace FinalProjectNurlan.Controllers
 
             string prodlink = $"https://localhost:44388/{prodVM.Product.Gender.Name}/Details/" + $"{productSizeColor.Id}";
             MailMessage mail = new MailMessage();
-            
 
+
+            byte[] imageArray = System.IO.File.ReadAllBytes($"wwwroot/assets/images/products/{productSizeColor.MainImage}");
+            string base64ImageRepresentation = Convert.ToBase64String(imageArray);
 
             string body = string.Empty;
           
@@ -221,6 +227,8 @@ namespace FinalProjectNurlan.Controllers
             }
 
             //body = body.Replace("{photolink}", imglink);
+            body = body.Replace("{testingbase}", base64ImageRepresentation);
+
             body = body.Replace("{link}", prodlink);
 
 
@@ -810,7 +818,7 @@ namespace FinalProjectNurlan.Controllers
             exist.TotalStock = prod.TotalStock;
             context.SaveChanges();
            
-            return RedirectToAction(nameof(ColorSizes));
+            return RedirectToAction(nameof(ColorSizes),new {id = product.Id, page = 1 });
 
         }
 

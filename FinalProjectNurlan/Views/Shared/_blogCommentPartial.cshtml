@@ -1,5 +1,5 @@
 ﻿@model BlogVM
-@foreach (var item in Model.Blog.Comments)
+@foreach (var item in Model.Blog.Comments.Where(c=>c.IsAccepted == true))
 {
     <li>
 

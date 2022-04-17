@@ -135,7 +135,8 @@ namespace FinalProjectNurlan.Controllers
                 BlogId = blogid,
                 CreatedTime = DateTime.Now,
                 Message = message,
-                 AppUserId = user.Id
+                 AppUserId = user.Id,
+                  IsAccepted = true
             };
 
             context.BlogComments.Add(comment);
@@ -153,8 +154,11 @@ namespace FinalProjectNurlan.Controllers
         public IActionResult Blogcountpartial(int blogid)
         {
             Blog blog = context.Blogs.Include(c=>c.Comments).FirstOrDefault(c => c.Id == blogid);
-            return Json(blog.Comments.Count);
+            return Json(blog.Comments.Where(c=>c.IsAccepted==true).Count());
         }
+
+       
+             
 
 
     }

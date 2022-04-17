@@ -33,7 +33,7 @@
                             <span class="meta-separator">|</span>
                             <a>@Model.Blog.CreatedTime.ToString("dd MMMM yyyy, HH:mm")</a>
                             <span class="meta-separator">|</span>
-                            <a>@Model.Blog.Comments.Count Comments</a>
+                            <a>@Model.Blog.Comments.Where(c=>c.IsAccepted==true).Count() Comments</a>
                         </div>
 
                         <h2 class="entry-title">
@@ -63,7 +63,7 @@
                                     <span>Tags:</span>
                                     @foreach (var itvarem in Model.Blog.BlogTags)
                                     {
-                                        <a asp-controller="blog" asp-action="index" asp-route-id="@itvarem.Id">@itvarem.Tag.Name</a>
+                                        <a asp-controller="blog" asp-action="index" asp-route-tagid="@itvarem.TagId">@itvarem.Tag.Name</a>
                                     }
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
 
                                         <a>@item.CreatedTime.ToString("dd MMMM yyyy, HH:mm")</a>
                                         <span class="meta-separator">|</span>
-                                        <a>@item.Comments.Count Comments</a>
+                                        <a>@item.Comments.Where(c=>c.IsAccepted==true).Count() Comments</a>
                                     </div>
 
                                     <h2 class="entry-title">
@@ -137,7 +137,7 @@
                 </div>
 
                 <div class="comments">
-                    <h3 class="title blog-comment-count">@Model.Blog.Comments.Count Comments</h3>
+                    <h3 class="title blog-comment-count">@Model.Blog.Comments.Where(c=>c.IsAccepted==true).Count() Comments</h3>
 
                     <ul class="blog-comments">
 
@@ -174,15 +174,7 @@
 
             <aside class="col-lg-3">
                 <div class="sidebar">
-                    <div class="widget widget-search">
-                        <h3 class="widget-title">Search</h3>
-
-                        <form action="#">
-                            <label for="ws" class="sr-only">Search in blog</label>
-                            <input type="search" class="form-control" name="ws" id="ws" placeholder="Search in blog" required>
-                            <button type="submit" class="btn"><i class="icon-search"></i><span class="sr-only">Search</span></button>
-                        </form>
-                    </div>
+                   
                     <div class="widget">
                         <h3 class="widget-title">Browse Tags</h3>
 

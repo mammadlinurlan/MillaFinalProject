@@ -53,12 +53,7 @@
                     @* <span><a href="cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="bdd8c5dcd0cdd1d8fddad0dcd4d193ded2d0">[email&#160;protected]</a></span>*@
                 </div>
             </div>
-            <form class="search sidebar-form" action="#" method="get">
-                <div class="search__inner">
-                    <input type="text" class="search__text" placeholder="Search...">
-                    <i class="typcn typcn-zoom-outline search__helper" data-sa-action="search-close"></i>
-                </div>
-            </form><!--/.search-->
+         
             <div class="sidebar-body">
                 <nav class="sidebar-nav">
                     <ul class="metismenu">
@@ -139,24 +134,11 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="has-arrow">
+                            <a asp-controller="product" asp-action="index" >
                                 <i class="typcn typcn-chart-bar mr-2"></i>
-                                Store
+                                Products
                             </a>
-                            <ul class="nav-second-level">
-                                <li>
-                                    <a asp-controller="product" asp-action="index">
-                                        <i class="typcn typcn-calendar-outline mr-2"></i>
-                                        Products
-                                    </a>
-                                </li>
-                                <li>
-                                    <a asp-controller="product" asp-action="colorsizes">
-                                        <i class="typcn typcn-calendar-outline mr-2"></i>
-                                        Product options
-                                    </a>
-                                </li>
-                            </ul>
+                           
                         </li>
                         <li>
                             <a asp-controller="brand" asp-action="index">
@@ -194,7 +176,6 @@
 
                         </li>
                         <li><a asp-controller="account" asp-action="userlist"><i class="typcn typcn-user-add-outline mr-2"></i>Users</a></li>
-                        <li><a asp-controller="comment" asp-action="index"><i class="typcn typcn-messages mr-2"></i>Reviews</a></li>
                         <li>
                             <a asp-controller="blog" asp-action="index">
                                 <i class="fa fa-blog mr-2"></i>

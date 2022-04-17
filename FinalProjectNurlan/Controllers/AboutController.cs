@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FinalProjectNurlan.DAL;
+using FinalProjectNurlan.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,20 @@ namespace FinalProjectNurlan.Controllers
 {
     public class AboutController : Controller
     {
+        private readonly AppDbContext context;
+
+        public AboutController(AppDbContext context)
+        {
+            this.context = context;
+        }
         public IActionResult Index()
         {
-            return View();
+            AboutVM aboutVM = new AboutVM
+            {
+
+                Questions = context.Questions.Where(c => c.IsAcces == true).ToList()
+            };
+            return View(aboutVM);
         }
     }
 }

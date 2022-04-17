@@ -30,7 +30,7 @@ namespace FinalProjectNurlan.Models
         public string Subject { get; set; }
 
         [Required]
-        [StringLength(maximumLength: 150)]
+        [StringLength(maximumLength: 350)]
         public string Message { get; set; }
     }
 }
