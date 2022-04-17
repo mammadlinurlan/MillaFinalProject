@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +90,83 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
 
 
 
+        }
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Tags = _context.Tags.ToList();
+
+            Blog blog = _context.Blogs.Include(c=>c.BlogTags).FirstOrDefault(b => b.Id == id);
+            if (blog == null)
+            {
+                return NotFound();
+            }
+            return View(blog);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Edit(Blog blog)
+        {
+
+
+            ViewBag.Tags = _context.Tags.ToList();
+            Blog exist = _context.Blogs.Include(c => c.BlogTags).FirstOrDefault(c => c.Id == blog.Id);
+          
+
+            if (!ModelState.IsValid)
+            {
+                return View(exist);
+            }
+
+            if (blog.ImageFile != null)
+            {
+                if (!blog.ImageFile.IsSizeOkay(2))
+                {
+                    ModelState.AddModelError("ImageFile", "image file must be less than 2mb");
+                    return View(blog);
+                }
+                if (!blog.ImageFile.IsImage())
+                {
+                    ModelState.AddModelError("ImageFile", "select an image file");
+                    return View(blog);
+                }
+                Helpers.Helper.DeleteImg(_env.WebRootPath, "assets/images/blog", exist.Image);
+                exist.Image = blog.ImageFile.SaveImg(_env.WebRootPath, "assets/images/blog");
+
+            }
+
+            exist.BlogTags = new List<BlogTag>();
+
+            foreach (var item in blog.TagIds)
+            {
+                BlogTag blogTag = new BlogTag
+                {
+                    BlogId = exist.Id,
+                    TagId = item
+                };
+
+                exist.BlogTags.Add(blogTag);
+            }
+
+         
+            exist.Name = blog.Name;
+            exist.BlackQuote = blog.BlackQuote;
+            exist.Description = blog.Description;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(int id)
+        {
+            Blog blog = _context.Blogs.FirstOrDefault(c => c.Id == id);
+            if (blog==null)
+            {
+                return NotFound();
+            }
+
+            _context.Blogs.Remove(blog);
+            _context.SaveChanges();
+            return Json(new {status=200 });
         }
     }
 }

@@ -11,5 +11,6 @@ namespace FinalProjectNurlan.ViewModels
         public List<Blog> Blogs { get; set; }
         public Blog Blog { get; set; }
         public List<Tag> Tags { get; set; }
+      
     }
 }
