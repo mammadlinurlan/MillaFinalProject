@@ -25,7 +25,6 @@ C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\ne
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
-C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
@@ -228,3 +227,12 @@ C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\ne
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Blog\Edit.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_blogCommentPartial.cshtml.g.cs
 C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Comment\Blogcomments.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Aboutus\Index.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Aboutus\Edit.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Aboutus\Members.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Aboutus\CreateMember.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Aboutus\Editmember.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Aboutus\Socials.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Aboutus\AddSocial.cshtml.g.cs
+C:\Users\MACBOOK\source\repos\FinalProjectNurlan\FinalProjectNurlan\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Aboutus\EditSocial.cshtml.g.cs

@@ -52,6 +52,8 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
         public async Task<IActionResult> AdminStatus(string id)
         {
             AppUser user = await _userManager.FindByIdAsync(id);
+            AppUser logged = await _userManager.FindByNameAsync(User.Identity.Name);
+
             if (!ModelState.IsValid) return RedirectToAction("UserList", "Account");
             if (user == null)
             {
@@ -60,6 +62,10 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             if (await _userManager.IsInRoleAsync(user, "SuperAdmin") == true)
             {
                 return Json(new {status=500 });
+            }
+            if (user.Id == logged.Id)
+            {
+                return Json(new { status = 60 });
             }
             
             else

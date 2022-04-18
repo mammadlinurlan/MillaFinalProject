@@ -19,6 +19,46 @@ namespace FinalProjectNurlan.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("FinalProjectNurlan.Models.AboutUs", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Banner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mission")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("NewsLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
+
+                    b.Property<string>("SubTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Vision")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AboutUs");
+                });
+
             modelBuilder.Entity("FinalProjectNurlan.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -437,6 +477,41 @@ namespace FinalProjectNurlan.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genders");
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.Member", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(55)")
+                        .HasMaxLength(55);
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Info")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(105)")
+                        .HasMaxLength(105);
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(55)")
+                        .HasMaxLength(55);
+
+                    b.Property<string>("Speciality")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(55)")
+                        .HasMaxLength(55);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("FinalProjectNurlan.Models.Order", b =>
@@ -911,6 +986,33 @@ namespace FinalProjectNurlan.Migrations
                     b.ToTable("Sliders");
                 });
 
+            modelBuilder.Entity("FinalProjectNurlan.Models.SocialMedia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(165)")
+                        .HasMaxLength(165);
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(165)")
+                        .HasMaxLength(165);
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("SocialMedias");
+                });
+
             modelBuilder.Entity("FinalProjectNurlan.Models.Status", b =>
                 {
                     b.Property<int>("Id")
@@ -1340,6 +1442,15 @@ namespace FinalProjectNurlan.Migrations
                     b.HasOne("FinalProjectNurlan.Models.Size", "Size")
                         .WithMany("ProductSizeColors")
                         .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinalProjectNurlan.Models.SocialMedia", b =>
+                {
+                    b.HasOne("FinalProjectNurlan.Models.Member", "Member")
+                        .WithMany("SocialMedias")
+                        .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

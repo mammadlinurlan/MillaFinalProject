@@ -10,8 +10,8 @@
         </div>
     </nav>
     <div class="container">
-        <div class="page-header page-header-big text-center" style="background-image: url('assets/images/about-header-bg.jpg')">
-            <h1 class="page-title text-white">About us<span class="text-white">Who we are</span></h1>
+        <div class="page-header page-header-big text-center" style="background-image: url('assets/images/@Model.AboutUs.Banner')">
+            <h1 class="page-title text-white">@Model.AboutUs.Title<span class="text-white">@Model.AboutUs.SubTitle</span></h1>
         </div>
     </div>
 
@@ -20,12 +20,13 @@
             <div class="row">
                 <div class="col-lg-6 mb-3 mb-lg-0">
                     <h2 class="title">Our Vision</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. </p>
+                    <p>@Model.AboutUs.Vision</p>
                 </div>
 
                 <div class="col-lg-6">
                     <h2 class="title">Our Mission</h2>
-                    <p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. <br>Praesent elementum hendrerit tortor. Sed semper lorem at felis. </p>
+                    <p>@Model.AboutUs.Mission</p>
+
                 </div>
             </div>
 
@@ -40,7 +41,7 @@
                         <p class="lead text-primary mb-3">Pellentesque odio nisi, euismod pharetra a ultricies <br>in diam. Sed arcu. Cras consequat</p><!-- End .lead text-primary -->
                         <p class="mb-2">Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Suspendisse potenti. Sed egestas, ante et vulputate volutpat, uctus metus libero eu augue. </p>
 
-                        <a href="blog.html" class="btn btn-sm btn-minwidth btn-outline-primary-2">
+                        <a href="@Model.AboutUs.NewsLink" class="btn btn-sm btn-minwidth btn-outline-primary-2">
                             <span>VIEW OUR NEWS</span>
                             <i class="icon-long-arrow-right"></i>
                         </a>
@@ -48,8 +49,8 @@
 
                     <div class="col-lg-6 offset-lg-1">
                         <div class="about-images">
-                            <img src="assets/images/about/img-1.jpg" alt="" class="about-img-front">
-                            <img src="assets/images/about/img-2.jpg" alt="" class="about-img-back">
+                            <img src="~/assets/images/about/img-1.jpg" alt="" class="about-img-front">
+                            <img src="~/assets/images/about/img-2.jpg" alt="" class="about-img-back">
                         </div>
                     </div>
                 </div>
@@ -67,15 +68,19 @@
                 <div class="col-lg-7">
                     <div class="brands-display">
                         <div class="row justify-content-center">
-                           
 
-                            <div class="col-6 col-sm-4">
-                                <a href="#" class="brand">
-                                    <img src="assets/images/brands/2.png" alt="Brand Name">
-                                </a>
-                            </div>
+                            @foreach (var item in Model.Brands)
+                            {
+                                <div class="col-6 col-sm-4">
+                                    <a  class="brand">
+                                        <img  src="~/assets/images/logos/@item.Image" alt="Brand Name">
+                                    </a>
+                                </div>
+                            }
 
-                    
+
+
+
                         </div>
                     </div>
                 </div>
@@ -86,30 +91,37 @@
             <h2 class="title text-center mb-4">Meet Our Team</h2>
 
             <div class="row">
-                <div class="col-md-4">
-                    <div class="member member-anim text-center">
-                        <figure class="member-media">
-                            <img src="assets/images/team/member-1.jpg" alt="member photo">
+                @foreach (var item in Model.Members)
+                {
+                    <div class="col-md-4">
+                        <div class="member member-anim text-center">
+                            <figure class="member-media">
+                                <img src="~/assets/images/team/@item.Image " alt="member photo">
 
-                            <figcaption class="member-overlay">
-                                <div class="member-overlay-content">
-                                    <h3 class="member-title">Samanta Grey<span>Founder & CEO</span></h3><!-- End .member-title -->
-                                    <p>Sed pretium, ligula sollicitudin viverra, tortor libero sodales leo, eget blandit nunc.</p>
-                                    <div class="social-icons social-icons-simple">
-                                        <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
-                                        <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
-                                        <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
-                                    </div><!-- End .soial-icons -->
-                                </div><!-- End .member-overlay-content -->
-                            </figcaption><!-- End .member-overlay -->
-                        </figure><!-- End .member-media -->
-                        <div class="member-content">
-                            <h3 class="member-title">Samanta Grey<span>Founder & CEO</span></h3><!-- End .member-title -->
-                        </div><!-- End .member-content -->
-                    </div><!-- End .member -->
-                </div><!-- End .col-md-4 -->
+                                <figcaption class="member-overlay">
+                                    <div class="member-overlay-content">
+                                        <h3 class="member-title">@item.Firstname @item.Lastname<span>@item.Speciality</span></h3>
+                                        <p>@item.Info</p>
+                                        <div class="social-icons social-icons-simple">
 
-               
+                                            @foreach (var oke in item.SocialMedias)
+                                            {
+                                                <a href="@oke.Link" class="social-icon"  target="_blank"><i class="@oke.Icon"></i></a>
+
+                                            }
+
+                                        </div>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                            <div class="member-content">
+                                <h3 class="member-title">@item.Firstname @item.Lastname<span>@item.Speciality</span></h3>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
             </div>
         </div>
 

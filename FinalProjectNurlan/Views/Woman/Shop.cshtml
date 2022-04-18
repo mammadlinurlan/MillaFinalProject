@@ -1,6 +1,6 @@
 ﻿@model ShopVM
 <main class="main">
-    <div class="page-header text-center" style="background-image: url('~/assets/images/page-header-bg.jpg')">
+    <div class="page-header text-center" style="background-image: url('../../assets/images/page-header-bg.jpg')">
         <div class="container">
             <h1 class="page-title">Shop</h1>
         </div>
@@ -424,7 +424,7 @@
                 fetch(url).then(res => res.text()).then(data => {
                     $(".rowprods").empty();
                     $(".rowprods").append(data);
-
+                    $(".pagination").hide()
 
                     if ($("#2col").hasClass("active")) {
 

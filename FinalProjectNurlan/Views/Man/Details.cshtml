@@ -262,7 +262,7 @@
 
 
                             </div>
-                            <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                            <span class="ratings-text">( @item.Product.Comments.Where(c=>c.IsAccepted==true).Count() Reviews )</span>
                         </div>
 
 

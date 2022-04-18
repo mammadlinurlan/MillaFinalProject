@@ -227,7 +227,7 @@ namespace FinalProjectNurlan.Controllers
             }
 
             //body = body.Replace("{photolink}", imglink);
-            body = body.Replace("{testingbase}", base64ImageRepresentation);
+            //body = body.Replace("{testingbase}", base64ImageRepresentation);
 
             body = body.Replace("{link}", prodlink);
 
@@ -543,6 +543,11 @@ namespace FinalProjectNurlan.Controllers
             if (pro.ProductSizeColors.Count() == 1)
             {
                 context.Products.Remove(pro);
+                context.ProductSizeColors.Remove(product);
+
+                context.SaveChanges();
+
+                return Json(new {status=201 });
             }
 
             context.ProductSizeColors.Remove(product);
@@ -829,14 +834,27 @@ namespace FinalProjectNurlan.Controllers
             {
                 return NotFound();
             }
-            foreach (var item in context.Products)
+
+            if (product.DealOfTheDay)
             {
-                item.DealOfTheDay = false;
+                product.DealOfTheDay = false;
+                context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                foreach (var item in context.Products)
+                {
+                    item.DealOfTheDay = false;
+                }
+
+                product.DealOfTheDay = true;
+                context.SaveChanges();
+                return RedirectToAction(nameof(Index));
             }
 
-            product.DealOfTheDay = true;
-            context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+
+          
         }
     }
 }

@@ -137,7 +137,6 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
         public IActionResult Delete(int id)
         {
             ViewBag.Genders = context.Genders.ToList();
-
             Category existed = context.Categories.FirstOrDefault(c => c.Id == id);
             if (existed == null)
             {

@@ -69,12 +69,12 @@
                 <div class="col-sm-6">
                     <div class="banner banner-overlay">
                         <a asp-controller="woman" asp-action="index">
-                            <img src="assets/images/demos/demo-6/banners/banner-1.jpg" alt="Banner">
+                            <img src="~/assets/images/banners/banners/banner-1.jpg" alt="Banner">
                         </a>
 
                         <div class="banner-content banner-content-center">
-                            <h4 class="banner-subtitle text-white"><a asp-controller="woman" asp-action="index">New in</a></h4><!-- End .banner-subtitle -->
-                            <h3 class="banner-title text-white"><a asp-controller="woman" asp-action="index"><strong>Women’s</strong></a></h3><!-- End .banner-title -->
+                            <h4 class="banner-subtitle text-white"><a asp-controller="woman" asp-action="index">New in</a></h4>
+                            <h3 class="banner-title text-white"><a asp-controller="woman" asp-action="index"><strong>Women’s</strong></a></h3>
 
                             <a asp-controller="woman" asp-action="index" class="btn btn-outline-white banner-link underline">Shop Now</a>
                         </div>
@@ -84,12 +84,12 @@
                 <div class="col-sm-6">
                     <div class="banner banner-overlay">
                         <a asp-controller="man" asp-action="index">
-                            <img src="assets/images/demos/demo-6/banners/banner-2.jpg" alt="Banner">
+                            <img src="~/assets/images/banners/banners/banner-2.jpg" alt="Banner">
                         </a>
 
                         <div class="banner-content banner-content-center">
-                            <h4 class="banner-subtitle text-white"><a asp-controller="man" asp-action="index">New in</a></h4><!-- End .banner-subtitle -->
-                            <h3 class="banner-title text-white"><a asp-controller="man" asp-action="index"><strong>Men’s</strong></a></h3><!-- End .banner-title -->
+                            <h4 class="banner-subtitle text-white"><a asp-controller="man" asp-action="index">New in</a></h4>
+                            <h3 class="banner-title text-white"><a asp-controller="man" asp-action="index"><strong>Men’s</strong></a></h3>
                             <a asp-controller="man" asp-action="index" class="btn btn-outline-white banner-link underline">Shop Now</a>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
 
 
                                     </div>
-                                    <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                    <span class="ratings-text">( @item.Product.Comments.Where(c=>c.IsAccepted==true).Count() Reviews )</span>
                                 </div>
 
                                 @*<div class="product-size">
@@ -360,7 +360,7 @@
 
 
                                     </div>
-                                    <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                    <span class="ratings-text">( @item.Product.Comments.Where(c=>c.IsAccepted==true).Count() Reviews )</span>
                                 </div>
 
                                 @*<div class="product-size">
@@ -498,7 +498,7 @@
 
 
                                     </div>
-                                    <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                    <span class="ratings-text">( @item.Product.Comments.Where(c=>c.IsAccepted==true).Count() Reviews )</span>
                                 </div>
 
                                 @*<div class="product-size">
@@ -540,7 +540,7 @@
 
     <div class="mb-5"></div>
 
-    <div class="deal bg-image pt-8 pb-8" style="background-image: url(assets/images/demos/demo-6/deal/bg-1.jpg);">
+    <div class="deal bg-image pt-8 pb-8" style="background-image: url(assets/images/banners/deal/bg-1.jpg);">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-8 col-lg-6">
@@ -728,7 +728,7 @@
 
 
                                     </div>
-                                    <span class="ratings-text">( @item.Product.Comments.Count Reviews )</span>
+                                    <span class="ratings-text">( @item.Product.Comments.Where(c=>c.IsAccepted==true).Count() Reviews )</span>
                                 </div>
 
                                 @*<div class="product-size">
@@ -776,7 +776,7 @@
     <div class="pb-3">
         <div class="container brands pt-5 pt-lg-7 ">
 
-            <h2 class="title text-center mb-4">shop by brands</h2><!-- End .title text-center -->
+            <h2 class="title text-center mb-4">shop by brands</h2>
 
             <div class="owl-carousel owl-simple" data-toggle="owl"
                  data-owl-options='{
@@ -824,13 +824,13 @@
                 <div class="col-lg-6 banner-overlay-div">
                     <div class="banner banner-overlay">
                         <a asp-controller="woman" asp-action="index">
-                            <img src="assets/images/demos/demo-6/banners/banner-3.jpg" alt="Banner">
+                            <img src="~/assets/images/banners/banners/banner-3.jpg" alt="Banner">
                         </a>
 
                         <div class="banner-content banner-content-center">
-                            <h4 class="banner-subtitle text-white"><a href="#">Limited time only.</a></h4>
-                            <h3 class="banner-title text-white"><a href="#">End of Season<br>save 50% off</a></h3>
-                            <a href="#" class="btn btn-outline-white banner-link underline">Shop Now</a>
+                            <h4 class="banner-subtitle text-white"><a asp-controller="woman" asp-action="index">Limited time only.</a></h4>
+                            <h3 class="banner-title text-white"><a asp-controller="woman" asp-action="index">End of Season<br>save 50% off</a></h3>
+                            <a asp-controller="woman" asp-action="index" class="btn btn-outline-white banner-link underline">Shop Now</a>
                         </div>
                     </div>
                 </div>

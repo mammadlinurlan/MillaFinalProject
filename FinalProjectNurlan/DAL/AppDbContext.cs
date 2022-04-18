@@ -59,5 +59,9 @@ namespace FinalProjectNurlan.DAL
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BlogTag>  BlogTags { get; set; }
 
+        public DbSet<AboutUs> AboutUs { get; set; }
+
+        public DbSet<Member> Members { get; set; }
+        public DbSet<SocialMedia> SocialMedias { get; set; }
     }
 }

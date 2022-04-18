@@ -13,7 +13,7 @@
 
 
 <main class="main">
-    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+    <div class="page-header text-center" style="background-image: url('../../assets/images/page-header-bg.jpg')">
         <div class="container">
             <h1 class="page-title">Shopping Cart<span>Shop</span></h1>
         </div>
@@ -178,15 +178,20 @@
 
         })
 
-      
+        $(document).on("click", ".quantityClick", function (e) {
+
+            console.log("hey")
+            $(".input-group-prepend").next().attr("readonly", "true")
+
+        })
 
 
 
 
-        //window.location.reload()
-        //console.log('reloaded')
 
-        $(document).on("change", ".quantityClick", function () {
+        $(document).on("change", ".quantityClick", function (e) {
+            //console.log(e.keyCode)
+            console.log("salam")
 
             var sizeId = $(this).next().next().val();
             var colorId = $(this).next().next().next().val();
@@ -209,7 +214,7 @@
 
             fetch(url).then(res => res.text()).then(data => {
 
-                //console.log(data)
+                
 
                 $(".forPartial").empty();
                 $(".forPartial").append(data);
