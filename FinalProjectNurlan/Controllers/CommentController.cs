@@ -40,7 +40,13 @@ namespace FinalProjectNurlan.Controllers
 
 
 
+
             Product product = context.Products.Include(p => p.Comments).FirstOrDefault(p => p.Id == ProductId);
+
+            if (product.Comments.Any(c=>c.AppUserId == user.Id))
+            {
+                return Content("exist");
+            }
 
             if (product.Comments.Count == 0)
             {

@@ -569,57 +569,73 @@
                         var forpartial = base + '/Comment/GetPartial' + '?id=' + productit
                         var link = base + '/Comment/AddComment' + '?Subject=' + subject + '&Message=' + message + '&ProductId=' + productit + '&Star=' + star
                         console.log(link)
+
+
                         fetch(link).then(res => res.text()).then(data => {
 
-                            $(".review-place").empty();
-                            $(".review-place").append(data);
-                            //console.log(data)
+                            
+                            
+                                    if (data != "exist") {
+                                        $(".review-place").empty();
+                                        $(".review-place").append(data);
+                                        //console.log(data)
 
-                            $(".starRate").removeClass("active-star");
+                                        $(".starRate").removeClass("active-star");
 
-                            $(".starhidden").val(1)
-                            $("#subj").next().val('');
-                            $("#message").next().val('');
+                                        $(".starhidden").val(1)
+                                        $("#subj").next().val('');
+                                        $("#message").next().val('');
 
-                            Command: toastr["success"]("Your comment added successfully!")
+                                        Command: toastr["success"]("Your comment added successfully!")
 
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toast-top-center",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                            //console.log(data)
+                                        toastr.options = {
+                                            "closeButton": false,
+                                            "debug": false,
+                                            "newestOnTop": false,
+                                            "progressBar": false,
+                                            "positionClass": "toast-top-center",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        }
 
-                            //if (data.status == 200) {
-                               
-                            //    //fetch(forpartial).then(res => res.text()).then(data => {
-                            //    //    console.log(data)
-                            //    //})
+                                        fetch(forpartial).then(res => res.json()).then(data => {
+                                            $("#product-review-link").empty();
+                                            $("#product-review-link").append(`Reviews(${data})`);
+                                        })
 
-                            //}
+                                        $(".forcommentbtn").css("background-color", "#c94")
+
+                                    }
+                                    else {
+                                        swal({
+                                            title: "You have already voted!",
+                                            icon: "error",
+                                            buttons: false,
+                                            timer: 1000,
+
+                                        });
+                                    }
+
+                                  
 
 
 
-                            fetch(forpartial).then(res => res.json()).then(data => {
-                                $("#product-review-link").empty();
-                                $("#product-review-link").append(`Reviews(${data})`);
-                            })
 
-                            $(".forcommentbtn").css("background-color", "#c94")
+                                })
 
-                        })
+                            
+
+                      
+
+
                     }
 
 

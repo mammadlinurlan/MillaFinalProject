@@ -580,38 +580,19 @@
 
                         fetch(link).then(res => res.text()).then(data => {
 
-                            
 
-                            $(".review-place").empty();
-                            $(".review-place").append(data);
-                            //console.log(data)
 
-                            $(".starRate").removeClass("active-star");
-                            Command: toastr["success"]("Your comment added successfully!")
+                            if (data != "exist") {
+                                $(".review-place").empty();
+                                $(".review-place").append(data);
+                                //console.log(data)
 
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toast-top-center",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                            $(".starhidden").val(1)
-                            $("#subj").next().val('');
-                            $("#message").next().val('');
-                            console.log(data)
+                                $(".starRate").removeClass("active-star");
 
-                            if (data.status == 200) {
+                                $(".starhidden").val(1)
+                                $("#subj").next().val('');
+                                $("#message").next().val('');
+
                                 Command: toastr["success"]("Your comment added successfully!")
 
                                 toastr.options = {
@@ -631,19 +612,32 @@
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 }
-                               
+
+                                fetch(forpartial).then(res => res.json()).then(data => {
+                                    $("#product-review-link").empty();
+                                    $("#product-review-link").append(`Reviews(${data})`);
+                                })
+
+                                $(".forcommentbtn").css("background-color", "#c94")
+
+                            }
+                            else {
+                                swal({
+                                    title: "You have already voted!",
+                                    icon: "error",
+                                    buttons: false,
+                                    timer: 1000,
+
+                                });
                             }
 
 
 
-                            fetch(forpartial).then(res => res.json()).then(data => {
-                                $("#product-review-link").empty();
-                                $("#product-review-link").append(`Reviews(${data})`);
-                            })
 
-                            $(".forcommentbtn").css("background-color", "#c94")
+
 
                         })
+
                     }
 
 
