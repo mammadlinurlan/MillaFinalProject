@@ -200,7 +200,7 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
 
         public IActionResult Socials(int id)
         {
-           List<SocialMedia> socials  = context.SocialMedias.Where(c => c.MemberId == id).ToList();
+           List<SocialMedia> socials  = context.SocialMedias.Include(c=>c.Member).Where(c => c.MemberId == id).ToList();
             return View(socials);
 
         }

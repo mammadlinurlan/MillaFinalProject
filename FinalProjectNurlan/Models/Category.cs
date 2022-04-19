@@ -21,6 +21,12 @@ namespace FinalProjectNurlan.Models
 
         public IFormFile ImageFile { get; set; }
 
+        public string SizeGuideImage { get; set; }
+
+        [NotMapped]
+
+        public IFormFile SizeGuideFile { get; set; }
+
         public int? GenderId { get; set; }
 
         public Gender Gender { get; set; }

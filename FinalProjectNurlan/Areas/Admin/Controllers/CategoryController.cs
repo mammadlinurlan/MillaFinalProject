@@ -48,13 +48,26 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
         {
             ViewBag.Genders = context.Genders.ToList();
 
+
+
             if (!ModelState.IsValid)
             {
                 return View();
             }
+            if (context.Categories.Any(c=>c.Name.Trim().ToLower() == category.Name.Trim().ToLower() && c.GenderId == category.GenderId))
+            {
+                ModelState.AddModelError("", "This category already exists");
+                return View();
+            }
+            
             if (category.ImageFile == null)
             {
                 ModelState.AddModelError("ImageFile", "Select an image");
+                return View();
+            }
+            if (category.SizeGuideFile == null)
+            {
+                ModelState.AddModelError("SizeGuideFile", "Select an image");
                 return View();
             }
             if (category.GenderId == 0)
@@ -75,6 +88,18 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
                 ModelState.AddModelError("ImageFile", "Select only image file!");
                 return View();
             }
+
+            if (!category.SizeGuideFile.IsSizeOkay(2))
+            {
+                ModelState.AddModelError("SizeGuideFile", "Image size must be less than 2mb!");
+                return View();
+            }
+            if (!category.SizeGuideFile.IsImage())
+            {
+                ModelState.AddModelError("SizeGuideFile", "Select only image file!");
+                return View();
+            }
+            category.SizeGuideImage = category.SizeGuideFile.SaveImg(env.WebRootPath, "assets/images/category");
             category.Image = category.ImageFile.SaveImg(env.WebRootPath, "assets/images/category");
             context.Categories.Add(category);
             context.SaveChanges();
@@ -104,29 +129,60 @@ namespace FinalProjectNurlan.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+
             if (!ModelState.IsValid)
             {
-                return View(category);
+                return View(existed);
             }
+
+
+            if (context.Categories.Any(c => c.Name.Trim().ToLower() == category.Name.Trim().ToLower() && c.GenderId == category.GenderId && c.Id != existed.Id))
+            {
+                ModelState.AddModelError("", "This category already exists");
+                return View(existed);
+            }
+
+
             if (category.ImageFile != null)
             {
                 if (!category.ImageFile.IsSizeOkay(2))
                 {
                     ModelState.AddModelError("ImageFile", "Image size must be less than 2mb!");
-                    return View(category);
+                    return View(existed);
                 }
                 if (!category.ImageFile.IsImage())
                 {
                     ModelState.AddModelError("ImageFile", "Select only image file!");
-                    return View(category);
+                    return View(existed);
                 }
                 Helpers.Helper.DeleteImg(env.WebRootPath, "assets/images/category", existed.Image);
                 existed.Image = category.ImageFile.SaveImg(env.WebRootPath, "assets/images/category");
+            
             }
+
+
+            if (category.SizeGuideFile != null)
+            {
+                if (!category.SizeGuideFile.IsSizeOkay(2))
+                {
+                    ModelState.AddModelError("SizeGuideFile", "Image size must be less than 2mb!");
+                    return View(existed);
+                }
+                if (!category.SizeGuideFile.IsImage())
+                {
+                    ModelState.AddModelError("SizeGuideFile", "Select only image file!");
+                    return View(existed);
+                }
+                Helpers.Helper.DeleteImg(env.WebRootPath, "assets/images/category", existed.SizeGuideImage);
+                existed.SizeGuideImage = category.SizeGuideFile.SaveImg(env.WebRootPath, "assets/images/category");
+            }
+
+
             if (category.GenderId==0)
             {
                 ModelState.AddModelError("GenderId", "Select an gender");
-                return View(category);
+                return View(existed);
             }
             existed.GenderId = category.GenderId;
             existed.Name = category.Name;
